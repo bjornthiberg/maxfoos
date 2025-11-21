@@ -1,0 +1,22 @@
+{
+  "name": "maxfoos-backend",
+  "version": "1.0.0",
+  "description": "Backend for MaxFoos Manager",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "keywords": [
+    "foosball",
+    "tournament",
+    "express"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  }
+}
