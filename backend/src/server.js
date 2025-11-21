@@ -11,7 +11,11 @@ const app = express();
 const PORT = 3001;
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://maxfoos.se"],
+  }),
+);
 app.use(express.json());
 
 // Data file path
