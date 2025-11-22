@@ -25,8 +25,14 @@ app.use(
 );
 app.use(express.json());
 
-// Data file path
-const dataFilePath = path.join(__dirname, "../data.json");
+// Data file path - use DATA_DIRECTORY env variable if set, otherwise use current directory
+const dataDirectory = process.env.DATA_DIRECTORY || __dirname + "/..";
+const dataFilePath = path.join(dataDirectory, "data.json");
+
+// Ensure data directory exists
+if (!fs.existsSync(dataDirectory)) {
+  fs.mkdirSync(dataDirectory, { recursive: true });
+}
 
 // Initialize data structure
 const initData = {
@@ -205,6 +211,72 @@ app.get("/api/games/unplayed", (req, res) => {
     return !gameExists(
       [possibleGame.team1.player1, possibleGame.team1.player2],
       [possibleGame.team2.player1, possibleGame.team2.player2],
+    );
+  });
+
+  res.json(unplayedGames);
+});
+
+// Get unplayed games for specific quartet of players
+app.post("/api/games/unplayed/quartet", (req, res) => {
+  const { players } = req.body;
+
+  // Validate input
+  if (!players || !Array.isArray(players) || players.length !== 4) {
+    return res.status(400).json({ error: "Must provide exactly 4 players" });
+  }
+
+  // Check for duplicate players
+  if (new Set(players).size !== 4) {
+    return res.status(400).json({ error: "All 4 players must be unique" });
+  }
+
+  // Check if players exist
+  if (!players.every((player) => data.players.includes(player))) {
+    return res.status(400).json({ error: "Invalid player name" });
+  }
+
+  // Generate all possible team combinations from the 4 players
+  const possibleGames = [];
+
+  // There are 3 ways to split 4 players into 2 teams of 2:
+  // [0,1] vs [2,3]
+  // [0,2] vs [1,3]
+  // [0,3] vs [1,2]
+  const combinations = [
+    [
+      [0, 1],
+      [2, 3],
+    ],
+    [
+      [0, 2],
+      [1, 3],
+    ],
+    [
+      [0, 3],
+      [1, 2],
+    ],
+  ];
+
+  combinations.forEach(([team1Indices, team2Indices]) => {
+    const game = {
+      team1: {
+        player1: players[team1Indices[0]],
+        player2: players[team1Indices[1]],
+      },
+      team2: {
+        player1: players[team2Indices[0]],
+        player2: players[team2Indices[1]],
+      },
+    };
+    possibleGames.push(game);
+  });
+
+  // Filter to only unplayed games
+  const unplayedGames = possibleGames.filter((game) => {
+    return !gameExists(
+      [game.team1.player1, game.team1.player2],
+      [game.team2.player1, game.team2.player2],
     );
   });
 

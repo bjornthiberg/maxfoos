@@ -3,9 +3,11 @@ import { api } from "../services/api";
 import type { Player, Game, UnplayedGame } from "../services/api";
 import PlayerTable from "../components/PlayerTable";
 import GameList from "../components/GameList";
+import QuartetGameFinder from "../components/QuartetGameFinder";
 
 export default function Home() {
   const [players, setPlayers] = useState<Player[]>([]);
+  const [allPlayerNames, setAllPlayerNames] = useState<string[]>([]);
   const [recentGames, setRecentGames] = useState<Game[]>([]);
   const [unplayedGames, setUnplayedGames] = useState<UnplayedGame[]>([]);
   const [loading, setLoading] = useState(true);
@@ -16,13 +18,16 @@ export default function Home() {
       setLoading(true);
       setError("");
 
-      const [statsData, gamesData, unplayedData] = await Promise.all([
-        api.getStats(),
-        api.getGames(),
-        api.getUnplayedGames(),
-      ]);
+      const [statsData, gamesData, unplayedData, playersData] =
+        await Promise.all([
+          api.getStats(),
+          api.getGames(),
+          api.getUnplayedGames(),
+          api.getPlayers(),
+        ]);
 
       setPlayers(statsData);
+      setAllPlayerNames(playersData);
       // Sort games by timestamp (most recent first)
       const sortedGames = [...gamesData].sort(
         (a, b) =>
@@ -80,6 +85,8 @@ export default function Home() {
           Uppdatera data
         </button>
       </div>
+
+      <QuartetGameFinder allPlayers={allPlayerNames} />
     </div>
   );
 }
