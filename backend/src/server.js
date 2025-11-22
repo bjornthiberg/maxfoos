@@ -61,12 +61,12 @@ function deterministicShuffle(array) {
 const initData = {
   players: [
     "Björn",
-    "Ludvig",
-    "Frallan",
     "Daniel",
-    "Sabina",
+    "Frallan",
+    "Ludvig",
     "Matilda",
     "Moritz",
+    "Sabina",
   ],
   games: [],
   adminPassword: process.env.ADMIN_PASSWORD || "maxfoos1337",
