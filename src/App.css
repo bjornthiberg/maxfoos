@@ -204,6 +204,13 @@ body::before {
     display: grid;
     grid-template-columns: 1fr;
     gap: 2rem;
+    /* Prevent grid children from overflowing */
+    overflow: hidden;
+}
+
+.home-layout > * {
+    /* Allow grid items to shrink below their content size */
+    min-width: 0;
 }
 
 @media (min-width: 1024px) {
@@ -347,6 +354,9 @@ h3 {
 /* Player Table */
 .player-table-container {
     margin-bottom: 2rem;
+    /* Ensure container can shrink and doesn't force parent to expand */
+    min-width: 0;
+    width: 100%;
 }
 
 .player-table {
@@ -416,6 +426,9 @@ h3 {
 /* Game List */
 .game-list-container {
     margin-bottom: 2rem;
+    /* Ensure container can shrink and doesn't force parent to expand */
+    min-width: 0;
+    width: 100%;
 }
 
 .game-count {
@@ -490,6 +503,9 @@ h3 {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    /* Ensure section can shrink and doesn't force parent to expand */
+    min-width: 0;
+    width: 100%;
 }
 
 /* Forms */
@@ -972,26 +988,56 @@ button {
     .game-list-container {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
+        /* Force containers to respect parent width */
+        width: 100%;
+        min-width: 0;
+        position: relative;
+        /* Add scroll shadow to indicate scrollable content */
+        background:
+            linear-gradient(90deg, white 30%, rgba(255, 255, 255, 0)),
+            linear-gradient(90deg, rgba(255, 255, 255, 0), white 70%) 100% 0,
+            radial-gradient(
+                farthest-side at 0% 50%,
+                rgba(0, 0, 0, 0.2),
+                rgba(0, 0, 0, 0)
+            ),
+            radial-gradient(
+                    farthest-side at 100% 50%,
+                    rgba(0, 0, 0, 0.2),
+                    rgba(0, 0, 0, 0)
+                )
+                100% 0;
+        background-repeat: no-repeat;
+        background-size:
+            40px 100%,
+            40px 100%,
+            14px 100%,
+            14px 100%;
+        background-attachment: local, local, scroll, scroll;
     }
 
-    .player-table {
-        min-width: 600px;
-    }
-
+    /* Tables should have min-width but adapt to mobile */
+    .player-table,
     .game-table {
         min-width: 500px;
     }
 
-    .player-table,
-    .game-table {
-        font-size: 0.875rem;
-    }
-
+    /* Make table cells more compact on mobile */
     .player-table th,
     .player-table td,
     .game-table th,
     .game-table td {
-        padding: 0.75rem 0.875rem;
+        padding: 0.625rem 0.5rem;
+        font-size: 0.8125rem;
+        white-space: nowrap;
+    }
+
+    /* Keep headers sticky so they stay visible while scrolling horizontally */
+    .player-table thead,
+    .game-table thead {
+        position: sticky;
+        top: 0;
+        z-index: 10;
     }
 
     .admin-header {
