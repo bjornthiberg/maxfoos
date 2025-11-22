@@ -34,6 +34,29 @@ if (!fs.existsSync(dataDirectory)) {
   fs.mkdirSync(dataDirectory, { recursive: true });
 }
 
+// Helper function for deterministic shuffle using seeded random
+function deterministicShuffle(array) {
+  // Create a copy to avoid mutating the original
+  const shuffled = [...array];
+
+  // Simple seeded PRNG (mulberry32)
+  let seed = 12345; // Fixed seed for deterministic results
+  const random = () => {
+    let t = (seed += 0x6d2b79f5);
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+
+  // Fisher-Yates shuffle with seeded random
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  return shuffled;
+}
+
 // Initialize data structure
 const initData = {
   players: [
@@ -214,7 +237,10 @@ app.get("/api/games/unplayed", (req, res) => {
     );
   });
 
-  res.json(unplayedGames);
+  // Apply deterministic shuffle for consistent but random-looking order
+  const shuffledUnplayedGames = deterministicShuffle(unplayedGames);
+
+  res.json(shuffledUnplayedGames);
 });
 
 // Get unplayed games for specific quartet of players
