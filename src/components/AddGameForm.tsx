@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Plus, Loader2, Users } from "lucide-react";
 import type { NewGameData } from "../services/api";
 
 interface AddGameFormProps {
@@ -95,10 +96,20 @@ export default function AddGameForm({
 
   return (
     <div className="add-game-form">
-      <h2>Lägg till nytt matchresultat</h2>
+      <h2>➕ Lägg till nytt matchresultat</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-section">
-          <h3>Lag 1</h3>
+          <h3>
+            <Users
+              size={18}
+              style={{
+                display: "inline",
+                verticalAlign: "text-bottom",
+                marginRight: "0.5rem",
+              }}
+            />
+            Lag 1
+          </h3>
           <div className="form-group">
             <label>Spelare 1:</label>
             <select
@@ -130,7 +141,17 @@ export default function AddGameForm({
         </div>
 
         <div className="form-section">
-          <h3>Lag 2</h3>
+          <h3>
+            <Users
+              size={18}
+              style={{
+                display: "inline",
+                verticalAlign: "text-bottom",
+                marginRight: "0.5rem",
+              }}
+            />
+            Lag 2
+          </h3>
           <div className="form-group">
             <label>Spelare 1:</label>
             <select
@@ -189,8 +210,37 @@ export default function AddGameForm({
         {error && <div className="error-message">{error}</div>}
         {success && <div className="success-message">{success}</div>}
 
-        <button type="submit" disabled={isSubmitting} className="submit-btn">
-          {isSubmitting ? "Lägger till..." : "Lägg till match"}
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="submit-btn"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            justifyContent: "center",
+          }}
+        >
+          {isSubmitting ? (
+            <>
+              <Loader2
+                size={18}
+                style={{ animation: "spin 1s linear infinite" }}
+              />
+              <style>{`
+                @keyframes spin {
+                  from { transform: rotate(0deg); }
+                  to { transform: rotate(360deg); }
+                }
+              `}</style>
+              Lägger till...
+            </>
+          ) : (
+            <>
+              <Plus size={18} />
+              Lägg till match
+            </>
+          )}
         </button>
       </form>
     </div>

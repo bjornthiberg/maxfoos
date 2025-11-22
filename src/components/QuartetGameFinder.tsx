@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Search, RotateCcw, Loader2, Users, Trophy } from "lucide-react";
 import { api } from "../services/api";
 import type { UnplayedGame } from "../services/api";
 
@@ -84,6 +85,14 @@ export default function QuartetGameFinder({
     <div className="quartet-finder-container">
       <h2>Hitta matcher för 4 spelare</h2>
       <p className="quartet-description">
+        <Users
+          size={16}
+          style={{
+            display: "inline",
+            verticalAlign: "text-bottom",
+            marginRight: "0.25rem",
+          }}
+        />
         Välj 4 spelare för att se vilka matcher (max 3) som inte har spelats
         mellan dem.
       </p>
@@ -117,14 +126,46 @@ export default function QuartetGameFinder({
             onClick={handleSearch}
             disabled={isSearchDisabled || loading}
             className="submit-btn"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              justifyContent: "center",
+            }}
           >
-            {loading ? "Söker..." : "Hitta matcher"}
+            {loading ? (
+              <>
+                <Loader2
+                  size={18}
+                  style={{ animation: "spin 1s linear infinite" }}
+                />
+                <style>{`
+                  @keyframes spin {
+                    from { transform: rotate(0deg); }
+                    to { transform: rotate(360deg); }
+                  }
+                `}</style>
+                Söker...
+              </>
+            ) : (
+              <>
+                <Search size={18} />
+                Hitta matcher
+              </>
+            )}
           </button>
           <button
             onClick={handleReset}
             className="reset-btn"
             disabled={loading}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              justifyContent: "center",
+            }}
           >
+            <RotateCcw size={18} />
             Rensa
           </button>
         </div>
@@ -139,11 +180,27 @@ export default function QuartetGameFinder({
           </h3>
           {unplayedGames.length === 0 ? (
             <p className="no-games-message">
+              <Trophy
+                size={24}
+                style={{
+                  display: "inline",
+                  verticalAlign: "text-bottom",
+                  marginRight: "0.5rem",
+                }}
+              />
               Alla möjliga matcher mellan dessa spelare har redan spelats! 🎉
             </p>
           ) : (
             <>
               <p className="game-count">
+                <Users
+                  size={16}
+                  style={{
+                    display: "inline",
+                    verticalAlign: "text-bottom",
+                    marginRight: "0.25rem",
+                  }}
+                />
                 Antal ospelade matcher: {unplayedGames.length} av 3 möjliga
               </p>
               <table className="game-table">

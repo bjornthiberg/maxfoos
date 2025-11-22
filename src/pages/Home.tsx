@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { RefreshCw, Loader2 } from "lucide-react";
 import { api } from "../services/api";
 import type { Player, Game, UnplayedGame } from "../services/api";
 import PlayerTable from "../components/PlayerTable";
@@ -49,7 +50,16 @@ export default function Home() {
   if (loading) {
     return (
       <div className="container">
-        <div className="loading">Laddar...</div>
+        <div className="loading">
+          <Loader2 size={32} style={{ animation: "spin 1s linear infinite" }} />
+          <style>{`
+            @keyframes spin {
+              from { transform: rotate(0deg); }
+              to { transform: rotate(360deg); }
+            }
+          `}</style>
+          <p style={{ marginTop: "1rem" }}>Laddar...</p>
+        </div>
       </div>
     );
   }
@@ -58,7 +68,17 @@ export default function Home() {
     return (
       <div className="container">
         <div className="error-message">{error}</div>
-        <button onClick={loadData} className="refresh-btn">
+        <button
+          onClick={loadData}
+          className="refresh-btn"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            justifyContent: "center",
+          }}
+        >
+          <RefreshCw size={18} />
           Försök igen
         </button>
       </div>
@@ -81,7 +101,17 @@ export default function Home() {
           <GameList unplayedGames={unplayedGames} title="Ospelade matcher" />
         </div>
 
-        <button onClick={loadData} className="refresh-btn">
+        <button
+          onClick={loadData}
+          className="refresh-btn"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            justifyContent: "center",
+          }}
+        >
+          <RefreshCw size={18} />
           Uppdatera data
         </button>
       </div>

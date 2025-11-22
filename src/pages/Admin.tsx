@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { RefreshCw, LogOut, Loader2, Lock } from "lucide-react";
 import { api } from "../services/api";
 import type { Game, NewGameData, UnplayedGame } from "../services/api";
 import AddGameForm from "../components/AddGameForm";
@@ -99,7 +100,10 @@ export default function Admin() {
     return (
       <div className="container">
         <div className="admin-login">
-          <h1>Adminpanel</h1>
+          <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
+            <Lock size={48} color="#3b82f6" style={{ marginBottom: "1rem" }} />
+            <h1>Adminpanel</h1>
+          </div>
           <form onSubmit={handleLogin}>
             <div className="form-group">
               <label>Lösenord:</label>
@@ -116,8 +120,33 @@ export default function Admin() {
               type="submit"
               disabled={isVerifying || !password}
               className="submit-btn"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                justifyContent: "center",
+              }}
             >
-              {isVerifying ? "Verifierar..." : "Logga in"}
+              {isVerifying ? (
+                <>
+                  <Loader2
+                    size={18}
+                    style={{ animation: "spin 1s linear infinite" }}
+                  />
+                  <style>{`
+                    @keyframes spin {
+                      from { transform: rotate(0deg); }
+                      to { transform: rotate(360deg); }
+                    }
+                  `}</style>
+                  Verifierar...
+                </>
+              ) : (
+                <>
+                  <Lock size={18} />
+                  Logga in
+                </>
+              )}
             </button>
           </form>
         </div>
@@ -129,12 +158,32 @@ export default function Admin() {
     <div className="container">
       <div className="admin-header">
         <h1>Adminpanel</h1>
-        <button onClick={handleLogout} className="logout-btn">
+        <button
+          onClick={handleLogout}
+          className="logout-btn"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+          }}
+        >
+          <LogOut size={16} />
           Logga ut
         </button>
       </div>
 
-      {loading && <div className="loading">Laddar...</div>}
+      {loading && (
+        <div className="loading">
+          <Loader2 size={32} style={{ animation: "spin 1s linear infinite" }} />
+          <style>{`
+            @keyframes spin {
+              from { transform: rotate(0deg); }
+              to { transform: rotate(360deg); }
+            }
+          `}</style>
+          <p style={{ marginTop: "1rem" }}>Laddar...</p>
+        </div>
+      )}
       {error && <div className="error-message">{error}</div>}
 
       {!loading && !error && (
@@ -159,7 +208,17 @@ export default function Admin() {
             <GameList unplayedGames={unplayedGames} title="Ospelade matcher" />
           </div>
 
-          <button onClick={loadData} className="refresh-btn">
+          <button
+            onClick={loadData}
+            className="refresh-btn"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              justifyContent: "center",
+            }}
+          >
+            <RefreshCw size={18} />
             Uppdatera data
           </button>
         </div>

@@ -1,3 +1,4 @@
+import { Calendar, Trophy, Trash2 } from "lucide-react";
 import type { Game, UnplayedGame } from "../services/api";
 
 interface GameListProps {
@@ -36,7 +37,9 @@ export default function GameList({
       <div className="game-list-container">
         <h2>{title}</h2>
         {games.length === 0 ? (
-          <p>Inga matcher spelade än.</p>
+          <p style={{ color: "#71717a", fontStyle: "italic" }}>
+            Inga matcher spelade än.
+          </p>
         ) : (
           <table className="game-table">
             <thead>
@@ -53,7 +56,18 @@ export default function GameList({
                 const team1Won = game.winner === "team1";
                 return (
                   <tr key={game.id}>
-                    <td>{formatDate(game.timestamp)}</td>
+                    <td>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "0.5rem",
+                        }}
+                      >
+                        <Calendar size={14} color="#71717a" />
+                        {formatDate(game.timestamp)}
+                      </div>
+                    </td>
                     <td className={team1Won ? "winner" : ""}>
                       {formatTeam(game.team1)}
                     </td>
@@ -71,7 +85,13 @@ export default function GameList({
                         <button
                           onClick={() => onDelete && onDelete(game.id)}
                           className="delete-btn"
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "0.5rem",
+                          }}
                         >
+                          <Trash2 size={14} />
                           Ta bort
                         </button>
                       </td>
@@ -93,7 +113,26 @@ export default function GameList({
         <h2>{title}</h2>
         <p className="game-count">Totalt: {unplayedGames.length} matcher</p>
         {unplayedGames.length === 0 ? (
-          <p>Alla matcher har spelats!</p>
+          <p
+            style={{
+              textAlign: "center",
+              padding: "2rem",
+              color: "#10b981",
+              fontWeight: "600",
+              background: "linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)",
+              borderRadius: "12px",
+            }}
+          >
+            <Trophy
+              size={24}
+              style={{
+                display: "inline",
+                verticalAlign: "text-bottom",
+                marginRight: "0.5rem",
+              }}
+            />
+            Alla matcher har spelats!
+          </p>
         ) : (
           <table className="game-table">
             <thead>
