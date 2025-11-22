@@ -13,7 +13,13 @@ const PORT = 3001;
 // Middleware
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://maxfoos.se"],
+    origin: [
+      "http://localhost:5173",
+      "https://maxfoos.se",
+      "http://maxfoos.se",
+      "https://www.maxfoos.se",
+      "http://www.maxfoos.se",
+    ],
   }),
 );
 app.use(express.json());
