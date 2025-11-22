@@ -156,10 +156,7 @@ export default function Admin() {
           </div>
 
           <div className="admin-section">
-            <GameList
-              unplayedGames={unplayedGames}
-              title="Återstående ospelade matcher"
-            />
+            <GameList unplayedGames={unplayedGames} title="Ospelade matcher" />
           </div>
 
           <button onClick={loadData} className="refresh-btn">

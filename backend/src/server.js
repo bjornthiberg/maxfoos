@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import fs from "fs";
@@ -39,7 +40,7 @@ const initData = {
     "Moritz",
   ],
   games: [],
-  adminPassword: "maxfoos1337",
+  adminPassword: process.env.ADMIN_PASSWORD || "maxfoos1337",
 };
 
 // Load or create data file
