@@ -63,6 +63,8 @@ const initData = {
     "Björn",
     "Daniel",
     "Frallan",
+    "Hans",
+    "Herman",
     "Ludvig",
     "Matilda",
     "Moritz",
