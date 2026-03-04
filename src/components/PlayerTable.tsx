@@ -13,6 +13,18 @@ export default function PlayerTable({ players }: PlayerTableProps) {
     return null;
   };
 
+  const sortedPlayers = [...players]
+    .map((p) => ({
+      ...p,
+      winRate: p.gamesPlayed > 0 ? p.points / p.gamesPlayed : 0,
+    }))
+    .sort((a, b) => {
+      if (b.winRate !== a.winRate) return b.winRate - a.winRate;
+      if (b.goalDifference !== a.goalDifference)
+        return b.goalDifference - a.goalDifference;
+      return b.points - a.points;
+    });
+
   return (
     <div className="player-table-container">
       <h2>Tabell</h2>
@@ -21,13 +33,14 @@ export default function PlayerTable({ players }: PlayerTableProps) {
           <tr>
             <th>#</th>
             <th>Spelare</th>
+            <th>V%</th>
             <th>V</th>
             <th>M</th>
             <th>+/-</th>
           </tr>
         </thead>
         <tbody>
-          {players.map((player, index) => (
+          {sortedPlayers.map((player, index) => (
             <tr key={player.name}>
               <td>
                 <div
@@ -46,6 +59,7 @@ export default function PlayerTable({ players }: PlayerTableProps) {
               <td>
                 <strong>{player.name}</strong>
               </td>
+              <td>{(player.winRate * 100).toFixed(1)}%</td>
               <td style={{ fontWeight: "700" }}>{player.points}</td>
               <td>{player.gamesPlayed}</td>
               <td
