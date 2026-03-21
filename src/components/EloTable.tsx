@@ -1,5 +1,5 @@
 import { Trophy, Medal, Award } from "lucide-react";
-import type { Game } from "../services/api";
+import type { Game, Player } from "../services/api";
 
 interface EloPlayer {
   name: string;
@@ -82,8 +82,11 @@ const getRankIcon = (index: number) => {
   return null;
 };
 
-export default function EloTable({ games }: { games: Game[] }) {
-  const players = calculateElo(games);
+export default function EloTable({ games, players: playerStats }: { games: Game[]; players: Player[] }) {
+  const players = calculateElo(games).map((p) => ({
+    ...p,
+    goalDifference: playerStats.find((s) => s.name === p.name)?.goalDifference ?? 0,
+  }));
 
   return (
     <table className="player-table">
@@ -116,9 +119,9 @@ export default function EloTable({ games }: { games: Game[] }) {
                 <strong>{player.name}</strong>
               </td>
               <td style={{ fontWeight: "700" }}>{player.elo}</td>
-              <td className={player.change >= 0 ? "positive" : "negative"}>
-                {player.change >= 0 ? "+" : ""}
-                {player.change}
+              <td className={player.goalDifference >= 0 ? "positive" : "negative"}>
+                {player.goalDifference >= 0 ? "+" : ""}
+                {player.goalDifference}
               </td>
               <td>{player.gamesPlayed}</td>
               <td>

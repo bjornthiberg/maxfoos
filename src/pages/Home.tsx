@@ -114,7 +114,7 @@ export default function Home() {
             <PlayerTable players={players} recentGames={recentGames} />
           ) : (
             <div className="standings-content">
-              <EloTable games={recentGames} />
+              <EloTable games={recentGames} players={players} />
             </div>
           )}
         </div>
