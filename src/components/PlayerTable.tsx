@@ -33,9 +33,9 @@ export default function PlayerTable({ players }: PlayerTableProps) {
           <tr>
             <th>#</th>
             <th>Spelare</th>
-            <th>V%</th>
-            <th>V</th>
-            <th>M</th>
+            <th>Vinster (%)</th>
+            <th>Vinster</th>
+            <th>Matcher</th>
             <th>+/-</th>
           </tr>
         </thead>

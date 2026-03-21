@@ -174,13 +174,14 @@ body::before {
 }
 
 .container {
-    background-color: #ffffff;
-    border-radius: 16px;
+    background-color: #f8f9fa;
+    border-radius: 20px;
     padding: 2rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-    border: 1px solid #e4e4e7;
+    box-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.06),
+        0 0 0 1px rgba(0, 0, 0, 0.04);
+    border: none;
     margin-bottom: 2rem;
-    transition: all 0.3s ease;
     animation: slideUp 0.4s ease-out;
 }
 
@@ -195,16 +196,12 @@ body::before {
     }
 }
 
-.container:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
 /* Home Page Layout */
 .home-layout {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2rem;
-    /* Prevent grid children from overflowing */
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
     overflow: hidden;
 }
 
@@ -213,25 +210,37 @@ body::before {
     min-width: 0;
 }
 
-@media (min-width: 1024px) {
-    .home-layout {
-        grid-template-columns: 1fr 1fr;
-        align-items: start;
-    }
+/* Tabs */
+.tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #e4e4e7;
+    padding-bottom: 0;
+}
 
-    .player-table-container {
-        grid-column: 1;
-        grid-row: 1;
-    }
+.tab-btn {
+    padding: 0.625rem 1.25rem;
+    border: none;
+    background: none;
+    color: #71717a;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: color 0.2s, border-color 0.2s;
+    border-radius: 0;
+}
 
-    .games-section {
-        grid-column: 2;
-        grid-row: 1;
-    }
+.tab-btn:hover {
+    color: #3b82f6;
+}
 
-    .refresh-btn {
-        grid-column: 1 / -1;
-    }
+.tab-btn.active {
+    color: #3b82f6;
+    border-bottom-color: #3b82f6;
+    font-weight: 600;
 }
 
 h1 {
@@ -242,21 +251,17 @@ h1 {
     letter-spacing: -0.03em;
 }
 
-/* Neon title effect for home page - keep as is */
+/* Neon title effect for home page */
 .neon-title {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 1.5rem;
     padding: 3rem 2rem;
-    background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.9) 0%,
-        rgba(250, 250, 250, 0.9) 100%
-    );
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 24px;
-    border: 1px solid rgba(228, 228, 231, 0.5);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #e4e4e7;
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.06),
+        0 0 0 0.5px rgba(0, 0, 0, 0.04);
     animation: slideUp 0.6s ease-out;
 }
 
@@ -353,20 +358,33 @@ h3 {
 
 /* Player Table */
 .player-table-container {
-    margin-bottom: 2rem;
-    /* Ensure container can shrink and doesn't force parent to expand */
+    background: #ffffff;
+    border: 1px solid #e4e4e7;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.06),
+        0 0 0 0.5px rgba(0, 0, 0, 0.04);
     min-width: 0;
     width: 100%;
+}
+
+.player-table-container h2 {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #71717a;
+    margin-bottom: 1rem;
 }
 
 .player-table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    margin-top: 1rem;
     overflow: hidden;
-    border-radius: 12px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    border: 1px solid #e4e4e7;
     animation: fadeIn 0.5s ease-in;
 }
 
@@ -395,12 +413,23 @@ h3 {
 
 .player-table tbody tr {
     border-bottom: 1px solid #f4f4f5;
-    transition: all 0.2s ease;
+    transition: background-color 0.15s ease;
+}
+
+.player-table tbody tr:nth-child(1) {
+    background: linear-gradient(90deg, #fffbeb 0%, #ffffff 60%);
+}
+
+.player-table tbody tr:nth-child(2) {
+    background: linear-gradient(90deg, #f8fafc 0%, #ffffff 60%);
+}
+
+.player-table tbody tr:nth-child(3) {
+    background: linear-gradient(90deg, #fff7ed 0%, #ffffff 60%);
 }
 
 .player-table tbody tr:hover {
-    background-color: #fafafa;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    background: #f4f4f5;
 }
 
 .player-table tbody tr:last-child {
@@ -425,8 +454,6 @@ h3 {
 
 /* Game List */
 .game-list-container {
-    margin-bottom: 2rem;
-    /* Ensure container can shrink and doesn't force parent to expand */
     min-width: 0;
     width: 100%;
 }
@@ -443,15 +470,14 @@ h3 {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    margin-top: 1rem;
     overflow: hidden;
-    border-radius: 12px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    border: 1px solid #e4e4e7;
     animation: fadeIn 0.5s ease-in;
 }
 
 .game-table thead {
-    background: linear-gradient(135deg, #18181b 0%, #27272a 100%);
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
     color: white;
 }
 
@@ -475,12 +501,11 @@ h3 {
 
 .game-table tbody tr {
     border-bottom: 1px solid #f4f4f5;
-    transition: all 0.2s ease;
+    transition: background-color 0.15s ease;
 }
 
 .game-table tbody tr:hover {
-    background-color: #fafafa;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    background-color: #f4f4f5;
 }
 
 .game-table tbody tr:last-child {
@@ -500,12 +525,39 @@ h3 {
 }
 
 .games-section {
+    background: #ffffff;
+    border: 1px solid #e4e4e7;
+    border-radius: 16px;
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.06),
+        0 0 0 0.5px rgba(0, 0, 0, 0.04);
     display: flex;
     flex-direction: column;
-    gap: 2rem;
-    /* Ensure section can shrink and doesn't force parent to expand */
+    overflow: hidden;
     min-width: 0;
     width: 100%;
+}
+
+/* Tabs flush with top of card */
+.games-section .tabs {
+    padding: 0 1.25rem;
+    margin-bottom: 0;
+    border-bottom: 1px solid #e4e4e7;
+    background: #fafafa;
+}
+
+/* Content area below tabs */
+.games-section .game-list-container {
+    padding: 1.25rem 1.5rem 1.5rem;
+}
+
+/* Hide the redundant h2 inside the tabbed section */
+.games-section .game-list-container h2 {
+    display: none;
+}
+
+.games-section .game-count {
+    margin-bottom: 0.75rem;
 }
 
 /* Forms */
@@ -792,17 +844,23 @@ button {
 
 /* Quartet Game Finder */
 .quartet-finder-container {
-    background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%);
+    background: #ffffff;
     border-radius: 16px;
     padding: 2rem;
     border: 1px solid #e4e4e7;
-    margin-bottom: 2rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-    transition: all 0.3s ease;
+    margin-bottom: 0;
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.06),
+        0 0 0 0.5px rgba(0, 0, 0, 0.04);
 }
 
-.quartet-finder-container:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+.quartet-finder-container h2 {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #71717a;
+    margin-bottom: 0.5rem;
 }
 
 .quartet-description {
@@ -813,11 +871,11 @@ button {
 }
 
 .quartet-form {
-    background-color: #ffffff;
+    background-color: #f9fafb;
     padding: 1.5rem;
     border-radius: 12px;
     margin-bottom: 1.5rem;
-    border: 1px solid #f4f4f5;
+    border: 1px solid #e4e4e7;
 }
 
 .player-selectors {
@@ -850,9 +908,15 @@ button {
     flex-wrap: wrap;
 }
 
-.quartet-actions button {
+.quartet-actions .submit-btn {
     flex: 1;
-    min-width: 150px;
+    width: auto;
+    margin-top: 0;
+}
+
+.quartet-actions .reset-btn {
+    flex: 0 0 auto;
+    width: auto;
 }
 
 .reset-btn {
@@ -883,11 +947,12 @@ button {
 }
 
 .quartet-results {
-    background-color: #ffffff;
+    background-color: #f9fafb;
     padding: 1.5rem;
     border-radius: 12px;
     margin-top: 1.5rem;
-    border: 1px solid #f4f4f5;
+    border: 1px solid #e4e4e7;
+    overflow-x: auto;
 }
 
 .quartet-results h3 {
@@ -901,6 +966,47 @@ button {
     padding: 3rem 2rem;
     font-size: 1rem;
     color: #10b981;
+    font-weight: 600;
+}
+
+.suggested-game {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border: 2px solid #3b82f6;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.suggested-game-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: #2563eb;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.625rem;
+}
+
+.suggested-game-teams {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #18181b;
+    flex-wrap: wrap;
+}
+
+.suggested-game-teams .vs {
+    color: #71717a;
+    font-weight: 400;
+    font-size: 0.875rem;
+}
+
+.suggested-row {
+    background-color: #eff6ff !important;
     font-weight: 600;
 }
 
@@ -961,8 +1067,8 @@ button {
     }
 
     .container {
-        padding: 1.5rem;
-        border-radius: 12px;
+        padding: 1rem;
+        border-radius: 16px;
     }
 
     .neon-title {
@@ -984,42 +1090,27 @@ button {
         font-size: 1.25rem;
     }
 
-    .player-table-container,
+    .player-table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 1rem;
+    }
+
     .game-list-container {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
-        /* Force containers to respect parent width */
         width: 100%;
         min-width: 0;
-        position: relative;
-        /* Add scroll shadow to indicate scrollable content */
-        background:
-            linear-gradient(90deg, white 30%, rgba(255, 255, 255, 0)),
-            linear-gradient(90deg, rgba(255, 255, 255, 0), white 70%) 100% 0,
-            radial-gradient(
-                farthest-side at 0% 50%,
-                rgba(0, 0, 0, 0.2),
-                rgba(0, 0, 0, 0)
-            ),
-            radial-gradient(
-                    farthest-side at 100% 50%,
-                    rgba(0, 0, 0, 0.2),
-                    rgba(0, 0, 0, 0)
-                )
-                100% 0;
-        background-repeat: no-repeat;
-        background-size:
-            40px 100%,
-            40px 100%,
-            14px 100%,
-            14px 100%;
-        background-attachment: local, local, scroll, scroll;
     }
 
     /* Tables should have min-width but adapt to mobile */
     .player-table,
     .game-table {
         min-width: 500px;
+    }
+
+    .quartet-results .game-table {
+        min-width: 0;
     }
 
     /* Make table cells more compact on mobile */

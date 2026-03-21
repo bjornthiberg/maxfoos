@@ -17,6 +17,7 @@ export default function QuartetGameFinder({
     "",
   ]);
   const [unplayedGames, setUnplayedGames] = useState<UnplayedGame[]>([]);
+  const [suggestedIndex, setSuggestedIndex] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
@@ -48,6 +49,9 @@ export default function QuartetGameFinder({
       setError("");
       const games = await api.getUnplayedGamesForQuartet(selectedPlayers);
       setUnplayedGames(games);
+      setSuggestedIndex(
+        games.length > 0 ? Math.floor(Math.random() * games.length) : null,
+      );
       setHasSearched(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Kunde inte hämta matcher");
@@ -61,6 +65,7 @@ export default function QuartetGameFinder({
   const handleReset = () => {
     setSelectedPlayers(["", "", "", ""]);
     setUnplayedGames([]);
+    setSuggestedIndex(null);
     setHasSearched(false);
     setError("");
   };
@@ -85,14 +90,6 @@ export default function QuartetGameFinder({
     <div className="quartet-finder-container">
       <h2>Hitta matcher för 4 spelare</h2>
       <p className="quartet-description">
-        <Users
-          size={16}
-          style={{
-            display: "inline",
-            verticalAlign: "text-bottom",
-            marginRight: "0.25rem",
-          }}
-        />
         Välj 4 spelare för att se vilka matcher (max 3) som inte har spelats
         mellan dem.
       </p>
@@ -192,15 +189,21 @@ export default function QuartetGameFinder({
             </p>
           ) : (
             <>
+              {suggestedIndex !== null && (
+                <div className="suggested-game">
+                  <div className="suggested-game-label">Förslag</div>
+                  <div className="suggested-game-teams">
+                    <span>
+                      {formatTeam(unplayedGames[suggestedIndex].team1)}
+                    </span>
+                    <span className="vs">vs</span>
+                    <span>
+                      {formatTeam(unplayedGames[suggestedIndex].team2)}
+                    </span>
+                  </div>
+                </div>
+              )}
               <p className="game-count">
-                <Users
-                  size={16}
-                  style={{
-                    display: "inline",
-                    verticalAlign: "text-bottom",
-                    marginRight: "0.25rem",
-                  }}
-                />
                 Antal ospelade matcher: {unplayedGames.length} av 3 möjliga
               </p>
               <table className="game-table">
@@ -213,7 +216,12 @@ export default function QuartetGameFinder({
                 </thead>
                 <tbody>
                   {unplayedGames.map((game, index) => (
-                    <tr key={index}>
+                    <tr
+                      key={index}
+                      className={
+                        index === suggestedIndex ? "suggested-row" : ""
+                      }
+                    >
                       <td>{index + 1}</td>
                       <td>{formatTeam(game.team1)}</td>
                       <td>{formatTeam(game.team2)}</td>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, Loader2, Users } from "lucide-react";
+import { Plus, Loader2 } from "lucide-react";
 import type { NewGameData } from "../services/api";
 
 interface AddGameFormProps {
@@ -99,17 +99,7 @@ export default function AddGameForm({
       <h2>➕ Lägg till nytt matchresultat</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-section">
-          <h3>
-            <Users
-              size={18}
-              style={{
-                display: "inline",
-                verticalAlign: "text-bottom",
-                marginRight: "0.5rem",
-              }}
-            />
-            Lag 1
-          </h3>
+          <h3>Lag Blå</h3>
           <div className="form-group">
             <label>Spelare 1:</label>
             <select
@@ -141,17 +131,7 @@ export default function AddGameForm({
         </div>
 
         <div className="form-section">
-          <h3>
-            <Users
-              size={18}
-              style={{
-                display: "inline",
-                verticalAlign: "text-bottom",
-                marginRight: "0.5rem",
-              }}
-            />
-            Lag 2
-          </h3>
+          <h3>Lag Röd</h3>
           <div className="form-group">
             <label>Spelare 1:</label>
             <select
@@ -190,8 +170,8 @@ export default function AddGameForm({
               value={winner}
               onChange={(e) => setWinner(e.target.value as "team1" | "team2")}
             >
-              <option value="team1">Lag 1</option>
-              <option value="team2">Lag 2</option>
+              <option value="team1">Lag Blå</option>
+              <option value="team2">Lag Röd</option>
             </select>
           </div>
           <div className="form-group">

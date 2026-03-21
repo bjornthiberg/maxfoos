@@ -13,6 +13,7 @@ export default function Home() {
   const [unplayedGames, setUnplayedGames] = useState<UnplayedGame[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [activeTab, setActiveTab] = useState<"spelade" | "ospelade">("spelade");
 
   const loadData = async () => {
     try {
@@ -96,24 +97,26 @@ export default function Home() {
         <PlayerTable players={players} />
 
         <div className="games-section">
-          <GameList games={recentGames} title="Spelade matcher" />
-
-          <GameList unplayedGames={unplayedGames} title="Ospelade matcher" />
+          <div className="tabs">
+            <button
+              className={`tab-btn ${activeTab === "spelade" ? "active" : ""}`}
+              onClick={() => setActiveTab("spelade")}
+            >
+              Spelade matcher
+            </button>
+            <button
+              className={`tab-btn ${activeTab === "ospelade" ? "active" : ""}`}
+              onClick={() => setActiveTab("ospelade")}
+            >
+              Ospelade matcher
+            </button>
+          </div>
+          {activeTab === "spelade" ? (
+            <GameList games={recentGames} title="Spelade matcher" />
+          ) : (
+            <GameList unplayedGames={unplayedGames} title="Ospelade matcher" />
+          )}
         </div>
-
-        <button
-          onClick={loadData}
-          className="refresh-btn"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            justifyContent: "center",
-          }}
-        >
-          <RefreshCw size={18} />
-          Uppdatera data
-        </button>
       </div>
 
       <QuartetGameFinder allPlayers={allPlayerNames} />

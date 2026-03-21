@@ -45,8 +45,8 @@ export default function GameList({
             <thead>
               <tr>
                 <th>Datum</th>
-                <th>Lag 1</th>
-                <th>Lag 2</th>
+                <th>Lag Blå</th>
+                <th>Lag Röd</th>
                 <th>Resultat</th>
                 {showDelete && <th>Åtgärd</th>}
               </tr>
