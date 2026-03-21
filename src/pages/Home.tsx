@@ -3,6 +3,7 @@ import { RefreshCw, Loader2 } from "lucide-react";
 import { api } from "../services/api";
 import type { Player, Game, UnplayedGame } from "../services/api";
 import PlayerTable from "../components/PlayerTable";
+import EloTable from "../components/EloTable";
 import GameList from "../components/GameList";
 import QuartetGameFinder from "../components/QuartetGameFinder";
 
@@ -13,7 +14,8 @@ export default function Home() {
   const [unplayedGames, setUnplayedGames] = useState<UnplayedGame[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [activeTab, setActiveTab] = useState<"spelade" | "ospelade">("spelade");
+  const [standingsTab, setStandingsTab] = useState<"tabell" | "elo">("tabell");
+  const [gamesTab, setGamesTab] = useState<"spelade" | "ospelade">("spelade");
 
   const loadData = async () => {
     try {
@@ -30,7 +32,6 @@ export default function Home() {
 
       setPlayers(statsData);
       setAllPlayerNames(playersData);
-      // Sort games by timestamp (most recent first)
       const sortedGames = [...gamesData].sort(
         (a, b) =>
           new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
@@ -94,24 +95,46 @@ export default function Home() {
       </div>
 
       <div className="home-layout">
-        <PlayerTable players={players} />
+        <div className="standings-section">
+          <div className="tabs">
+            <button
+              className={`tab-btn ${standingsTab === "tabell" ? "active" : ""}`}
+              onClick={() => setStandingsTab("tabell")}
+            >
+              Tabell
+            </button>
+            <button
+              className={`tab-btn ${standingsTab === "elo" ? "active" : ""}`}
+              onClick={() => setStandingsTab("elo")}
+            >
+              ELO
+            </button>
+          </div>
+          {standingsTab === "tabell" ? (
+            <PlayerTable players={players} recentGames={recentGames} />
+          ) : (
+            <div className="standings-content">
+              <EloTable games={recentGames} />
+            </div>
+          )}
+        </div>
 
         <div className="games-section">
           <div className="tabs">
             <button
-              className={`tab-btn ${activeTab === "spelade" ? "active" : ""}`}
-              onClick={() => setActiveTab("spelade")}
+              className={`tab-btn ${gamesTab === "spelade" ? "active" : ""}`}
+              onClick={() => setGamesTab("spelade")}
             >
               Spelade matcher
             </button>
             <button
-              className={`tab-btn ${activeTab === "ospelade" ? "active" : ""}`}
-              onClick={() => setActiveTab("ospelade")}
+              className={`tab-btn ${gamesTab === "ospelade" ? "active" : ""}`}
+              onClick={() => setGamesTab("ospelade")}
             >
               Ospelade matcher
             </button>
           </div>
-          {activeTab === "spelade" ? (
+          {gamesTab === "spelade" ? (
             <GameList games={recentGames} title="Spelade matcher" />
           ) : (
             <GameList unplayedGames={unplayedGames} title="Ospelade matcher" />

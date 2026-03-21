@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search, RotateCcw, Loader2, Users, Trophy } from "lucide-react";
+import { Search, RotateCcw, Loader2, Trophy } from "lucide-react";
 import { api } from "../services/api";
 import type { UnplayedGame } from "../services/api";
 
