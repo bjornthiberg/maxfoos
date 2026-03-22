@@ -15,9 +15,12 @@ function calculateElo(games: Game[]): EloPlayer[] {
 
   const players = new Set<string>();
   games.forEach((g) => {
-    [g.team1.player1, g.team1.player2, g.team2.player1, g.team2.player2].forEach(
-      (p) => players.add(p),
-    );
+    [
+      g.team1.player1,
+      g.team1.player2,
+      g.team2.player1,
+      g.team2.player2,
+    ].forEach((p) => players.add(p));
   });
   players.forEach((p) => {
     elos[p] = 1000;
@@ -64,12 +67,19 @@ function calculateElo(games: Game[]): EloPlayer[] {
 function getForm(playerName: string, games: Game[]): ("W" | "L")[] {
   return games
     .filter((g) =>
-      [g.team1.player1, g.team1.player2, g.team2.player1, g.team2.player2].includes(playerName),
+      [
+        g.team1.player1,
+        g.team1.player2,
+        g.team2.player1,
+        g.team2.player2,
+      ].includes(playerName),
     )
     .slice(0, 5)
     .map((g) => {
-      const inTeam1 = g.team1.player1 === playerName || g.team1.player2 === playerName;
-      return (inTeam1 && g.winner === "team1") || (!inTeam1 && g.winner === "team2")
+      const inTeam1 =
+        g.team1.player1 === playerName || g.team1.player2 === playerName;
+      return (inTeam1 && g.winner === "team1") ||
+        (!inTeam1 && g.winner === "team2")
         ? "W"
         : "L";
     });
@@ -82,10 +92,17 @@ const getRankIcon = (index: number) => {
   return null;
 };
 
-export default function EloTable({ games, players: playerStats }: { games: Game[]; players: Player[] }) {
+export default function EloTable({
+  games,
+  players: playerStats,
+}: {
+  games: Game[];
+  players: Player[];
+}) {
   const players = calculateElo(games).map((p) => ({
     ...p,
-    goalDifference: playerStats.find((s) => s.name === p.name)?.goalDifference ?? 0,
+    goalDifference:
+      playerStats.find((s) => s.name === p.name)?.goalDifference ?? 0,
   }));
 
   return (
@@ -107,7 +124,11 @@ export default function EloTable({ games, players: playerStats }: { games: Game[
             <tr key={player.name}>
               <td>
                 <div
-                  style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.5rem",
+                  }}
                 >
                   {getRankIcon(index)}
                   <span style={{ fontWeight: index < 3 ? "700" : "500" }}>
@@ -119,7 +140,9 @@ export default function EloTable({ games, players: playerStats }: { games: Game[
                 <strong>{player.name}</strong>
               </td>
               <td style={{ fontWeight: "700" }}>{player.elo}</td>
-              <td className={player.goalDifference >= 0 ? "positive" : "negative"}>
+              <td
+                className={player.goalDifference >= 0 ? "positive" : "negative"}
+              >
                 {player.goalDifference >= 0 ? "+" : ""}
                 {player.goalDifference}
               </td>

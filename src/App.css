@@ -1154,6 +1154,197 @@ button {
     }
 }
 
+/* Head to Head */
+.h2h-container {
+    margin-top: 1.5rem;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 2rem;
+    border: 1px solid #e4e4e7;
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.06),
+        0 0 0 0.5px rgba(0, 0, 0, 0.04);
+}
+
+.h2h-container h2 {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #71717a;
+    margin-bottom: 0.5rem;
+}
+
+.h2h-selectors {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.h2h-select {
+    flex: 1;
+    min-width: 0;
+}
+
+.h2h-vs {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #94a3b8;
+    flex-shrink: 0;
+}
+
+.h2h-empty {
+    color: #71717a;
+    font-style: italic;
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.h2h-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.h2h-scoreboard {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 0.5rem;
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 1.25rem 1rem;
+    border: 1px solid #e4e4e7;
+}
+
+.h2h-player-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.h2h-player-stat-right {
+    text-align: right;
+    align-items: flex-end;
+}
+
+.h2h-player-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #71717a;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.h2h-wins {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #d1d5db;
+    line-height: 1;
+}
+
+.h2h-leader .h2h-wins {
+    color: #1e293b;
+}
+
+.h2h-goals {
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+.h2h-divider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0 0.5rem;
+}
+
+.h2h-total {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+.h2h-tie-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #f59e0b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.h2h-leader-bar {
+    height: 4px;
+    background: #f1f5f9;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.h2h-leader-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #1d4ed8, #3b82f6);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+}
+
+.h2h-game-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.h2h-game-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    background: #f8fafc;
+    border: 1px solid #f1f5f9;
+    font-size: 0.8rem;
+}
+
+.h2h-game-name {
+    color: #94a3b8;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.h2h-game-name-right {
+    text-align: right;
+}
+
+.h2h-game-winner {
+    color: #1e293b;
+    font-weight: 700;
+}
+
+.h2h-game-score {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #1e293b;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.h2h-game-date {
+    font-size: 0.7rem;
+    color: #cbd5e1;
+    white-space: nowrap;
+    text-align: right;
+}
+
 /* Quartet Game Finder */
 .quartet-finder-container {
     background: #ffffff;

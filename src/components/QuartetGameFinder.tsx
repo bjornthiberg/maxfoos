@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Search, RotateCcw } from "lucide-react";
+import type { Game } from "../services/api";
 
 interface QuartetGameFinderProps {
   allPlayers: string[];
+  games: Game[];
 }
 
 interface Combo {
@@ -23,8 +25,20 @@ function formatTeam(team: { player1: string; player2: string }): string {
   return `${team.player1} + ${team.player2}`;
 }
 
+function countPlayed(combo: Combo, games: Game[]): number {
+  const normalize = (p1: string, p2: string) => [p1, p2].sort().join(",");
+  const t1 = normalize(combo.team1.player1, combo.team1.player2);
+  const t2 = normalize(combo.team2.player1, combo.team2.player2);
+  return games.filter((g) => {
+    const gt1 = normalize(g.team1.player1, g.team1.player2);
+    const gt2 = normalize(g.team2.player1, g.team2.player2);
+    return (gt1 === t1 && gt2 === t2) || (gt1 === t2 && gt2 === t1);
+  }).length;
+}
+
 export default function QuartetGameFinder({
   allPlayers,
+  games,
 }: QuartetGameFinderProps) {
   const [selectedPlayers, setSelectedPlayers] = useState<string[]>([
     "",
@@ -145,9 +159,6 @@ export default function QuartetGameFinder({
 
       {hasSearched && (
         <div className="quartet-results">
-          <h3>
-            Kombinationer för {selectedPlayers.filter((p) => p).join(", ")}
-          </h3>
           {suggestedIndex !== null && (
             <div className="suggested-game">
               <div className="suggested-game-label">Förslag</div>
@@ -164,19 +175,26 @@ export default function QuartetGameFinder({
                 <th>#</th>
                 <th>Lag 1</th>
                 <th>Lag 2</th>
+                <th>Spelade</th>
               </tr>
             </thead>
             <tbody>
-              {combos.map((combo, index) => (
-                <tr
-                  key={index}
-                  className={index === suggestedIndex ? "suggested-row" : ""}
-                >
-                  <td>{index + 1}</td>
-                  <td>{formatTeam(combo.team1)}</td>
-                  <td>{formatTeam(combo.team2)}</td>
-                </tr>
-              ))}
+              {combos.map((combo, index) => {
+                const played = countPlayed(combo, games);
+                return (
+                  <tr
+                    key={index}
+                    className={index === suggestedIndex ? "suggested-row" : ""}
+                  >
+                    <td>{index + 1}</td>
+                    <td>{formatTeam(combo.team1)}</td>
+                    <td>{formatTeam(combo.team2)}</td>
+                    <td style={{ color: "#71717a", fontWeight: 600 }}>
+                      {played}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

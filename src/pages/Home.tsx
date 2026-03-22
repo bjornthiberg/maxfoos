@@ -6,6 +6,7 @@ import PlayerTable from "../components/PlayerTable";
 import EloTable from "../components/EloTable";
 import GameList from "../components/GameList";
 import QuartetGameFinder from "../components/QuartetGameFinder";
+import HeadToHead from "../components/HeadToHead";
 
 export default function Home() {
   const [players, setPlayers] = useState<Player[]>([]);
@@ -119,7 +120,8 @@ export default function Home() {
         </div>
       </div>
 
-      <QuartetGameFinder allPlayers={allPlayerNames} />
+      <QuartetGameFinder allPlayers={allPlayerNames} games={recentGames} />
+      <HeadToHead allPlayers={allPlayerNames} games={recentGames} />
     </div>
   );
 }
