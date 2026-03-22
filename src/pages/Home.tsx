@@ -115,7 +115,7 @@ export default function Home() {
         </div>
 
         <div className="games-section">
-          <GameList games={recentGames} title="Spelade matcher" />
+          <GameList games={recentGames} title="Senast spelade" collapsible />
         </div>
       </div>
 

@@ -17,73 +17,61 @@ export default function AddGameForm({
   const [team1Player2, setTeam1Player2] = useState("");
   const [team2Player1, setTeam2Player1] = useState("");
   const [team2Player2, setTeam2Player2] = useState("");
-  const [winner, setWinner] = useState<"team1" | "team2">("team1");
-  const [loserScore, setLoserScore] = useState("0");
+  const [score1, setScore1] = useState("0");
+  const [score2, setScore2] = useState("0");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  const chosen = [team1Player1, team1Player2, team2Player1, team2Player2];
+
+  const available = (currentValue: string) =>
+    players.filter((p) => p === currentValue || !chosen.includes(p));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setSuccess("");
 
-    // Validation
     if (!team1Player1 || !team1Player2 || !team2Player1 || !team2Player2) {
       setError("Vänligen välj alla 4 spelare");
       return;
     }
-
-    const selectedPlayers = [
-      team1Player1,
-      team1Player2,
-      team2Player1,
-      team2Player2,
-    ];
-    const uniquePlayers = new Set(selectedPlayers);
-
-    if (uniquePlayers.size !== 4) {
+    if (new Set(chosen).size !== 4) {
       setError("Alla 4 spelare måste vara unika");
       return;
     }
 
-    const loserScoreNum = parseInt(loserScore);
-    if (isNaN(loserScoreNum) || loserScoreNum < 0 || loserScoreNum > 9) {
-      setError("Förlorarens poäng måste vara mellan 0 och 9");
+    const s1 = parseInt(score1);
+    const s2 = parseInt(score2);
+    if (isNaN(s1) || isNaN(s2) || s1 < 0 || s2 < 0) {
+      setError("Ange giltiga poäng");
+      return;
+    }
+    if (s1 === s2) {
+      setError("Oavgjort är inte möjligt — en sida måste vinna");
       return;
     }
 
+    const winner: "team1" | "team2" = s1 > s2 ? "team1" : "team2";
+
     setIsSubmitting(true);
-
     try {
-      const gameData: NewGameData = {
-        team1: {
-          player1: team1Player1,
-          player2: team1Player2,
-        },
-        team2: {
-          player1: team2Player1,
-          player2: team2Player2,
-        },
+      await onSubmit({
+        team1: { player1: team1Player1, player2: team1Player2 },
+        team2: { player1: team2Player1, player2: team2Player2 },
         winner,
-        score: {
-          team1: winner === "team1" ? 10 : loserScoreNum,
-          team2: winner === "team2" ? 10 : loserScoreNum,
-        },
+        score: { team1: s1, team2: s2 },
         password,
-      };
+      });
 
-      await onSubmit(gameData);
-
-      // Reset form
       setTeam1Player1("");
       setTeam1Player2("");
       setTeam2Player1("");
       setTeam2Player2("");
-      setWinner("team1");
-      setLoserScore("0");
+      setScore1("0");
+      setScore2("0");
       setSuccess("Matchen har lagts till!");
-
       setTimeout(() => setSuccess(""), 3000);
     } catch (err) {
       setError(
@@ -98,92 +86,95 @@ export default function AddGameForm({
     <div className="add-game-form">
       <h2>Lägg till nytt matchresultat</h2>
       <form onSubmit={handleSubmit}>
-        <div className="form-section">
-          <h3>Lag Blå</h3>
-          <div className="form-group">
-            <label>Spelare 1:</label>
-            <select
-              value={team1Player1}
-              onChange={(e) => setTeam1Player1(e.target.value)}
-            >
-              <option value="">Välj spelare</option>
-              {players.map((player) => (
-                <option key={player} value={player}>
-                  {player}
-                </option>
-              ))}
-            </select>
+        <div className="score-entry-layout">
+          <div className="form-section">
+            <h3 style={{ color: "#1d4ed8" }}>Lag Blå</h3>
+            <div className="form-group">
+              <label>Back:</label>
+              <select
+                value={team1Player1}
+                onChange={(e) => setTeam1Player1(e.target.value)}
+              >
+                <option value="">Välj spelare</option>
+                {available(team1Player1).map((p) => (
+                  <option key={p} value={p}>
+                    {p}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Forward:</label>
+              <select
+                value={team1Player2}
+                onChange={(e) => setTeam1Player2(e.target.value)}
+              >
+                <option value="">Välj spelare</option>
+                {available(team1Player2).map((p) => (
+                  <option key={p} value={p}>
+                    {p}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-          <div className="form-group">
-            <label>Spelare 2:</label>
-            <select
-              value={team1Player2}
-              onChange={(e) => setTeam1Player2(e.target.value)}
-            >
-              <option value="">Välj spelare</option>
-              {players.map((player) => (
-                <option key={player} value={player}>
-                  {player}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
 
-        <div className="form-section">
-          <h3>Lag Röd</h3>
-          <div className="form-group">
-            <label>Spelare 1:</label>
-            <select
-              value={team2Player1}
-              onChange={(e) => setTeam2Player1(e.target.value)}
-            >
-              <option value="">Välj spelare</option>
-              {players.map((player) => (
-                <option key={player} value={player}>
-                  {player}
-                </option>
-              ))}
-            </select>
+          <div className="score-inputs">
+            <div className="form-group">
+              <label>Blå</label>
+              <input
+                type="number"
+                min="0"
+                value={score1}
+                onChange={(e) => setScore1(e.target.value)}
+                placeholder="0"
+                className="score-blue"
+              />
+            </div>
+            <span className="score-separator">–</span>
+            <div className="form-group">
+              <label>Röd</label>
+              <input
+                type="number"
+                min="0"
+                value={score2}
+                onChange={(e) => setScore2(e.target.value)}
+                placeholder="0"
+                className="score-red"
+              />
+            </div>
           </div>
-          <div className="form-group">
-            <label>Spelare 2:</label>
-            <select
-              value={team2Player2}
-              onChange={(e) => setTeam2Player2(e.target.value)}
-            >
-              <option value="">Välj spelare</option>
-              {players.map((player) => (
-                <option key={player} value={player}>
-                  {player}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
 
-        <div className="form-section">
-          <h3>Resultat</h3>
-          <div className="form-group">
-            <label>Vinnare:</label>
-            <select
-              value={winner}
-              onChange={(e) => setWinner(e.target.value as "team1" | "team2")}
-            >
-              <option value="team1">Lag Blå</option>
-              <option value="team2">Lag Röd</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Förlorarens poäng (0-9):</label>
-            <input
-              type="number"
-              min="0"
-              max="9"
-              value={loserScore}
-              onChange={(e) => setLoserScore(e.target.value)}
-            />
-            <small>Vinnaren får alltid 10 poäng</small>
+          <div className="form-section">
+            <h3 style={{ color: "#b91c1c" }}>Lag Röd</h3>
+            <div className="form-group">
+              <label>Back:</label>
+              <select
+                value={team2Player1}
+                onChange={(e) => setTeam2Player1(e.target.value)}
+              >
+                <option value="">Välj spelare</option>
+                {available(team2Player1).map((p) => (
+                  <option key={p} value={p}>
+                    {p}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Forward:</label>
+              <select
+                value={team2Player2}
+                onChange={(e) => setTeam2Player2(e.target.value)}
+              >
+                <option value="">Välj spelare</option>
+                {available(team2Player2).map((p) => (
+                  <option key={p} value={p}>
+                    {p}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
 
@@ -207,12 +198,7 @@ export default function AddGameForm({
                 size={18}
                 style={{ animation: "spin 1s linear infinite" }}
               />
-              <style>{`
-                @keyframes spin {
-                  from { transform: rotate(0deg); }
-                  to { transform: rotate(360deg); }
-                }
-              `}</style>
+              <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
               Lägger till...
             </>
           ) : (

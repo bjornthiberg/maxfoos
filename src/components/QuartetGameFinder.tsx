@@ -26,7 +26,12 @@ function formatTeam(team: { player1: string; player2: string }): string {
 export default function QuartetGameFinder({
   allPlayers,
 }: QuartetGameFinderProps) {
-  const [selectedPlayers, setSelectedPlayers] = useState<string[]>(["", "", "", ""]);
+  const [selectedPlayers, setSelectedPlayers] = useState<string[]>([
+    "",
+    "",
+    "",
+    "",
+  ]);
   const [combos, setCombos] = useState<Combo[]>([]);
   const [suggestedIndex, setSuggestedIndex] = useState<number | null>(null);
   const [error, setError] = useState("");
@@ -76,9 +81,9 @@ export default function QuartetGameFinder({
 
   return (
     <div className="quartet-finder-container">
-      <h2>Hitta matcher för 4 spelare</h2>
+      <h2>Föreslå match</h2>
       <p className="quartet-description">
-        Välj 4 spelare för att se alla 3 möjliga lagkombinationer.
+        Välj 4 spelare för att se möjliga lagkombinationer.
       </p>
 
       <div className="quartet-form">
@@ -110,7 +115,12 @@ export default function QuartetGameFinder({
             onClick={handleSearch}
             disabled={isSearchDisabled}
             className="submit-btn"
-            style={{ display: "flex", alignItems: "center", gap: "0.5rem", justifyContent: "center" }}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              justifyContent: "center",
+            }}
           >
             <Search size={18} />
             Hitta matcher
@@ -118,7 +128,12 @@ export default function QuartetGameFinder({
           <button
             onClick={handleReset}
             className="reset-btn"
-            style={{ display: "flex", alignItems: "center", gap: "0.5rem", justifyContent: "center" }}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              justifyContent: "center",
+            }}
           >
             <RotateCcw size={18} />
             Rensa
@@ -130,7 +145,9 @@ export default function QuartetGameFinder({
 
       {hasSearched && (
         <div className="quartet-results">
-          <h3>Kombinationer för {selectedPlayers.filter((p) => p).join(", ")}</h3>
+          <h3>
+            Kombinationer för {selectedPlayers.filter((p) => p).join(", ")}
+          </h3>
           {suggestedIndex !== null && (
             <div className="suggested-game">
               <div className="suggested-game-label">Förslag</div>
@@ -151,7 +168,10 @@ export default function QuartetGameFinder({
             </thead>
             <tbody>
               {combos.map((combo, index) => (
-                <tr key={index} className={index === suggestedIndex ? "suggested-row" : ""}>
+                <tr
+                  key={index}
+                  className={index === suggestedIndex ? "suggested-row" : ""}
+                >
                   <td>{index + 1}</td>
                   <td>{formatTeam(combo.team1)}</td>
                   <td>{formatTeam(combo.team2)}</td>

@@ -215,13 +215,21 @@ app.post("/api/games", (req, res) => {
     return res.status(400).json({ error: "Winner must be team1 or team2" });
   }
 
-  const winningScore = winner === "team1" ? score.team1 : score.team2;
-  const losingScore = winner === "team1" ? score.team2 : score.team1;
-
-  if (winningScore !== 10 || losingScore < 0 || losingScore > 9) {
+  if (
+    typeof score.team1 !== "number" ||
+    typeof score.team2 !== "number" ||
+    score.team1 < 0 ||
+    score.team2 < 0 ||
+    score.team1 === score.team2
+  ) {
     return res
       .status(400)
-      .json({ error: "Invalid score. Winner must have 10 goals, loser 0-9" });
+      .json({ error: "Invalid score. Scores must be non-negative and not equal" });
+  }
+
+  const expectedWinner = score.team1 > score.team2 ? "team1" : "team2";
+  if (winner !== expectedWinner) {
+    return res.status(400).json({ error: "Winner does not match scores" });
   }
 
   // Add game
