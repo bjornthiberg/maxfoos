@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { RefreshCw, Loader2 } from "lucide-react";
 import { api } from "../services/api";
-import type { Player, Game, UnplayedGame } from "../services/api";
+import type { Player, Game } from "../services/api";
 import PlayerTable from "../components/PlayerTable";
 import EloTable from "../components/EloTable";
 import GameList from "../components/GameList";
@@ -11,24 +11,20 @@ export default function Home() {
   const [players, setPlayers] = useState<Player[]>([]);
   const [allPlayerNames, setAllPlayerNames] = useState<string[]>([]);
   const [recentGames, setRecentGames] = useState<Game[]>([]);
-  const [unplayedGames, setUnplayedGames] = useState<UnplayedGame[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [standingsTab, setStandingsTab] = useState<"tabell" | "elo">("tabell");
-  const [gamesTab, setGamesTab] = useState<"spelade" | "ospelade">("spelade");
 
   const loadData = async () => {
     try {
       setLoading(true);
       setError("");
 
-      const [statsData, gamesData, unplayedData, playersData] =
-        await Promise.all([
-          api.getStats(),
-          api.getGames(),
-          api.getUnplayedGames(),
-          api.getPlayers(),
-        ]);
+      const [statsData, gamesData, playersData] = await Promise.all([
+        api.getStats(),
+        api.getGames(),
+        api.getPlayers(),
+      ]);
 
       setPlayers(statsData);
       setAllPlayerNames(playersData);
@@ -37,7 +33,6 @@ export default function Home() {
           new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
       );
       setRecentGames(sortedGames);
-      setUnplayedGames(unplayedData);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load data");
     } finally {
@@ -120,25 +115,7 @@ export default function Home() {
         </div>
 
         <div className="games-section">
-          <div className="tabs">
-            <button
-              className={`tab-btn ${gamesTab === "spelade" ? "active" : ""}`}
-              onClick={() => setGamesTab("spelade")}
-            >
-              Spelade matcher
-            </button>
-            <button
-              className={`tab-btn ${gamesTab === "ospelade" ? "active" : ""}`}
-              onClick={() => setGamesTab("ospelade")}
-            >
-              Ospelade matcher
-            </button>
-          </div>
-          {gamesTab === "spelade" ? (
-            <GameList games={recentGames} title="Spelade matcher" />
-          ) : (
-            <GameList unplayedGames={unplayedGames} title="Ospelade matcher" />
-          )}
+          <GameList games={recentGames} title="Spelade matcher" />
         </div>
       </div>
 

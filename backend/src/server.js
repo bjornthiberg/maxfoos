@@ -99,59 +99,6 @@ function saveData(data) {
 
 let data = loadData();
 
-// Helper function to normalize team (sort players)
-function normalizeTeam(players) {
-  return [...players].sort().join(",");
-}
-
-// Helper function to check if game already exists
-function gameExists(team1Players, team2Players) {
-  const normalizedTeam1 = normalizeTeam(team1Players);
-  const normalizedTeam2 = normalizeTeam(team2Players);
-
-  return data.games.some((game) => {
-    const gameTeam1 = normalizeTeam([game.team1.player1, game.team1.player2]);
-    const gameTeam2 = normalizeTeam([game.team2.player1, game.team2.player2]);
-
-    return (
-      (gameTeam1 === normalizedTeam1 && gameTeam2 === normalizedTeam2) ||
-      (gameTeam1 === normalizedTeam2 && gameTeam2 === normalizedTeam1)
-    );
-  });
-}
-
-// Helper function to generate all possible games
-function getAllPossibleGames() {
-  const players = data.players;
-  const allGames = [];
-
-  // Generate all pairs of players (teams)
-  const teams = [];
-  for (let i = 0; i < players.length; i++) {
-    for (let j = i + 1; j < players.length; j++) {
-      teams.push([players[i], players[j]]);
-    }
-  }
-
-  // Generate all possible matchups between teams
-  for (let i = 0; i < teams.length; i++) {
-    for (let j = i + 1; j < teams.length; j++) {
-      const team1 = teams[i];
-      const team2 = teams[j];
-
-      // Check if teams don't share players
-      if (!team1.includes(team2[0]) && !team1.includes(team2[1])) {
-        allGames.push({
-          team1: { player1: team1[0], player2: team1[1] },
-          team2: { player1: team2[0], player2: team2[1] },
-        });
-      }
-    }
-  }
-
-  return allGames;
-}
-
 // Routes
 
 // Get all players
@@ -229,89 +176,6 @@ app.get("/api/stats", (req, res) => {
   res.json(sortedStats);
 });
 
-// Get unplayed games
-app.get("/api/games/unplayed", (req, res) => {
-  const allPossibleGames = getAllPossibleGames();
-
-  const unplayedGames = allPossibleGames.filter((possibleGame) => {
-    return !gameExists(
-      [possibleGame.team1.player1, possibleGame.team1.player2],
-      [possibleGame.team2.player1, possibleGame.team2.player2],
-    );
-  });
-
-  // Apply deterministic shuffle for consistent but random-looking order
-  const shuffledUnplayedGames = deterministicShuffle(unplayedGames);
-
-  res.json(shuffledUnplayedGames);
-});
-
-// Get unplayed games for specific quartet of players
-app.post("/api/games/unplayed/quartet", (req, res) => {
-  const { players } = req.body;
-
-  // Validate input
-  if (!players || !Array.isArray(players) || players.length !== 4) {
-    return res.status(400).json({ error: "Must provide exactly 4 players" });
-  }
-
-  // Check for duplicate players
-  if (new Set(players).size !== 4) {
-    return res.status(400).json({ error: "All 4 players must be unique" });
-  }
-
-  // Check if players exist
-  if (!players.every((player) => data.players.includes(player))) {
-    return res.status(400).json({ error: "Invalid player name" });
-  }
-
-  // Generate all possible team combinations from the 4 players
-  const possibleGames = [];
-
-  // There are 3 ways to split 4 players into 2 teams of 2:
-  // [0,1] vs [2,3]
-  // [0,2] vs [1,3]
-  // [0,3] vs [1,2]
-  const combinations = [
-    [
-      [0, 1],
-      [2, 3],
-    ],
-    [
-      [0, 2],
-      [1, 3],
-    ],
-    [
-      [0, 3],
-      [1, 2],
-    ],
-  ];
-
-  combinations.forEach(([team1Indices, team2Indices]) => {
-    const game = {
-      team1: {
-        player1: players[team1Indices[0]],
-        player2: players[team1Indices[1]],
-      },
-      team2: {
-        player1: players[team2Indices[0]],
-        player2: players[team2Indices[1]],
-      },
-    };
-    possibleGames.push(game);
-  });
-
-  // Filter to only unplayed games
-  const unplayedGames = possibleGames.filter((game) => {
-    return !gameExists(
-      [game.team1.player1, game.team1.player2],
-      [game.team2.player1, game.team2.player2],
-    );
-  });
-
-  res.json(unplayedGames);
-});
-
 // Add a new game
 app.post("/api/games", (req, res) => {
   const { team1, team2, winner, score, password } = req.body;
@@ -344,13 +208,6 @@ app.post("/api/games", (req, res) => {
   // Check if players exist
   if (!allPlayers.every((player) => data.players.includes(player))) {
     return res.status(400).json({ error: "Invalid player name" });
-  }
-
-  // Check if game already exists
-  if (
-    gameExists([team1.player1, team1.player2], [team2.player1, team2.player2])
-  ) {
-    return res.status(400).json({ error: "This game has already been played" });
   }
 
   // Validate score

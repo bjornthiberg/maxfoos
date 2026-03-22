@@ -27,11 +27,6 @@ export interface Game {
   timestamp: string;
 }
 
-export interface UnplayedGame {
-  team1: Team;
-  team2: Team;
-}
-
 export interface NewGameData {
   team1: Team;
   team2: Team;
@@ -62,13 +57,6 @@ export const api = {
   async getStats(): Promise<Player[]> {
     const response = await fetch(`${API_BASE_URL}/stats`);
     if (!response.ok) throw new Error("Failed to fetch stats");
-    return response.json();
-  },
-
-  // Get unplayed games
-  async getUnplayedGames(): Promise<UnplayedGame[]> {
-    const response = await fetch(`${API_BASE_URL}/games/unplayed`);
-    if (!response.ok) throw new Error("Failed to fetch unplayed games");
     return response.json();
   },
 
@@ -127,23 +115,4 @@ export const api = {
     }
   },
 
-  // Get unplayed games for a specific quartet of players
-  async getUnplayedGamesForQuartet(players: string[]): Promise<UnplayedGame[]> {
-    const response = await fetch(`${API_BASE_URL}/games/unplayed/quartet`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ players }),
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(
-        error.error || "Failed to fetch unplayed games for quartet",
-      );
-    }
-
-    return response.json();
-  },
 };

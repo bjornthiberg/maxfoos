@@ -96,7 +96,7 @@ export default function AddGameForm({
 
   return (
     <div className="add-game-form">
-      <h2>➕ Lägg till nytt matchresultat</h2>
+      <h2>Lägg till nytt matchresultat</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-section">
           <h3>Lag Blå</h3>

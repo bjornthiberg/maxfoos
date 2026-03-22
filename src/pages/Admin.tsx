@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { RefreshCw, LogOut, Loader2, Lock } from "lucide-react";
 import { api } from "../services/api";
-import type { Game, NewGameData, UnplayedGame } from "../services/api";
+import type { Game, NewGameData } from "../services/api";
 import AddGameForm from "../components/AddGameForm";
 import GameList from "../components/GameList";
 
@@ -13,7 +13,6 @@ export default function Admin() {
 
   const [players, setPlayers] = useState<string[]>([]);
   const [games, setGames] = useState<Game[]>([]);
-  const [unplayedGames, setUnplayedGames] = useState<UnplayedGame[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -43,20 +42,17 @@ export default function Admin() {
       setLoading(true);
       setError("");
 
-      const [playersData, gamesData, unplayedData] = await Promise.all([
+      const [playersData, gamesData] = await Promise.all([
         api.getPlayers(),
         api.getGames(),
-        api.getUnplayedGames(),
       ]);
 
       setPlayers(playersData);
-      // Sort games by timestamp (most recent first)
       const sortedGames = [...gamesData].sort(
         (a, b) =>
           new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
       );
       setGames(sortedGames);
-      setUnplayedGames(unplayedData);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Kunde inte ladda data");
     } finally {
@@ -87,7 +83,6 @@ export default function Admin() {
     setPassword("");
     setPlayers([]);
     setGames([]);
-    setUnplayedGames([]);
   };
 
   useEffect(() => {
@@ -202,10 +197,6 @@ export default function Admin() {
               onDelete={handleDeleteGame}
               showDelete={true}
             />
-          </div>
-
-          <div className="admin-section">
-            <GameList unplayedGames={unplayedGames} title="Ospelade matcher" />
           </div>
 
           <button
