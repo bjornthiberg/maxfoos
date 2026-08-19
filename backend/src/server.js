@@ -57,29 +57,109 @@ function deterministicShuffle(array) {
   return shuffled;
 }
 
+// "Gäst" is a hidden guest player: selectable when entering results, but
+// excluded from stats/tables and always rated at the default ELO.
+const GUEST = "GÄST";
+
+const ROSTER_S1 = [
+  "Björn",
+  "Daniel",
+  "Frallan",
+  "Herman",
+  "Leif",
+  "Ludvig",
+  "Matilda",
+  "Moritz",
+  "Rickard",
+  "Sabina",
+];
+
+const ROSTER_S2 = [
+  "Björn",
+  "Daniel",
+  "Frallan",
+  "Herman",
+  "Leif",
+  "Ludvig",
+  "Matilda",
+  "Moritz",
+  "Sabina",
+  "Oskar",
+  "Torun",
+];
+
 // Initialize data structure
 const initData = {
-  players: [
-    "Björn",
-    "Daniel",
-    "Frallan",
-    "Herman",
-    "Leif",
-    "Ludvig",
-    "Matilda",
-    "Moritz",
-    "Rickard",
-    "Sabina",
+  seasons: [
+    {
+      id: "s1",
+      name: "Säsong 1",
+      players: ROSTER_S1,
+      guests: [],
+      games: [],
+    },
+    {
+      id: "s2",
+      name: "Säsong 2",
+      players: ROSTER_S2,
+      guests: [GUEST],
+      games: [],
+    },
   ],
-  games: [],
+  activeSeasonId: "s2",
   adminPassword: process.env.ADMIN_PASSWORD || "maxfoos1337",
 };
+
+// Convert the old flat format (single season) into the season-based format.
+// The old players/games become "Säsong 1", and a fresh "Säsong 2" is started.
+function migrateData(raw) {
+  if (raw && Array.isArray(raw.seasons)) {
+    const migrated = { ...raw };
+    migrated.seasons = raw.seasons.map((season) => ({
+      id: season.id,
+      name: season.name,
+      players: season.players || [],
+      guests: season.guests || [],
+      games: season.games || [],
+    }));
+    if (
+      !migrated.activeSeasonId ||
+      !migrated.seasons.some((s) => s.id === migrated.activeSeasonId)
+    ) {
+      migrated.activeSeasonId = migrated.seasons[0]?.id;
+    }
+    migrated.adminPassword = raw.adminPassword || initData.adminPassword;
+    return migrated;
+  }
+  return {
+    seasons: [
+      {
+        id: "s1",
+        name: "Säsong 1",
+        players: raw?.players || ROSTER_S1,
+        guests: [],
+        games: raw?.games || [],
+      },
+      {
+        id: "s2",
+        name: "Säsong 2",
+        players: ROSTER_S2,
+        guests: [GUEST],
+        games: [],
+      },
+    ],
+    activeSeasonId: "s2",
+    adminPassword: raw?.adminPassword || initData.adminPassword,
+  };
+}
 
 // Load or create data file
 function loadData() {
   try {
     if (fs.existsSync(dataFilePath)) {
-      const data = JSON.parse(fs.readFileSync(dataFilePath, "utf8"));
+      const raw = JSON.parse(fs.readFileSync(dataFilePath, "utf8"));
+      const data = migrateData(raw);
+      saveData(data);
       return data;
     }
   } catch (error) {
@@ -99,24 +179,66 @@ function saveData(data) {
 
 let data = loadData();
 
+function getSeason(id) {
+  return data.seasons.find((s) => s.id === id) || getActiveSeason();
+}
+
+function getActiveSeason() {
+  return (
+    data.seasons.find((s) => s.id === data.activeSeasonId) || data.seasons[0]
+  );
+}
+
+function isPlayable(season, player) {
+  return season.players.includes(player) || season.guests.includes(player);
+}
+
 // Routes
 
-// Get all players
+// Get all seasons
+app.get("/api/seasons", (req, res) => {
+  res.json({
+    activeSeasonId: data.activeSeasonId,
+    seasons: data.seasons.map((s) => ({
+      id: s.id,
+      name: s.name,
+      gameCount: s.games.length,
+      players: s.players,
+      guests: s.guests,
+    })),
+  });
+});
+
+// Get players for a season (default: active)
 app.get("/api/players", (req, res) => {
-  res.json(data.players);
+  const season = getSeason(req.query.season);
+  res.json({ players: season.players, guests: season.guests });
 });
 
-// Get all games
+// Get games for a season (default: active)
 app.get("/api/games", (req, res) => {
-  res.json(data.games);
+  const season = getSeason(req.query.season);
+  res.json(season.games);
 });
 
-// Get player stats
+// Get player stats for a season (default: active).
+// Only non-guest players who have played at least one game are included.
 app.get("/api/stats", (req, res) => {
+  const season = getSeason(req.query.season);
   const stats = {};
 
-  // Initialize stats for all players
-  data.players.forEach((player) => {
+  // Initialize stats for all roster players, guests and anyone appearing in games
+  const names = new Set([...season.players, ...season.guests]);
+  season.games.forEach((game) => {
+    [
+      game.team1.player1,
+      game.team1.player2,
+      game.team2.player1,
+      game.team2.player2,
+    ].forEach((player) => names.add(player));
+  });
+
+  names.forEach((player) => {
     stats[player] = {
       name: player,
       points: 0,
@@ -128,7 +250,7 @@ app.get("/api/stats", (req, res) => {
   });
 
   // Calculate stats from games
-  data.games.forEach((game) => {
+  season.games.forEach((game) => {
     const team1Players = [game.team1.player1, game.team1.player2];
     const team2Players = [game.team2.player1, game.team2.player2];
 
@@ -166,12 +288,17 @@ app.get("/api/stats", (req, res) => {
   });
 
   // Sort by points, then goal difference, then games played (descending)
-  const sortedStats = Object.values(stats).sort((a, b) => {
-    if (b.points !== a.points) return b.points - a.points;
-    if (b.goalDifference !== a.goalDifference)
-      return b.goalDifference - a.goalDifference;
-    return b.gamesPlayed - a.gamesPlayed;
-  });
+  const sortedStats = Object.values(stats)
+    .filter(
+      (player) =>
+        player.gamesPlayed > 0 && season.players.includes(player.name),
+    )
+    .sort((a, b) => {
+      if (b.points !== a.points) return b.points - a.points;
+      if (b.goalDifference !== a.goalDifference)
+        return b.goalDifference - a.goalDifference;
+      return b.gamesPlayed - a.gamesPlayed;
+    });
 
   res.json(sortedStats);
 });
@@ -205,8 +332,9 @@ app.post("/api/games", (req, res) => {
     return res.status(400).json({ error: "All 4 players must be unique" });
   }
 
-  // Check if players exist
-  if (!allPlayers.every((player) => data.players.includes(player))) {
+  // Check if players exist in the active season's roster (including guests)
+  const season = getActiveSeason();
+  if (!allPlayers.every((player) => isPlayable(season, player))) {
     return res.status(400).json({ error: "Invalid player name" });
   }
 
@@ -242,7 +370,7 @@ app.post("/api/games", (req, res) => {
     timestamp: new Date().toISOString(),
   };
 
-  data.games.push(newGame);
+  season.games.push(newGame);
   saveData(data);
 
   res.status(201).json(newGame);
@@ -258,13 +386,20 @@ app.delete("/api/games/:id", (req, res) => {
     return res.status(401).json({ error: "Invalid password" });
   }
 
-  const gameIndex = data.games.findIndex((game) => game.id === id);
+  let found = false;
+  for (const season of data.seasons) {
+    const gameIndex = season.games.findIndex((game) => game.id === id);
+    if (gameIndex !== -1) {
+      season.games.splice(gameIndex, 1);
+      found = true;
+      break;
+    }
+  }
 
-  if (gameIndex === -1) {
+  if (!found) {
     return res.status(404).json({ error: "Game not found" });
   }
 
-  data.games.splice(gameIndex, 1);
   saveData(data);
 
   res.json({ message: "Game deleted successfully" });

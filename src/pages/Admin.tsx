@@ -12,6 +12,7 @@ export default function Admin() {
   const [loginError, setLoginError] = useState("");
 
   const [players, setPlayers] = useState<string[]>([]);
+  const [guests, setGuests] = useState<string[]>([]);
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -47,7 +48,8 @@ export default function Admin() {
         api.getGames(),
       ]);
 
-      setPlayers(playersData);
+      setPlayers(playersData.players);
+      setGuests(playersData.guests);
       const sortedGames = [...gamesData].sort(
         (a, b) =>
           new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
@@ -82,6 +84,7 @@ export default function Admin() {
     setIsAuthenticated(false);
     setPassword("");
     setPlayers([]);
+    setGuests([]);
     setGames([]);
   };
 
@@ -184,7 +187,7 @@ export default function Admin() {
       {!loading && !error && (
         <div className="admin-content">
           <AddGameForm
-            players={players}
+            players={[...players, ...guests]}
             onSubmit={handleAddGame}
             password={password}
           />

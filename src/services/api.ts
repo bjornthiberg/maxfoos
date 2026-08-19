@@ -38,24 +38,52 @@ export interface NewGameData {
   password: string;
 }
 
+export interface Season {
+  id: string;
+  name: string;
+  gameCount: number;
+  players: string[];
+  guests: string[];
+}
+
+export interface SeasonSummary {
+  activeSeasonId: string;
+  seasons: Season[];
+}
+
+export interface PlayerRoster {
+  players: string[];
+  guests: string[];
+}
+
+const seasonQuery = (seasonId?: string) =>
+  seasonId ? `?season=${encodeURIComponent(seasonId)}` : "";
+
 export const api = {
-  // Get all players
-  async getPlayers(): Promise<string[]> {
-    const response = await fetch(`${API_BASE_URL}/players`);
+  // Get all seasons
+  async getSeasons(): Promise<SeasonSummary> {
+    const response = await fetch(`${API_BASE_URL}/seasons`);
+    if (!response.ok) throw new Error("Failed to fetch seasons");
+    return response.json();
+  },
+
+  // Get players for a season (default: active season)
+  async getPlayers(seasonId?: string): Promise<PlayerRoster> {
+    const response = await fetch(`${API_BASE_URL}/players${seasonQuery(seasonId)}`);
     if (!response.ok) throw new Error("Failed to fetch players");
     return response.json();
   },
 
-  // Get all games
-  async getGames(): Promise<Game[]> {
-    const response = await fetch(`${API_BASE_URL}/games`);
+  // Get games for a season (default: active season)
+  async getGames(seasonId?: string): Promise<Game[]> {
+    const response = await fetch(`${API_BASE_URL}/games${seasonQuery(seasonId)}`);
     if (!response.ok) throw new Error("Failed to fetch games");
     return response.json();
   },
 
-  // Get player stats
-  async getStats(): Promise<Player[]> {
-    const response = await fetch(`${API_BASE_URL}/stats`);
+  // Get player stats for a season (default: active season)
+  async getStats(seasonId?: string): Promise<Player[]> {
+    const response = await fetch(`${API_BASE_URL}/stats${seasonQuery(seasonId)}`);
     if (!response.ok) throw new Error("Failed to fetch stats");
     return response.json();
   },

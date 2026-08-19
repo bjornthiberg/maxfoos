@@ -8,7 +8,7 @@ interface EloPlayer {
   gamesPlayed: number;
 }
 
-function calculateElo(games: Game[]): EloPlayer[] {
+function calculateElo(games: Game[], excluded: Set<string>): EloPlayer[] {
   const K = 32;
   const elos: Record<string, number> = {};
   const gamesPlayed: Record<string, number> = {};
@@ -35,8 +35,11 @@ function calculateElo(games: Game[]): EloPlayer[] {
     const t1 = [game.team1.player1, game.team1.player2];
     const t2 = [game.team2.player1, game.team2.player2];
 
-    const avg1 = (elos[t1[0]] + elos[t1[1]]) / 2;
-    const avg2 = (elos[t2[0]] + elos[t2[1]]) / 2;
+    // Excluded players (guests) always contribute the default rating
+    const rating = (p: string) => (excluded.has(p) ? 1000 : elos[p]);
+
+    const avg1 = (rating(t1[0]) + rating(t1[1])) / 2;
+    const avg2 = (rating(t2[0]) + rating(t2[1])) / 2;
 
     const exp1 = 1 / (1 + Math.pow(10, (avg2 - avg1) / 400));
     const exp2 = 1 - exp1;
@@ -45,16 +48,19 @@ function calculateElo(games: Game[]): EloPlayer[] {
     const s2 = 1 - s1;
 
     t1.forEach((p) => {
+      if (excluded.has(p)) return;
       elos[p] += K * (s1 - exp1);
       gamesPlayed[p]++;
     });
     t2.forEach((p) => {
+      if (excluded.has(p)) return;
       elos[p] += K * (s2 - exp2);
       gamesPlayed[p]++;
     });
   });
 
   return Array.from(players)
+    .filter((name) => !excluded.has(name))
     .map((name) => ({
       name,
       elo: Math.round(elos[name]),
@@ -95,11 +101,14 @@ const getRankIcon = (index: number) => {
 export default function EloTable({
   games,
   players: playerStats,
+  excludedPlayers = [],
 }: {
   games: Game[];
   players: Player[];
+  excludedPlayers?: string[];
 }) {
-  const players = calculateElo(games).map((p) => ({
+  const excluded = new Set(excludedPlayers);
+  const players = calculateElo(games, excluded).map((p) => ({
     ...p,
     goalDifference:
       playerStats.find((s) => s.name === p.name)?.goalDifference ?? 0,

@@ -1,14 +1,42 @@
 {
-  "players": [
-    "Björn",
-    "Daniel",
-    "Frallan",
-    "Herman",
-    "Ludvig",
-    "Matilda",
-    "Moritz",
-    "Sabina"
+  "seasons": [
+    {
+      "id": "s1",
+      "name": "Säsong 1",
+      "players": [
+        "Björn",
+        "Daniel",
+        "Frallan",
+        "Herman",
+        "Ludvig",
+        "Matilda",
+        "Moritz",
+        "Sabina"
+      ],
+      "guests": [],
+      "games": []
+    },
+    {
+      "id": "s2",
+      "name": "Säsong 2",
+      "players": [
+        "Björn",
+        "Daniel",
+        "Frallan",
+        "Herman",
+        "Ludvig",
+        "Matilda",
+        "Moritz",
+        "Sabina",
+        "Oskar",
+        "Torun"
+      ],
+      "guests": [
+        "GÄST"
+      ],
+      "games": []
+    }
   ],
-  "games": [],
+  "activeSeasonId": "s2",
   "adminPassword": "lalaland"
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { RefreshCw, Loader2 } from "lucide-react";
+import { RefreshCw, Loader2, Archive } from "lucide-react";
 import { api } from "../services/api";
-import type { Player, Game } from "../services/api";
+import type { Player, Game, Season } from "../services/api";
 import PlayerTable from "../components/PlayerTable";
 import EloTable from "../components/EloTable";
 import GameList from "../components/GameList";
@@ -11,24 +11,38 @@ import HeadToHead from "../components/HeadToHead";
 export default function Home() {
   const [players, setPlayers] = useState<Player[]>([]);
   const [allPlayerNames, setAllPlayerNames] = useState<string[]>([]);
+  const [guestNames, setGuestNames] = useState<string[]>([]);
   const [recentGames, setRecentGames] = useState<Game[]>([]);
+  const [seasons, setSeasons] = useState<Season[]>([]);
+  const [activeSeasonId, setActiveSeasonId] = useState("");
+  const [selectedSeasonId, setSelectedSeasonId] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [standingsTab, setStandingsTab] = useState<"tabell" | "elo">("tabell");
 
-  const loadData = async () => {
+  const loadData = async (seasonId?: string) => {
     try {
       setLoading(true);
       setError("");
 
+      let target = seasonId;
+      if (!target) {
+        const seasonsData = await api.getSeasons();
+        setSeasons(seasonsData.seasons);
+        setActiveSeasonId(seasonsData.activeSeasonId);
+        target = seasonsData.activeSeasonId;
+        setSelectedSeasonId(target);
+      }
+
       const [statsData, gamesData, playersData] = await Promise.all([
-        api.getStats(),
-        api.getGames(),
-        api.getPlayers(),
+        api.getStats(target),
+        api.getGames(target),
+        api.getPlayers(target),
       ]);
 
       setPlayers(statsData);
-      setAllPlayerNames(playersData);
+      setAllPlayerNames(playersData.players);
+      setGuestNames(playersData.guests);
       const sortedGames = [...gamesData].sort(
         (a, b) =>
           new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
@@ -41,9 +55,16 @@ export default function Home() {
     }
   };
 
+  const handleSeasonChange = (seasonId: string) => {
+    setSelectedSeasonId(seasonId);
+    loadData(seasonId);
+  };
+
   useEffect(() => {
     loadData();
   }, []);
+
+  const isArchive = selectedSeasonId !== activeSeasonId && !!activeSeasonId;
 
   if (loading) {
     return (
@@ -67,7 +88,7 @@ export default function Home() {
       <div className="container">
         <div className="error-message">{error}</div>
         <button
-          onClick={loadData}
+          onClick={() => loadData()}
           className="refresh-btn"
           style={{
             display: "flex",
@@ -90,6 +111,26 @@ export default function Home() {
         <h1 className="flux">Foos</h1>
       </div>
 
+      <div className="season-selector">
+        <select
+          value={selectedSeasonId}
+          onChange={(e) => handleSeasonChange(e.target.value)}
+          className="player-select"
+        >
+          {seasons.map((s) => (
+            <option key={s.id} value={s.id}>
+              {s.name}
+            </option>
+          ))}
+        </select>
+        {isArchive && (
+          <span className="archive-badge">
+            <Archive size={12} />
+            Arkiv
+          </span>
+        )}
+      </div>
+
       <div className="home-layout">
         <div className="standings-section">
           <div className="tabs">
@@ -110,7 +151,11 @@ export default function Home() {
             <PlayerTable players={players} recentGames={recentGames} />
           ) : (
             <div className="standings-content">
-              <EloTable games={recentGames} players={players} />
+              <EloTable
+                games={recentGames}
+                players={players}
+                excludedPlayers={guestNames}
+              />
             </div>
           )}
         </div>
