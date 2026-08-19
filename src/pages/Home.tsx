@@ -18,7 +18,7 @@ export default function Home() {
   const [selectedSeasonId, setSelectedSeasonId] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [standingsTab, setStandingsTab] = useState<"tabell" | "elo">("tabell");
+  const [standingsTab, setStandingsTab] = useState<"tabell" | "elo">("elo");
 
   const loadData = async (seasonId?: string) => {
     try {
@@ -135,16 +135,16 @@ export default function Home() {
         <div className="standings-section">
           <div className="tabs">
             <button
-              className={`tab-btn ${standingsTab === "tabell" ? "active" : ""}`}
-              onClick={() => setStandingsTab("tabell")}
-            >
-              Tabell
-            </button>
-            <button
               className={`tab-btn ${standingsTab === "elo" ? "active" : ""}`}
               onClick={() => setStandingsTab("elo")}
             >
               ELO
+            </button>
+            <button
+              className={`tab-btn ${standingsTab === "tabell" ? "active" : ""}`}
+              onClick={() => setStandingsTab("tabell")}
+            >
+              Tabell
             </button>
           </div>
           {standingsTab === "tabell" ? (
