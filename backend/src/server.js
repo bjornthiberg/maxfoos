@@ -20,8 +20,6 @@ app.use(
       "http://maxfoos.se",
       "https://www.maxfoos.se",
       "http://www.maxfoos.se",
-      "https://www.thiberg.dev",
-      "http://www.thiberg.dev",
     ],
   }),
 );
@@ -88,7 +86,6 @@ const ROSTER_S2 = [
   "Sabina",
   "Oskar",
   "Torun",
-  "Gustav",
 ];
 
 // Initialize data structure
