@@ -61,103 +61,116 @@ export default function HeadToHead({ allPlayers, games }: HeadToHeadProps) {
   const total = stats ? stats.winsA + stats.winsB : 0;
 
   return (
-    <div className="h2h-container">
-      <h2>Head-to-head</h2>
-      <p className="quartet-description">
-        Välj två spelare för att se inbördes möten
-      </p>
+    <section className="cabinet glow-green">
+      <div className="crt">
+        <div className="screen-head">
+          <h2 className="screen-title">Head-to-head</h2>
+        </div>
 
-      <div className="h2h-selectors">
-        <select
-          value={playerA}
-          onChange={(e) => setPlayerA(e.target.value)}
-          className="player-select h2h-select"
-        >
-          <option value="">Välj spelare...</option>
-          {availableForA.map((p) => (
-            <option key={p} value={p}>
-              {p}
-            </option>
-          ))}
-        </select>
+        {!stats && (
+          <p className="screen-prompt">
+            Välj två spelare för att se inbördes möten.
+          </p>
+        )}
 
-        <span className="h2h-vs">vs</span>
+        {stats && total === 0 && (
+          <p className="screen-prompt">
+            Inga matcher spelade mot varandra ännu.
+          </p>
+        )}
 
-        <select
-          value={playerB}
-          onChange={(e) => setPlayerB(e.target.value)}
-          className="player-select h2h-select"
-        >
-          <option value="">Välj spelare...</option>
-          {availableForB.map((p) => (
-            <option key={p} value={p}>
-              {p}
-            </option>
-          ))}
-        </select>
+        {stats && total > 0 && (
+          <div className="versus-board">
+            <div className="versus-score">
+              <div
+                className={`versus-side ${stats.winsA > stats.winsB ? "is-leader" : ""}`}
+              >
+                <span className="versus-name">{playerA}</span>
+                <span className="versus-wins">{stats.winsA}</span>
+              </div>
+              <div className="versus-total">{total} matcher</div>
+              <div
+                className={`versus-side versus-side-b ${stats.winsB > stats.winsA ? "is-leader" : ""}`}
+              >
+                <span className="versus-name">{playerB}</span>
+                <span className="versus-wins">{stats.winsB}</span>
+              </div>
+            </div>
+
+            <div className="versus-bar" aria-hidden="true">
+              <span
+                className={stats.winsA > stats.winsB ? "is-leader" : ""}
+                style={{ flexGrow: stats.winsA }}
+              />
+              <span
+                className={stats.winsB > stats.winsA ? "is-leader" : ""}
+                style={{ flexGrow: stats.winsB }}
+              />
+            </div>
+
+            <div className="versus-games">
+              {stats.games.map(({ game, aWon }) => {
+                const aOnTeam1 = [
+                  game.team1.player1,
+                  game.team1.player2,
+                ].includes(playerA);
+                const scoreA = aOnTeam1 ? game.score.team1 : game.score.team2;
+                const scoreB = aOnTeam1 ? game.score.team2 : game.score.team1;
+                return (
+                  <div
+                    key={game.id}
+                    className="versus-game"
+                    title={`${aWon ? playerA : playerB} vann`}
+                  >
+                    <span>{aWon && <span className="versus-mark" />}</span>
+                    <span className="versus-game-score">
+                      {scoreA} – {scoreB}
+                    </span>
+                    <span className="versus-game-date">
+                      {formatDate(game.timestamp)}
+                    </span>
+                    <span>{!aWon && <span className="versus-mark" />}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
 
-      {stats && total === 0 && (
-        <div className="h2h-empty">Inga matcher spelade mot varandra ännu.</div>
-      )}
+      <div className="cabinet-deck cabinet-deck-stack">
+        <div className="versus-pick">
+          <select
+            value={playerA}
+            onChange={(e) => setPlayerA(e.target.value)}
+            className="select h2h-select"
+            aria-label="Spelare 1"
+          >
+            <option value="">Välj spelare...</option>
+            {availableForA.map((p) => (
+              <option key={p} value={p}>
+                {p}
+              </option>
+            ))}
+          </select>
 
-      {stats && total > 0 && (
-        <div className="h2h-results">
-          <div className="h2h-scoreboard">
-            <div
-              className={`h2h-player-stat ${stats.winsA > stats.winsB ? "h2h-leader" : ""}`}
-            >
-              <div className="h2h-player-name">{playerA}</div>
-              <div className="h2h-wins">{stats.winsA}</div>
-            </div>
+          <span className="vs">VS</span>
 
-            <div className="h2h-divider">
-              <div className="h2h-total">{total} matcher</div>
-            </div>
-
-            <div
-              className={`h2h-player-stat h2h-player-stat-right ${stats.winsB > stats.winsA ? "h2h-leader" : ""}`}
-            >
-              <div className="h2h-player-name">{playerB}</div>
-              <div className="h2h-wins">{stats.winsB}</div>
-            </div>
-          </div>
-
-          <div className="h2h-game-list">
-            {stats.games.map(({ game, aWon }) => {
-              const aOnTeam1 = [
-                game.team1.player1,
-                game.team1.player2,
-              ].includes(playerA);
-              const scoreA = aOnTeam1 ? game.score.team1 : game.score.team2;
-              const scoreB = aOnTeam1 ? game.score.team2 : game.score.team1;
-              return (
-                <div
-                  key={game.id}
-                  className={`h2h-game-row ${aWon ? "h2h-a-won" : "h2h-b-won"}`}
-                >
-                  <span
-                    className={`h2h-game-name ${aWon ? "h2h-game-winner" : ""}`}
-                  >
-                    {playerA}
-                  </span>
-                  <span className="h2h-game-score">
-                    {scoreA} – {scoreB}
-                  </span>
-                  <span
-                    className={`h2h-game-name h2h-game-name-right ${!aWon ? "h2h-game-winner" : ""}`}
-                  >
-                    {playerB}
-                  </span>
-                  <span className="h2h-game-date">
-                    {formatDate(game.timestamp)}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
+          <select
+            value={playerB}
+            onChange={(e) => setPlayerB(e.target.value)}
+            className="select h2h-select"
+            aria-label="Spelare 2"
+          >
+            <option value="">Välj spelare...</option>
+            {availableForB.map((p) => (
+              <option key={p} value={p}>
+                {p}
+              </option>
+            ))}
+          </select>
         </div>
-      )}
-    </div>
+      </div>
+    </section>
   );
 }

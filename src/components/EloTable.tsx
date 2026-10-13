@@ -1,4 +1,4 @@
-import { Trophy, Medal, Award } from "lucide-react";
+import { Rank, FormPips } from "./Standing";
 import type { Game, Player } from "../services/api";
 
 interface EloPlayer {
@@ -91,13 +91,6 @@ function getForm(playerName: string, games: Game[]): ("W" | "L")[] {
     });
 }
 
-const getRankIcon = (index: number) => {
-  if (index === 0) return <Trophy size={18} color="#f59e0b" />;
-  if (index === 1) return <Medal size={18} color="#94a3b8" />;
-  if (index === 2) return <Award size={18} color="#c2410c" />;
-  return null;
-};
-
 export default function EloTable({
   games,
   players: playerStats,
@@ -114,63 +107,43 @@ export default function EloTable({
       playerStats.find((s) => s.name === p.name)?.goalDifference ?? 0,
   }));
 
+  if (players.length === 0) {
+    return <p className="screen-prompt">Inga matcher spelade än.</p>;
+  }
+
   return (
-    <table className="player-table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Spelare</th>
-          <th>ELO</th>
-          <th>+/-</th>
-          <th>M</th>
-          <th>Form</th>
-        </tr>
-      </thead>
-      <tbody>
-        {players.map((player, index) => {
-          const form = getForm(player.name, games);
-          return (
+    <div className="table-scroll">
+      <table className="score-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Spelare</th>
+            <th>ELO</th>
+            <th>+/-</th>
+            <th>M</th>
+            <th>Form</th>
+          </tr>
+        </thead>
+        <tbody>
+          {players.map((player, index) => (
             <tr key={player.name}>
               <td>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.5rem",
-                  }}
-                >
-                  {getRankIcon(index)}
-                  <span style={{ fontWeight: index < 3 ? "700" : "500" }}>
-                    {index + 1}
-                  </span>
-                </div>
+                <Rank position={index + 1} />
               </td>
-              <td>
-                <strong>{player.name}</strong>
-              </td>
-              <td style={{ fontWeight: "700" }}>{player.elo}</td>
-              <td
-                className={player.goalDifference >= 0 ? "positive" : "negative"}
-              >
+              <td className="score-name">{player.name}</td>
+              <td className="score-main">{player.elo}</td>
+              <td className={player.goalDifference >= 0 ? "" : "score-neg"}>
                 {player.goalDifference >= 0 ? "+" : ""}
                 {player.goalDifference}
               </td>
               <td>{player.gamesPlayed}</td>
               <td>
-                <div className="form-dots">
-                  {form.map((result, i) => (
-                    <span
-                      key={i}
-                      className={`form-dot form-dot-${result === "W" ? "w" : "l"}`}
-                      title={result === "W" ? "Vinst" : "Förlust"}
-                    />
-                  ))}
-                </div>
+                <FormPips form={getForm(player.name, games)} />
               </td>
             </tr>
-          );
-        })}
-      </tbody>
-    </table>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }

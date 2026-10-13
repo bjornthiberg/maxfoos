@@ -40,165 +40,127 @@ export default function QuartetGameFinder({
   allPlayers,
   games,
 }: QuartetGameFinderProps) {
-  const [selectedPlayers, setSelectedPlayers] = useState<string[]>([
-    "",
-    "",
-    "",
-    "",
-  ]);
+  const [selectedPlayers, setSelectedPlayers] = useState<string[]>([]);
   const [combos, setCombos] = useState<Combo[]>([]);
   const [suggestedIndex, setSuggestedIndex] = useState<number | null>(null);
-  const [error, setError] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
 
-  const handlePlayerChange = (index: number, value: string) => {
-    const newPlayers = [...selectedPlayers];
-    newPlayers[index] = value;
-    setSelectedPlayers(newPlayers);
+  const togglePlayer = (name: string) => {
+    setSelectedPlayers((current) =>
+      current.includes(name)
+        ? current.filter((p) => p !== name)
+        : [...current, name],
+    );
     setHasSearched(false);
-    setError("");
   };
 
   const handleSearch = () => {
-    if (selectedPlayers.some((p) => !p)) {
-      setError("Välj alla 4 spelare");
-      return;
-    }
-    if (new Set(selectedPlayers).size !== 4) {
-      setError("Alla 4 spelare måste vara olika");
-      return;
-    }
     const results = getCombos(selectedPlayers);
     setCombos(results);
     setSuggestedIndex(Math.floor(Math.random() * results.length));
     setHasSearched(true);
-    setError("");
   };
 
   const handleReset = () => {
-    setSelectedPlayers(["", "", "", ""]);
+    setSelectedPlayers([]);
     setCombos([]);
     setSuggestedIndex(null);
     setHasSearched(false);
-    setError("");
   };
 
-  const getAvailablePlayers = (currentIndex: number) => {
-    const selectedOthers = selectedPlayers.filter(
-      (p, i) => i !== currentIndex && p !== "",
-    );
-    return allPlayers.filter((p) => !selectedOthers.includes(p));
-  };
-
-  const isSearchDisabled =
-    selectedPlayers.some((p) => !p) || new Set(selectedPlayers).size !== 4;
+  const isFull = selectedPlayers.length === 4;
 
   return (
-    <div className="quartet-finder-container">
-      <h2>Föreslå match</h2>
-      <p className="quartet-description">
-        Välj 4 spelare för att se möjliga lagkombinationer.
-      </p>
-
-      <div className="quartet-form">
-        <div className="player-selectors">
-          {selectedPlayers.map((player, index) => (
-            <div key={index} className="form-group">
-              <label>Spelare {index + 1}</label>
-              <select
-                value={player}
-                onChange={(e) => handlePlayerChange(index, e.target.value)}
-                className="player-select"
-              >
-                <option value="">Välj spelare...</option>
-                {getAvailablePlayers(index).map((p) => (
-                  <option key={p} value={p}>
-                    {p}
-                  </option>
-                ))}
-                {player && !getAvailablePlayers(index).includes(player) && (
-                  <option value={player}>{player}</option>
-                )}
-              </select>
-            </div>
-          ))}
+    <section className="cabinet glow-yellow">
+      <div className="crt">
+        <div className="screen-head">
+          <h2 className="screen-title">Föreslå match</h2>
         </div>
 
-        <div className="quartet-actions">
+        {!hasSearched && (
+          <p className="screen-prompt">
+            Välj 4 spelare för att se möjliga lagkombinationer.
+            <span className="screen-counter">{selectedPlayers.length}/4</span>
+          </p>
+        )}
+
+        {hasSearched && (
+          <div className="matchup">
+            {suggestedIndex !== null && (
+              <div className="matchup-pick">
+                <span className="matchup-team matchup-team-blue">
+                  {formatTeam(combos[suggestedIndex].team1)}
+                </span>
+                <span className="vs">VS</span>
+                <span className="matchup-team matchup-team-red">
+                  {formatTeam(combos[suggestedIndex].team2)}
+                </span>
+              </div>
+            )}
+            <table className="combo-table">
+              <thead>
+                <tr>
+                  <th>Lag 1</th>
+                  <th>Lag 2</th>
+                  <th>Spelade</th>
+                </tr>
+              </thead>
+              <tbody>
+                {combos.map((combo, index) => (
+                  <tr
+                    key={index}
+                    className={index === suggestedIndex ? "is-suggested" : ""}
+                  >
+                    <td>{formatTeam(combo.team1)}</td>
+                    <td>{formatTeam(combo.team2)}</td>
+                    <td>{countPlayed(combo, games)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+
+      <div className="cabinet-deck cabinet-deck-stack">
+        <div className="roster">
+          {allPlayers.map((name) => {
+            const slot = selectedPlayers.indexOf(name);
+            return (
+              <button
+                key={name}
+                type="button"
+                className="roster-chip"
+                aria-pressed={slot !== -1}
+                disabled={isFull && slot === -1}
+                onClick={() => togglePlayer(name)}
+              >
+                {slot !== -1 && <span className="roster-slot">P{slot + 1}</span>}
+                {name}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="roster-actions">
           <button
             onClick={handleSearch}
-            disabled={isSearchDisabled}
-            className="submit-btn"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              justifyContent: "center",
-            }}
+            disabled={!isFull}
+            className="arcade-btn"
           >
             <Search size={18} />
             Hitta matcher
           </button>
           <button
             onClick={handleReset}
-            className="reset-btn"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              justifyContent: "center",
-            }}
+            disabled={selectedPlayers.length === 0}
+            className="arcade-btn arcade-btn-ghost"
           >
             <RotateCcw size={18} />
             Rensa
           </button>
         </div>
-
-        {error && <div className="error-message">{error}</div>}
       </div>
-
-      {hasSearched && (
-        <div className="quartet-results">
-          {suggestedIndex !== null && (
-            <div className="suggested-game">
-              <div className="suggested-game-label">Förslag</div>
-              <div className="suggested-game-teams">
-                <span>{formatTeam(combos[suggestedIndex].team1)}</span>
-                <span className="vs">vs</span>
-                <span>{formatTeam(combos[suggestedIndex].team2)}</span>
-              </div>
-            </div>
-          )}
-          <table className="game-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Lag 1</th>
-                <th>Lag 2</th>
-                <th>Spelade</th>
-              </tr>
-            </thead>
-            <tbody>
-              {combos.map((combo, index) => {
-                const played = countPlayed(combo, games);
-                return (
-                  <tr
-                    key={index}
-                    className={index === suggestedIndex ? "suggested-row" : ""}
-                  >
-                    <td>{index + 1}</td>
-                    <td>{formatTeam(combo.team1)}</td>
-                    <td>{formatTeam(combo.team2)}</td>
-                    <td style={{ color: "#71717a", fontWeight: 600 }}>
-                      {played}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </div>
+    </section>
   );
 }

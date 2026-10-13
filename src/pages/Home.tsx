@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { RefreshCw, Loader2, Archive } from "lucide-react";
+import { RefreshCw, Archive } from "lucide-react";
 import { api } from "../services/api";
 import type { Player, Game, Season } from "../services/api";
+import Marquee from "../components/Marquee";
 import PlayerTable from "../components/PlayerTable";
 import EloTable from "../components/EloTable";
 import GameList from "../components/GameList";
@@ -22,7 +23,8 @@ export default function Home() {
 
   const loadData = async (seasonId?: string) => {
     try {
-      setLoading(true);
+      // Only the first load blanks the page; a season switch swaps in place
+      if (!seasonId) setLoading(true);
       setError("");
 
       let target = seasonId;
@@ -66,18 +68,14 @@ export default function Home() {
 
   const isArchive = selectedSeasonId !== activeSeasonId && !!activeSeasonId;
 
+  const seasonName = seasons.find((s) => s.id === selectedSeasonId)?.name;
+
   if (loading) {
     return (
       <div className="container">
-        <div className="loading">
-          <Loader2 size={32} style={{ animation: "spin 1s linear infinite" }} />
-          <style>{`
-            @keyframes spin {
-              from { transform: rotate(0deg); }
-              to { transform: rotate(360deg); }
-            }
-          `}</style>
-          <p style={{ marginTop: "1rem" }}>Laddar...</p>
+        <Marquee />
+        <div className="state-screen">
+          <p className="state-loading">Laddar...</p>
         </div>
       </div>
     );
@@ -86,85 +84,78 @@ export default function Home() {
   if (error) {
     return (
       <div className="container">
-        <div className="error-message">{error}</div>
-        <button
-          onClick={() => loadData()}
-          className="refresh-btn"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            justifyContent: "center",
-          }}
-        >
-          <RefreshCw size={18} />
-          Försök igen
-        </button>
+        <Marquee />
+        <div className="state-screen">
+          <div className="message message-error">{error}</div>
+          <button onClick={() => loadData()} className="arcade-btn">
+            <RefreshCw size={18} />
+            Försök igen
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="container">
-      <div className="neon-title">
-        <h1 className="neon">Max</h1>
-        <h1 className="flux">Foos</h1>
-      </div>
+      <Marquee />
 
-      <div className="season-selector">
-        <select
-          value={selectedSeasonId}
-          onChange={(e) => handleSeasonChange(e.target.value)}
-          className="player-select"
-        >
-          {seasons.map((s) => (
-            <option key={s.id} value={s.id}>
-              {s.name}
-            </option>
-          ))}
-        </select>
-        {isArchive && (
-          <span className="archive-badge">
-            <Archive size={12} />
-            Arkiv
-          </span>
-        )}
-      </div>
+      <section className="cabinet glow-pink">
+        <div className="crt crt-boot">
+          <div className="screen-head">
+            <h1 className="screen-title">Topplista</h1>
+            <span className="screen-note">
+              {isArchive && <Archive size={16} />}
+              {seasonName}
+              {isArchive && " (arkiv)"}
+            </span>
+          </div>
+          {standingsTab === "tabell" ? (
+            <PlayerTable players={players} recentGames={recentGames} />
+          ) : (
+            <EloTable
+              games={recentGames}
+              players={players}
+              excludedPlayers={guestNames}
+            />
+          )}
+        </div>
 
-      <div className="home-layout">
-        <div className="standings-section">
-          <div className="tabs">
+        <div className="cabinet-deck">
+          <div className="deck-buttons" role="group" aria-label="Rankning">
             <button
-              className={`tab-btn ${standingsTab === "elo" ? "active" : ""}`}
+              className="deck-btn"
+              aria-pressed={standingsTab === "elo"}
               onClick={() => setStandingsTab("elo")}
             >
               ELO
             </button>
             <button
-              className={`tab-btn ${standingsTab === "tabell" ? "active" : ""}`}
+              className="deck-btn"
+              aria-pressed={standingsTab === "tabell"}
               onClick={() => setStandingsTab("tabell")}
             >
               Tabell
             </button>
           </div>
-          {standingsTab === "tabell" ? (
-            <PlayerTable players={players} recentGames={recentGames} />
-          ) : (
-            <div className="standings-content">
-              <EloTable
-                games={recentGames}
-                players={players}
-                excludedPlayers={guestNames}
-              />
-            </div>
-          )}
+          <label className="deck-season">
+            Säsong
+            <select
+              value={selectedSeasonId}
+              onChange={(e) => handleSeasonChange(e.target.value)}
+              className="select"
+            >
+              {seasons.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.name}
+                </option>
+              ))}
+            </select>
+          </label>
         </div>
+      </section>
 
-        <div className="games-section">
-          <GameList games={recentGames} title="Senast spelade" collapsible />
-        </div>
-      </div>
-
+      <GameList games={recentGames} title="Senast spelade" collapsible />
       <QuartetGameFinder allPlayers={allPlayerNames} games={recentGames} />
       <HeadToHead allPlayers={allPlayerNames} games={recentGames} />
     </div>

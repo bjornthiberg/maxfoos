@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { RefreshCw, LogOut, Loader2, Lock } from "lucide-react";
 import { api } from "../services/api";
 import type { Game, NewGameData } from "../services/api";
+import Marquee from "../components/Marquee";
 import AddGameForm from "../components/AddGameForm";
 import GameList from "../components/GameList";
 
@@ -97,14 +98,16 @@ export default function Admin() {
   if (!isAuthenticated) {
     return (
       <div className="container">
-        <div className="admin-login">
-          <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
-            <Lock size={48} color="#3b82f6" style={{ marginBottom: "1rem" }} />
-            <h1>Adminpanel</h1>
-          </div>
-          <form onSubmit={handleLogin}>
-            <div className="form-group">
-              <label>Lösenord:</label>
+        <Marquee />
+        <form className="cabinet glow-pink admin-login" onSubmit={handleLogin}>
+          <div className="crt">
+            <div className="screen-head">
+              <h1 className="screen-title">
+                <Lock size={22} /> Adminpanel
+              </h1>
+            </div>
+            <label className="field">
+              Lösenord
               <input
                 type="password"
                 value={password}
@@ -112,110 +115,71 @@ export default function Admin() {
                 placeholder="Ange adminlösenord"
                 autoFocus
               />
-            </div>
-            {loginError && <div className="error-message">{loginError}</div>}
+            </label>
+            {loginError && (
+              <div className="message message-error">{loginError}</div>
+            )}
+          </div>
+          <div className="cabinet-deck">
             <button
               type="submit"
               disabled={isVerifying || !password}
-              className="submit-btn"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                justifyContent: "center",
-              }}
+              className="arcade-btn arcade-btn-wide"
             >
               {isVerifying ? (
                 <>
-                  <Loader2
-                    size={18}
-                    style={{ animation: "spin 1s linear infinite" }}
-                  />
-                  <style>{`
-                    @keyframes spin {
-                      from { transform: rotate(0deg); }
-                      to { transform: rotate(360deg); }
-                    }
-                  `}</style>
+                  <Loader2 size={18} className="spin" />
                   Verifierar...
                 </>
               ) : (
-                <>
-                  <Lock size={18} />
-                  Logga in
-                </>
+                "Logga in"
               )}
             </button>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     );
   }
 
   return (
-    <div className="container">
-      <div className="admin-header">
-        <h1>Adminpanel</h1>
-        <button
-          onClick={handleLogout}
-          className="logout-btn"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-          }}
-        >
-          <LogOut size={16} />
-          Logga ut
-        </button>
+    <div className="container admin">
+      <Marquee />
+      <div className="admin-bar">
+        <h1 className="screen-title">Adminpanel</h1>
+        <div className="admin-bar-actions">
+          <button onClick={loadData} className="arcade-btn arcade-btn-ghost">
+            <RefreshCw size={16} />
+            Uppdatera data
+          </button>
+          <button onClick={handleLogout} className="arcade-btn arcade-btn-ghost">
+            <LogOut size={16} />
+            Logga ut
+          </button>
+        </div>
       </div>
 
-      {loading && (
-        <div className="loading">
-          <Loader2 size={32} style={{ animation: "spin 1s linear infinite" }} />
-          <style>{`
-            @keyframes spin {
-              from { transform: rotate(0deg); }
-              to { transform: rotate(360deg); }
-            }
-          `}</style>
-          <p style={{ marginTop: "1rem" }}>Laddar...</p>
+      {loading && players.length === 0 && (
+        <div className="state-screen">
+          <p className="state-loading">Laddar...</p>
         </div>
       )}
-      {error && <div className="error-message">{error}</div>}
+      {error && <div className="message message-error">{error}</div>}
 
-      {!loading && !error && (
-        <div className="admin-content">
+      {/* stays mounted while data refreshes, so the form keeps its confirmation */}
+      {!error && players.length > 0 && (
+        <>
           <AddGameForm
             players={[...players, ...guests]}
             onSubmit={handleAddGame}
             password={password}
           />
-
-          <div className="admin-section">
-            <h2>Alla matcher ({games.length})</h2>
-            <GameList
-              games={games}
-              title="Alla spelade matcher"
-              onDelete={handleDeleteGame}
-              showDelete={true}
-            />
-          </div>
-
-          <button
-            onClick={loadData}
-            className="refresh-btn"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              justifyContent: "center",
-            }}
-          >
-            <RefreshCw size={18} />
-            Uppdatera data
-          </button>
-        </div>
+          <GameList
+            games={games}
+            title={`Alla matcher (${games.length})`}
+            onDelete={handleDeleteGame}
+            showDelete={true}
+          />
+        </>
       )}
     </div>
   );

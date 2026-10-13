@@ -24,16 +24,20 @@ function formatDate(timestamp: string): string {
 
 function TeamPlayers({ team }: { team: { player1: string; player2: string } }) {
   return (
-    <div className="match-team-players">
-      <div className="match-player">
-        <span className="match-player-role">Back</span>
-        <span className="match-player-name">{team.player1}</span>
+    <>
+      <div className="result-player">
+        <span className="result-role" data-short="B">
+          Back
+        </span>
+        <span className="result-name">{team.player1}</span>
       </div>
-      <div className="match-player">
-        <span className="match-player-role">Forward</span>
-        <span className="match-player-name">{team.player2}</span>
+      <div className="result-player">
+        <span className="result-role" data-short="F">
+          Forward
+        </span>
+        <span className="result-name">{team.player2}</span>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -50,56 +54,42 @@ export default function GameList({
   const hasMore = collapsible && games.length > INITIAL_LIMIT;
 
   return (
-    <div className="game-list-container">
-      <h2>{title}</h2>
-      {games.length === 0 ? (
-        <p style={{ color: "#71717a", fontStyle: "italic" }}>
-          Inga matcher spelade än.
-        </p>
-      ) : (
-        <>
-          <div className="match-list">
+    <section className="cabinet glow-cyan">
+      <div className="crt">
+        <div className="screen-head">
+          <h2 className="screen-title">{title}</h2>
+        </div>
+        {games.length === 0 ? (
+          <p className="screen-prompt">Inga matcher spelade än.</p>
+        ) : (
+          <div className="results">
             {visibleGames.map((game) => {
               const team1Won = game.winner === "team1";
               return (
-                <div key={game.id} className="match-card">
+                <div key={game.id} className="result">
                   <div
-                    className={`match-team match-team-blue ${team1Won ? "match-team-winner" : "match-team-loser"}`}
+                    className={`result-team result-team-blue ${team1Won ? "is-winner" : "is-loser"}`}
                   >
                     <TeamPlayers team={game.team1} />
                   </div>
 
-                  <div className="match-score-block">
-                    <div className="match-score">
-                      <span
-                        className={
-                          team1Won ? "match-score-winner" : "match-score-loser"
-                        }
-                      >
+                  <div className="result-mid">
+                    <div className="result-score">
+                      <span className={team1Won ? "is-winner" : "is-loser"}>
                         {game.score.team1}
                       </span>
-                      <span className="match-score-sep">–</span>
-                      <span
-                        className={
-                          !team1Won ? "match-score-winner" : "match-score-loser"
-                        }
-                      >
+                      <span className="result-score-sep">–</span>
+                      <span className={!team1Won ? "is-winner" : "is-loser"}>
                         {game.score.team2}
                       </span>
                     </div>
-                    <div className="match-date">
+                    <div className="result-date">
                       {formatDate(game.timestamp)}
                     </div>
                     {showDelete && (
                       <button
                         onClick={() => onDelete && onDelete(game.id)}
-                        className="delete-btn"
-                        style={{
-                          marginTop: "0.5rem",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "0.4rem",
-                        }}
+                        className="result-delete"
                       >
                         <Trash2 size={13} />
                         Ta bort
@@ -108,7 +98,7 @@ export default function GameList({
                   </div>
 
                   <div
-                    className={`match-team match-team-red ${!team1Won ? "match-team-winner" : "match-team-loser"}`}
+                    className={`result-team result-team-red ${!team1Won ? "is-winner" : "is-loser"}`}
                   >
                     <TeamPlayers team={game.team2} />
                   </div>
@@ -116,16 +106,18 @@ export default function GameList({
               );
             })}
           </div>
-          {hasMore && (
-            <button
-              className="expand-btn"
-              onClick={() => setExpanded((e) => !e)}
-            >
-              {expanded ? "Visa färre" : `Visa alla ${games.length} matcher`}
-            </button>
-          )}
-        </>
+        )}
+      </div>
+      {hasMore && (
+        <div className="cabinet-deck cabinet-deck-center">
+          <button
+            className="arcade-btn arcade-btn-ghost"
+            onClick={() => setExpanded((e) => !e)}
+          >
+            {expanded ? "Visa färre" : `Visa alla ${games.length} matcher`}
+          </button>
+        </div>
       )}
-    </div>
+    </section>
   );
 }

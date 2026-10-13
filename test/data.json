@@ -8,13 +8,900 @@
         "Daniel",
         "Frallan",
         "Herman",
+        "Leif",
         "Ludvig",
         "Matilda",
         "Moritz",
+        "Rickard",
         "Sabina"
       ],
       "guests": [],
-      "games": []
+      "games": [
+        {
+          "id": "1779443860337",
+          "team1": {
+            "player1": "Daniel",
+            "player2": "Frallan"
+          },
+          "team2": {
+            "player1": "Rickard",
+            "player2": "Matilda"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 8
+          },
+          "timestamp": "2026-05-22T09:57:40.337Z"
+        },
+        {
+          "id": "1779703222413",
+          "team1": {
+            "player1": "Herman",
+            "player2": "Daniel"
+          },
+          "team2": {
+            "player1": "Moritz",
+            "player2": "Ludvig"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 7
+          },
+          "timestamp": "2026-05-25T10:00:22.413Z"
+        },
+        {
+          "id": "1779703810839",
+          "team1": {
+            "player1": "Leif",
+            "player2": "Björn"
+          },
+          "team2": {
+            "player1": "Ludvig",
+            "player2": "Sabina"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 8
+          },
+          "timestamp": "2026-05-25T10:10:10.839Z"
+        },
+        {
+          "id": "1779875938721",
+          "team1": {
+            "player1": "Rickard",
+            "player2": "Sabina"
+          },
+          "team2": {
+            "player1": "Ludvig",
+            "player2": "Matilda"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 0,
+            "team2": 10
+          },
+          "timestamp": "2026-05-27T09:58:58.721Z"
+        },
+        {
+          "id": "1779876715583",
+          "team1": {
+            "player1": "Ludvig",
+            "player2": "Rickard"
+          },
+          "team2": {
+            "player1": "Leif",
+            "player2": "Matilda"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 3
+          },
+          "timestamp": "2026-05-27T10:11:55.583Z"
+        },
+        {
+          "id": "1779876996009",
+          "team1": {
+            "player1": "Herman",
+            "player2": "Daniel"
+          },
+          "team2": {
+            "player1": "Björn",
+            "player2": "Sabina"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 5
+          },
+          "timestamp": "2026-05-27T10:16:36.009Z"
+        },
+        {
+          "id": "1779961675164",
+          "team1": {
+            "player1": "Björn",
+            "player2": "Leif"
+          },
+          "team2": {
+            "player1": "Moritz",
+            "player2": "Herman"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 5
+          },
+          "timestamp": "2026-05-28T09:47:55.164Z"
+        },
+        {
+          "id": "1779962450206",
+          "team1": {
+            "player1": "Moritz",
+            "player2": "Daniel"
+          },
+          "team2": {
+            "player1": "Rickard",
+            "player2": "Ludvig"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 5
+          },
+          "timestamp": "2026-05-28T10:00:50.206Z"
+        },
+        {
+          "id": "1780049098398",
+          "team1": {
+            "player1": "Sabina",
+            "player2": "Herman"
+          },
+          "team2": {
+            "player1": "Matilda",
+            "player2": "Moritz"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 9,
+            "team2": 10
+          },
+          "timestamp": "2026-05-29T10:04:58.398Z"
+        },
+        {
+          "id": "1780049795692",
+          "team1": {
+            "player1": "Rickard",
+            "player2": "Moritz"
+          },
+          "team2": {
+            "player1": "Ludvig",
+            "player2": "Frallan"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 9,
+            "team2": 10
+          },
+          "timestamp": "2026-05-29T10:16:35.692Z"
+        },
+        {
+          "id": "1780050492044",
+          "team1": {
+            "player1": "Ludvig",
+            "player2": "Herman"
+          },
+          "team2": {
+            "player1": "Matilda",
+            "player2": "Björn"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 7
+          },
+          "timestamp": "2026-05-29T10:28:12.044Z"
+        },
+        {
+          "id": "1780059914144",
+          "team1": {
+            "player1": "Ludvig",
+            "player2": "Matilda"
+          },
+          "team2": {
+            "player1": "Moritz",
+            "player2": "Sabina"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 6,
+            "team2": 10
+          },
+          "timestamp": "2026-05-29T13:05:14.144Z"
+        },
+        {
+          "id": "1780060606754",
+          "team1": {
+            "player1": "Frallan",
+            "player2": "Moritz"
+          },
+          "team2": {
+            "player1": "Rickard",
+            "player2": "Leif"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 0
+          },
+          "timestamp": "2026-05-29T13:16:46.754Z"
+        },
+        {
+          "id": "1780307482917",
+          "team1": {
+            "player1": "Herman",
+            "player2": "Björn"
+          },
+          "team2": {
+            "player1": "Leif",
+            "player2": "Moritz"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 3,
+            "team2": 10
+          },
+          "timestamp": "2026-06-01T09:51:22.917Z"
+        },
+        {
+          "id": "1780308055156",
+          "team1": {
+            "player1": "Leif",
+            "player2": "Herman"
+          },
+          "team2": {
+            "player1": "Rickard",
+            "player2": "Björn"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 5
+          },
+          "timestamp": "2026-06-01T10:00:55.156Z"
+        },
+        {
+          "id": "1780308719842",
+          "team1": {
+            "player1": "Björn",
+            "player2": "Sabina"
+          },
+          "team2": {
+            "player1": "Herman",
+            "player2": "Matilda"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 7
+          },
+          "timestamp": "2026-06-01T10:11:59.842Z"
+        },
+        {
+          "id": "1780394222100",
+          "team1": {
+            "player1": "Ludvig",
+            "player2": "Moritz"
+          },
+          "team2": {
+            "player1": "Björn",
+            "player2": "Matilda"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 4,
+            "team2": 10
+          },
+          "timestamp": "2026-06-02T09:57:02.100Z"
+        },
+        {
+          "id": "1780480624884",
+          "team1": {
+            "player1": "Sabina",
+            "player2": "Herman"
+          },
+          "team2": {
+            "player1": "Frallan",
+            "player2": "Leif"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 9,
+            "team2": 10
+          },
+          "timestamp": "2026-06-03T09:57:04.884Z"
+        },
+        {
+          "id": "1780481418289",
+          "team1": {
+            "player1": "Leif",
+            "player2": "Moritz"
+          },
+          "team2": {
+            "player1": "Björn",
+            "player2": "Daniel"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 3,
+            "team2": 10
+          },
+          "timestamp": "2026-06-03T10:10:18.289Z"
+        },
+        {
+          "id": "1780481703006",
+          "team1": {
+            "player1": "Ludvig",
+            "player2": "Moritz"
+          },
+          "team2": {
+            "player1": "Sabina",
+            "player2": "Daniel"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 2,
+            "team2": 10
+          },
+          "timestamp": "2026-06-03T10:15:03.006Z"
+        },
+        {
+          "id": "1780566598400",
+          "team1": {
+            "player1": "Björn",
+            "player2": "Matilda"
+          },
+          "team2": {
+            "player1": "Frallan",
+            "player2": "Herman"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 6
+          },
+          "timestamp": "2026-06-04T09:49:58.400Z"
+        },
+        {
+          "id": "1780567276195",
+          "team1": {
+            "player1": "Leif",
+            "player2": "Sabina"
+          },
+          "team2": {
+            "player1": "Herman",
+            "player2": "Daniel"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 6,
+            "team2": 10
+          },
+          "timestamp": "2026-06-04T10:01:16.195Z"
+        },
+        {
+          "id": "1780567635347",
+          "team1": {
+            "player1": "Sabina",
+            "player2": "Moritz"
+          },
+          "team2": {
+            "player1": "Ludvig",
+            "player2": "Frallan"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 4,
+            "team2": 10
+          },
+          "timestamp": "2026-06-04T10:07:15.347Z"
+        },
+        {
+          "id": "1780578349623",
+          "team1": {
+            "player1": "Ludvig",
+            "player2": "Frallan"
+          },
+          "team2": {
+            "player1": "Rickard",
+            "player2": "Moritz"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 4
+          },
+          "timestamp": "2026-06-04T13:05:49.623Z"
+        },
+        {
+          "id": "1780578906053",
+          "team1": {
+            "player1": "Björn",
+            "player2": "Ludvig"
+          },
+          "team2": {
+            "player1": "Leif",
+            "player2": "Matilda"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 8
+          },
+          "timestamp": "2026-06-04T13:15:06.053Z"
+        },
+        {
+          "id": "1780653869216",
+          "team1": {
+            "player1": "Daniel",
+            "player2": "Leif"
+          },
+          "team2": {
+            "player1": "Moritz",
+            "player2": "Matilda"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 2,
+            "team2": 10
+          },
+          "timestamp": "2026-06-05T10:04:29.216Z"
+        },
+        {
+          "id": "1780654490815",
+          "team1": {
+            "player1": "Ludvig",
+            "player2": "Leif"
+          },
+          "team2": {
+            "player1": "Herman",
+            "player2": "Matilda"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 4,
+            "team2": 10
+          },
+          "timestamp": "2026-06-05T10:14:50.815Z"
+        },
+        {
+          "id": "1780913039929",
+          "team1": {
+            "player1": "Leif",
+            "player2": "Ludvig"
+          },
+          "team2": {
+            "player1": "Daniel",
+            "player2": "Rickard"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 7
+          },
+          "timestamp": "2026-06-08T10:03:59.929Z"
+        },
+        {
+          "id": "1780913707939",
+          "team1": {
+            "player1": "Ludvig",
+            "player2": "Björn"
+          },
+          "team2": {
+            "player1": "Rickard",
+            "player2": "Daniel"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 6,
+            "team2": 10
+          },
+          "timestamp": "2026-06-08T10:15:07.939Z"
+        },
+        {
+          "id": "1780914308451",
+          "team1": {
+            "player1": "Frallan",
+            "player2": "Sabina"
+          },
+          "team2": {
+            "player1": "Daniel",
+            "player2": "Rickard"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 5,
+            "team2": 10
+          },
+          "timestamp": "2026-06-08T10:25:08.451Z"
+        },
+        {
+          "id": "1780923942325",
+          "team1": {
+            "player1": "Daniel",
+            "player2": "Herman"
+          },
+          "team2": {
+            "player1": "Ludvig",
+            "player2": "Rickard"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 9,
+            "team2": 10
+          },
+          "timestamp": "2026-06-08T13:05:42.325Z"
+        },
+        {
+          "id": "1780999270200",
+          "team1": {
+            "player1": "Sabina",
+            "player2": "Moritz"
+          },
+          "team2": {
+            "player1": "Herman",
+            "player2": "Rickard"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 8,
+            "team2": 10
+          },
+          "timestamp": "2026-06-09T10:01:10.200Z"
+        },
+        {
+          "id": "1780999986492",
+          "team1": {
+            "player1": "Rickard",
+            "player2": "Leif"
+          },
+          "team2": {
+            "player1": "Moritz",
+            "player2": "Ludvig"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 9,
+            "team2": 10
+          },
+          "timestamp": "2026-06-09T10:13:06.492Z"
+        },
+        {
+          "id": "1781000708263",
+          "team1": {
+            "player1": "Moritz",
+            "player2": "Ludvig"
+          },
+          "team2": {
+            "player1": "Matilda",
+            "player2": "Sabina"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 3
+          },
+          "timestamp": "2026-06-09T10:25:08.263Z"
+        },
+        {
+          "id": "1781085239247",
+          "team1": {
+            "player1": "Björn",
+            "player2": "Frallan"
+          },
+          "team2": {
+            "player1": "Sabina",
+            "player2": "Matilda"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 8
+          },
+          "timestamp": "2026-06-10T09:53:59.247Z"
+        },
+        {
+          "id": "1781171782308",
+          "team1": {
+            "player1": "Moritz",
+            "player2": "Rickard"
+          },
+          "team2": {
+            "player1": "Daniel",
+            "player2": "Frallan"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 8,
+            "team2": 10
+          },
+          "timestamp": "2026-06-11T09:56:22.308Z"
+        },
+        {
+          "id": "1781172597431",
+          "team1": {
+            "player1": "Sabina",
+            "player2": "Matilda"
+          },
+          "team2": {
+            "player1": "Daniel",
+            "player2": "Moritz"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 9,
+            "team2": 10
+          },
+          "timestamp": "2026-06-11T10:09:57.431Z"
+        },
+        {
+          "id": "1781173324276",
+          "team1": {
+            "player1": "Moritz",
+            "player2": "Sabina"
+          },
+          "team2": {
+            "player1": "Herman",
+            "player2": "Ludvig"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 3
+          },
+          "timestamp": "2026-06-11T10:22:04.276Z"
+        },
+        {
+          "id": "1781258444745",
+          "team1": {
+            "player1": "Frallan",
+            "player2": "Leif"
+          },
+          "team2": {
+            "player1": "Sabina",
+            "player2": "Rickard"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 9
+          },
+          "timestamp": "2026-06-12T10:00:44.745Z"
+        },
+        {
+          "id": "1781259111310",
+          "team1": {
+            "player1": "Rickard",
+            "player2": "Moritz"
+          },
+          "team2": {
+            "player1": "Frallan",
+            "player2": "Ludvig"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 4
+          },
+          "timestamp": "2026-06-12T10:11:51.310Z"
+        },
+        {
+          "id": "1781260005479",
+          "team1": {
+            "player1": "Leif",
+            "player2": "Ludvig"
+          },
+          "team2": {
+            "player1": "Moritz",
+            "player2": "Herman"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 8,
+            "team2": 10
+          },
+          "timestamp": "2026-06-12T10:26:45.479Z"
+        },
+        {
+          "id": "1781517350223",
+          "team1": {
+            "player1": "Leif",
+            "player2": "Ludvig"
+          },
+          "team2": {
+            "player1": "Björn",
+            "player2": "Frallan"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 3,
+            "team2": 10
+          },
+          "timestamp": "2026-06-15T09:55:50.223Z"
+        },
+        {
+          "id": "1781603599964",
+          "team1": {
+            "player1": "Herman",
+            "player2": "Sabina"
+          },
+          "team2": {
+            "player1": "Leif",
+            "player2": "Matilda"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 9
+          },
+          "timestamp": "2026-06-16T09:53:19.964Z"
+        },
+        {
+          "id": "1781604296544",
+          "team1": {
+            "player1": "Leif",
+            "player2": "Sabina"
+          },
+          "team2": {
+            "player1": "Matilda",
+            "player2": "Rickard"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 7,
+            "team2": 10
+          },
+          "timestamp": "2026-06-16T10:04:56.544Z"
+        },
+        {
+          "id": "1781605047502",
+          "team1": {
+            "player1": "Moritz",
+            "player2": "Leif"
+          },
+          "team2": {
+            "player1": "Ludvig",
+            "player2": "Herman"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 9
+          },
+          "timestamp": "2026-06-16T10:17:27.502Z"
+        },
+        {
+          "id": "1781615125023",
+          "team1": {
+            "player1": "Rickard",
+            "player2": "Moritz"
+          },
+          "team2": {
+            "player1": "Herman",
+            "player2": "Ludvig"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 9
+          },
+          "timestamp": "2026-06-16T13:05:25.023Z"
+        },
+        {
+          "id": "1781615693085",
+          "team1": {
+            "player1": "Sabina",
+            "player2": "Daniel"
+          },
+          "team2": {
+            "player1": "Rickard",
+            "player2": "Björn"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 8
+          },
+          "timestamp": "2026-06-16T13:14:53.085Z"
+        },
+        {
+          "id": "1781689868795",
+          "team1": {
+            "player1": "Leif",
+            "player2": "Rickard"
+          },
+          "team2": {
+            "player1": "Moritz",
+            "player2": "Daniel"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 7,
+            "team2": 10
+          },
+          "timestamp": "2026-06-17T09:51:08.795Z"
+        },
+        {
+          "id": "1781690465563",
+          "team1": {
+            "player1": "Moritz",
+            "player2": "Rickard"
+          },
+          "team2": {
+            "player1": "Björn",
+            "player2": "Matilda"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 8,
+            "team2": 10
+          },
+          "timestamp": "2026-06-17T10:01:05.563Z"
+        },
+        {
+          "id": "1781690966917",
+          "team1": {
+            "player1": "Leif",
+            "player2": "Rickard"
+          },
+          "team2": {
+            "player1": "Sabina",
+            "player2": "Moritz"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 9,
+            "team2": 10
+          },
+          "timestamp": "2026-06-17T10:09:26.917Z"
+        },
+        {
+          "id": "1781776502573",
+          "team1": {
+            "player1": "Björn",
+            "player2": "Rickard"
+          },
+          "team2": {
+            "player1": "Leif",
+            "player2": "Herman"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 7
+          },
+          "timestamp": "2026-06-18T09:55:02.573Z"
+        },
+        {
+          "id": "1781777246625",
+          "team1": {
+            "player1": "Moritz",
+            "player2": "Björn"
+          },
+          "team2": {
+            "player1": "Rickard",
+            "player2": "Matilda"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 3
+          },
+          "timestamp": "2026-06-18T10:07:26.625Z"
+        }
+      ]
     },
     {
       "id": "s2",
@@ -24,6 +911,7 @@
         "Daniel",
         "Frallan",
         "Herman",
+        "Leif",
         "Ludvig",
         "Matilda",
         "Moritz",
@@ -34,7 +922,1232 @@
       "guests": [
         "GÄST"
       ],
-      "games": []
+      "games": [
+        {
+          "id": "1788774969140",
+          "team1": {
+            "player1": "Matilda",
+            "player2": "Daniel"
+          },
+          "team2": {
+            "player1": "Sabina",
+            "player2": "Frallan"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 9,
+            "team2": 10
+          },
+          "timestamp": "2026-09-07T09:56:09.140Z"
+        },
+        {
+          "id": "1788775731389",
+          "team1": {
+            "player1": "Björn",
+            "player2": "Ludvig"
+          },
+          "team2": {
+            "player1": "Daniel",
+            "player2": "Herman"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 9
+          },
+          "timestamp": "2026-09-07T10:08:51.389Z"
+        },
+        {
+          "id": "1788776529767",
+          "team1": {
+            "player1": "Frallan",
+            "player2": "Ludvig"
+          },
+          "team2": {
+            "player1": "Herman",
+            "player2": "Björn"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 2,
+            "team2": 10
+          },
+          "timestamp": "2026-09-07T10:22:09.767Z"
+        },
+        {
+          "id": "1788861048375",
+          "team1": {
+            "player1": "Björn",
+            "player2": "Moritz"
+          },
+          "team2": {
+            "player1": "Sabina",
+            "player2": "Matilda"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 5
+          },
+          "timestamp": "2026-09-08T09:50:48.375Z"
+        },
+        {
+          "id": "1788947221987",
+          "team1": {
+            "player1": "Herman",
+            "player2": "Björn"
+          },
+          "team2": {
+            "player1": "Ludvig",
+            "player2": "Daniel"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 9,
+            "team2": 10
+          },
+          "timestamp": "2026-09-09T09:47:01.987Z"
+        },
+        {
+          "id": "1788947807832",
+          "team1": {
+            "player1": "Oskar",
+            "player2": "Björn"
+          },
+          "team2": {
+            "player1": "Leif",
+            "player2": "Sabina"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 8
+          },
+          "timestamp": "2026-09-09T09:56:47.832Z"
+        },
+        {
+          "id": "1788948681265",
+          "team1": {
+            "player1": "Frallan",
+            "player2": "Herman"
+          },
+          "team2": {
+            "player1": "Leif",
+            "player2": "Ludvig"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 0
+          },
+          "timestamp": "2026-09-09T10:11:21.265Z"
+        },
+        {
+          "id": "1789034042604",
+          "team1": {
+            "player1": "Matilda",
+            "player2": "Leif"
+          },
+          "team2": {
+            "player1": "Ludvig",
+            "player2": "Björn"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 7
+          },
+          "timestamp": "2026-09-10T09:54:02.604Z"
+        },
+        {
+          "id": "1789034772346",
+          "team1": {
+            "player1": "Frallan",
+            "player2": "Moritz"
+          },
+          "team2": {
+            "player1": "Ludvig",
+            "player2": "Matilda"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 8
+          },
+          "timestamp": "2026-09-10T10:06:12.346Z"
+        },
+        {
+          "id": "1789035525060",
+          "team1": {
+            "player1": "Björn",
+            "player2": "Ludvig"
+          },
+          "team2": {
+            "player1": "Daniel",
+            "player2": "Herman"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 7,
+            "team2": 10
+          },
+          "timestamp": "2026-09-10T10:18:45.060Z"
+        },
+        {
+          "id": "1789120414455",
+          "team1": {
+            "player1": "Ludvig",
+            "player2": "Leif"
+          },
+          "team2": {
+            "player1": "Herman",
+            "player2": "Daniel"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 4
+          },
+          "timestamp": "2026-09-11T09:53:34.455Z"
+        },
+        {
+          "id": "1789121009592",
+          "team1": {
+            "player1": "Moritz",
+            "player2": "Herman"
+          },
+          "team2": {
+            "player1": "Frallan",
+            "player2": "Leif"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 6
+          },
+          "timestamp": "2026-09-11T10:03:29.592Z"
+        },
+        {
+          "id": "1789380012549",
+          "team1": {
+            "player1": "Björn",
+            "player2": "Ludvig"
+          },
+          "team2": {
+            "player1": "Daniel",
+            "player2": "Herman"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 8,
+            "team2": 10
+          },
+          "timestamp": "2026-09-14T10:00:12.549Z"
+        },
+        {
+          "id": "1789380740390",
+          "team1": {
+            "player1": "Björn",
+            "player2": "Ludvig"
+          },
+          "team2": {
+            "player1": "Daniel",
+            "player2": "Herman"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 6
+          },
+          "timestamp": "2026-09-14T10:12:20.390Z"
+        },
+        {
+          "id": "1789381611918",
+          "team1": {
+            "player1": "Herman",
+            "player2": "Leif"
+          },
+          "team2": {
+            "player1": "Ludvig",
+            "player2": "Matilda"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 9
+          },
+          "timestamp": "2026-09-14T10:26:51.918Z"
+        },
+        {
+          "id": "1789466569018",
+          "team1": {
+            "player1": "Moritz",
+            "player2": "Herman"
+          },
+          "team2": {
+            "player1": "Ludvig",
+            "player2": "Leif"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 4,
+            "team2": 10
+          },
+          "timestamp": "2026-09-15T10:02:49.018Z"
+        },
+        {
+          "id": "1789467184894",
+          "team1": {
+            "player1": "Frallan",
+            "player2": "Daniel"
+          },
+          "team2": {
+            "player1": "Herman",
+            "player2": "Ludvig"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 5
+          },
+          "timestamp": "2026-09-15T10:13:04.894Z"
+        },
+        {
+          "id": "1789467625390",
+          "team1": {
+            "player1": "Herman",
+            "player2": "Matilda"
+          },
+          "team2": {
+            "player1": "Björn",
+            "player2": "Sabina"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 9,
+            "team2": 10
+          },
+          "timestamp": "2026-09-15T10:20:25.390Z"
+        },
+        {
+          "id": "1789477519447",
+          "team1": {
+            "player1": "Herman",
+            "player2": "Ludvig"
+          },
+          "team2": {
+            "player1": "Moritz",
+            "player2": "Matilda"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 5
+          },
+          "timestamp": "2026-09-15T13:05:19.447Z"
+        },
+        {
+          "id": "1789552288822",
+          "team1": {
+            "player1": "Frallan",
+            "player2": "Ludvig"
+          },
+          "team2": {
+            "player1": "Herman",
+            "player2": "Moritz"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 4
+          },
+          "timestamp": "2026-09-16T09:51:28.822Z"
+        },
+        {
+          "id": "1789552872553",
+          "team1": {
+            "player1": "Sabina",
+            "player2": "Ludvig"
+          },
+          "team2": {
+            "player1": "Björn",
+            "player2": "Matilda"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 9,
+            "team2": 10
+          },
+          "timestamp": "2026-09-16T10:01:12.553Z"
+        },
+        {
+          "id": "1789553722091",
+          "team1": {
+            "player1": "Daniel",
+            "player2": "Sabina"
+          },
+          "team2": {
+            "player1": "Moritz",
+            "player2": "Matilda"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 9
+          },
+          "timestamp": "2026-09-16T10:15:22.091Z"
+        },
+        {
+          "id": "1789563924643",
+          "team1": {
+            "player1": "Ludvig",
+            "player2": "Daniel"
+          },
+          "team2": {
+            "player1": "Moritz",
+            "player2": "Sabina"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 7
+          },
+          "timestamp": "2026-09-16T13:05:24.643Z"
+        },
+        {
+          "id": "1789638967251",
+          "team1": {
+            "player1": "Moritz",
+            "player2": "Ludvig"
+          },
+          "team2": {
+            "player1": "Daniel",
+            "player2": "Matilda"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 5
+          },
+          "timestamp": "2026-09-17T09:56:07.251Z"
+        },
+        {
+          "id": "1789639704063",
+          "team1": {
+            "player1": "Daniel",
+            "player2": "Herman"
+          },
+          "team2": {
+            "player1": "Frallan",
+            "player2": "Sabina"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 6,
+            "team2": 10
+          },
+          "timestamp": "2026-09-17T10:08:24.063Z"
+        },
+        {
+          "id": "1789640199921",
+          "team1": {
+            "player1": "Sabina",
+            "player2": "Leif"
+          },
+          "team2": {
+            "player1": "Moritz",
+            "player2": "Björn"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 2,
+            "team2": 10
+          },
+          "timestamp": "2026-09-17T10:16:39.921Z"
+        },
+        {
+          "id": "1789725461339",
+          "team1": {
+            "player1": "Björn",
+            "player2": "Ludvig"
+          },
+          "team2": {
+            "player1": "Daniel",
+            "player2": "Herman"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 9,
+            "team2": 10
+          },
+          "timestamp": "2026-09-18T09:57:41.339Z"
+        },
+        {
+          "id": "1789984459712",
+          "team1": {
+            "player1": "Björn",
+            "player2": "Sabina"
+          },
+          "team2": {
+            "player1": "Daniel",
+            "player2": "Moritz"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 9
+          },
+          "timestamp": "2026-09-21T09:54:19.712Z"
+        },
+        {
+          "id": "1789985084377",
+          "team1": {
+            "player1": "Herman",
+            "player2": "Björn"
+          },
+          "team2": {
+            "player1": "Ludvig",
+            "player2": "Daniel"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 5,
+            "team2": 10
+          },
+          "timestamp": "2026-09-21T10:04:44.377Z"
+        },
+        {
+          "id": "1790070958393",
+          "team1": {
+            "player1": "Frallan",
+            "player2": "Herman"
+          },
+          "team2": {
+            "player1": "Moritz",
+            "player2": "Ludvig"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 5
+          },
+          "timestamp": "2026-09-22T09:55:58.393Z"
+        },
+        {
+          "id": "1790071628566",
+          "team1": {
+            "player1": "Herman",
+            "player2": "Björn"
+          },
+          "team2": {
+            "player1": "Ludvig",
+            "player2": "Sabina"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 8
+          },
+          "timestamp": "2026-09-22T10:07:08.566Z"
+        },
+        {
+          "id": "1790072512180",
+          "team1": {
+            "player1": "Daniel",
+            "player2": "Frallan"
+          },
+          "team2": {
+            "player1": "Moritz",
+            "player2": "Herman"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 7,
+            "team2": 10
+          },
+          "timestamp": "2026-09-22T10:21:52.180Z"
+        },
+        {
+          "id": "1790157724751",
+          "team1": {
+            "player1": "Ludvig",
+            "player2": "Sabina"
+          },
+          "team2": {
+            "player1": "Herman",
+            "player2": "Björn"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 8,
+            "team2": 10
+          },
+          "timestamp": "2026-09-23T10:02:04.751Z"
+        },
+        {
+          "id": "1790244175112",
+          "team1": {
+            "player1": "Ludvig",
+            "player2": "Björn"
+          },
+          "team2": {
+            "player1": "Sabina",
+            "player2": "Herman"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 7
+          },
+          "timestamp": "2026-09-24T10:02:55.112Z"
+        },
+        {
+          "id": "1790244749044",
+          "team1": {
+            "player1": "Herman",
+            "player2": "Moritz"
+          },
+          "team2": {
+            "player1": "Leif",
+            "player2": "Frallan"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 7,
+            "team2": 10
+          },
+          "timestamp": "2026-09-24T10:12:29.044Z"
+        },
+        {
+          "id": "1790330604868",
+          "team1": {
+            "player1": "Björn",
+            "player2": "Frallan"
+          },
+          "team2": {
+            "player1": "Herman",
+            "player2": "Moritz"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 6,
+            "team2": 10
+          },
+          "timestamp": "2026-09-25T10:03:24.868Z"
+        },
+        {
+          "id": "1790331259036",
+          "team1": {
+            "player1": "Björn",
+            "player2": "Leif"
+          },
+          "team2": {
+            "player1": "Matilda",
+            "player2": "Herman"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 7,
+            "team2": 10
+          },
+          "timestamp": "2026-09-25T10:14:19.036Z"
+        },
+        {
+          "id": "1790588991373",
+          "team1": {
+            "player1": "Herman",
+            "player2": "Björn"
+          },
+          "team2": {
+            "player1": "Daniel",
+            "player2": "Sabina"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 6
+          },
+          "timestamp": "2026-09-28T09:49:51.373Z"
+        },
+        {
+          "id": "1790589704015",
+          "team1": {
+            "player1": "Björn",
+            "player2": "Ludvig"
+          },
+          "team2": {
+            "player1": "Daniel",
+            "player2": "Herman"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 4
+          },
+          "timestamp": "2026-09-28T10:01:44.015Z"
+        },
+        {
+          "id": "1790590199122",
+          "team1": {
+            "player1": "Herman",
+            "player2": "Björn"
+          },
+          "team2": {
+            "player1": "Ludvig",
+            "player2": "Daniel"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 8
+          },
+          "timestamp": "2026-09-28T10:09:59.122Z"
+        },
+        {
+          "id": "1790600737309",
+          "team1": {
+            "player1": "Moritz",
+            "player2": "Daniel"
+          },
+          "team2": {
+            "player1": "Matilda",
+            "player2": "Leif"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 5
+          },
+          "timestamp": "2026-09-28T13:05:37.309Z"
+        },
+        {
+          "id": "1790601421696",
+          "team1": {
+            "player1": "Sabina",
+            "player2": "Moritz"
+          },
+          "team2": {
+            "player1": "Björn",
+            "player2": "Ludvig"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 4,
+            "team2": 10
+          },
+          "timestamp": "2026-09-28T13:17:01.696Z"
+        },
+        {
+          "id": "1790675866793",
+          "team1": {
+            "player1": "Leif",
+            "player2": "Björn"
+          },
+          "team2": {
+            "player1": "Herman",
+            "player2": "Frallan"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 2
+          },
+          "timestamp": "2026-09-29T09:57:46.793Z"
+        },
+        {
+          "id": "1790676576366",
+          "team1": {
+            "player1": "Frallan",
+            "player2": "Herman"
+          },
+          "team2": {
+            "player1": "Sabina",
+            "player2": "Björn"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 5
+          },
+          "timestamp": "2026-09-29T10:09:36.366Z"
+        },
+        {
+          "id": "1790762285663",
+          "team1": {
+            "player1": "Sabina",
+            "player2": "Ludvig"
+          },
+          "team2": {
+            "player1": "GÄST",
+            "player2": "Daniel"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 9,
+            "team2": 10
+          },
+          "timestamp": "2026-09-30T09:58:05.663Z"
+        },
+        {
+          "id": "1790762937258",
+          "team1": {
+            "player1": "Björn",
+            "player2": "Frallan"
+          },
+          "team2": {
+            "player1": "Daniel",
+            "player2": "Herman"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 7
+          },
+          "timestamp": "2026-09-30T10:08:57.258Z"
+        },
+        {
+          "id": "1790763524196",
+          "team1": {
+            "player1": "Herman",
+            "player2": "Björn"
+          },
+          "team2": {
+            "player1": "Leif",
+            "player2": "Daniel"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 5
+          },
+          "timestamp": "2026-09-30T10:18:44.196Z"
+        },
+        {
+          "id": "1790848025555",
+          "team1": {
+            "player1": "Björn",
+            "player2": "Ludvig"
+          },
+          "team2": {
+            "player1": "Daniel",
+            "player2": "Herman"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 9
+          },
+          "timestamp": "2026-10-01T09:47:05.555Z"
+        },
+        {
+          "id": "1790848614142",
+          "team1": {
+            "player1": "Moritz",
+            "player2": "Daniel"
+          },
+          "team2": {
+            "player1": "Leif",
+            "player2": "Sabina"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 7
+          },
+          "timestamp": "2026-10-01T09:56:54.142Z"
+        },
+        {
+          "id": "1790849229539",
+          "team1": {
+            "player1": "Ludvig",
+            "player2": "Daniel"
+          },
+          "team2": {
+            "player1": "Sabina",
+            "player2": "Frallan"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 4
+          },
+          "timestamp": "2026-10-01T10:07:09.539Z"
+        },
+        {
+          "id": "1790935336605",
+          "team1": {
+            "player1": "Björn",
+            "player2": "GÄST"
+          },
+          "team2": {
+            "player1": "Herman",
+            "player2": "Leif"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 7
+          },
+          "timestamp": "2026-10-02T10:02:16.605Z"
+        },
+        {
+          "id": "1791194464150",
+          "team1": {
+            "player1": "Matilda",
+            "player2": "Björn"
+          },
+          "team2": {
+            "player1": "Frallan",
+            "player2": "Herman"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 9,
+            "team2": 10
+          },
+          "timestamp": "2026-10-05T10:01:04.150Z"
+        },
+        {
+          "id": "1791195053483",
+          "team1": {
+            "player1": "Sabina",
+            "player2": "Moritz"
+          },
+          "team2": {
+            "player1": "Frallan",
+            "player2": "Ludvig"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 0,
+            "team2": 10
+          },
+          "timestamp": "2026-10-05T10:10:53.483Z"
+        },
+        {
+          "id": "1791195902590",
+          "team1": {
+            "player1": "Frallan",
+            "player2": "Leif"
+          },
+          "team2": {
+            "player1": "Matilda",
+            "player2": "Herman"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 6
+          },
+          "timestamp": "2026-10-05T10:25:02.590Z"
+        },
+        {
+          "id": "1791205518793",
+          "team1": {
+            "player1": "GÄST",
+            "player2": "Moritz"
+          },
+          "team2": {
+            "player1": "Frallan",
+            "player2": "Matilda"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 4,
+            "team2": 10
+          },
+          "timestamp": "2026-10-05T13:05:18.793Z"
+        },
+        {
+          "id": "1791206303997",
+          "team1": {
+            "player1": "Matilda",
+            "player2": "Björn"
+          },
+          "team2": {
+            "player1": "Sabina",
+            "player2": "Leif"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 2,
+            "team2": 10
+          },
+          "timestamp": "2026-10-05T13:18:23.997Z"
+        },
+        {
+          "id": "1791280122155",
+          "team1": {
+            "player1": "Björn",
+            "player2": "Daniel"
+          },
+          "team2": {
+            "player1": "Moritz",
+            "player2": "Matilda"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 0
+          },
+          "timestamp": "2026-10-06T09:48:42.155Z"
+        },
+        {
+          "id": "1791280639619",
+          "team1": {
+            "player1": "Ludvig",
+            "player2": "Herman"
+          },
+          "team2": {
+            "player1": "Björn",
+            "player2": "Moritz"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 4,
+            "team2": 10
+          },
+          "timestamp": "2026-10-06T09:57:19.619Z"
+        },
+        {
+          "id": "1791281430039",
+          "team1": {
+            "player1": "Leif",
+            "player2": "Daniel"
+          },
+          "team2": {
+            "player1": "Björn",
+            "player2": "Matilda"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 7
+          },
+          "timestamp": "2026-10-06T10:10:30.039Z"
+        },
+        {
+          "id": "1791291936870",
+          "team1": {
+            "player1": "Moritz",
+            "player2": "Daniel"
+          },
+          "team2": {
+            "player1": "Matilda",
+            "player2": "Leif"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 6,
+            "team2": 10
+          },
+          "timestamp": "2026-10-06T13:05:36.870Z"
+        },
+        {
+          "id": "1791292609739",
+          "team1": {
+            "player1": "Herman",
+            "player2": "Frallan"
+          },
+          "team2": {
+            "player1": "Oskar",
+            "player2": "Matilda"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 3
+          },
+          "timestamp": "2026-10-06T13:16:49.739Z"
+        },
+        {
+          "id": "1791366966887",
+          "team1": {
+            "player1": "Daniel",
+            "player2": "Frallan"
+          },
+          "team2": {
+            "player1": "Leif",
+            "player2": "Björn"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 6
+          },
+          "timestamp": "2026-10-07T09:56:06.887Z"
+        },
+        {
+          "id": "1791452970713",
+          "team1": {
+            "player1": "Moritz",
+            "player2": "Matilda"
+          },
+          "team2": {
+            "player1": "Ludvig",
+            "player2": "Leif"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 5
+          },
+          "timestamp": "2026-10-08T09:49:30.713Z"
+        },
+        {
+          "id": "1791453685963",
+          "team1": {
+            "player1": "Herman",
+            "player2": "Daniel"
+          },
+          "team2": {
+            "player1": "Matilda",
+            "player2": "Björn"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 4,
+            "team2": 10
+          },
+          "timestamp": "2026-10-08T10:01:25.963Z"
+        },
+        {
+          "id": "1791539190512",
+          "team1": {
+            "player1": "Leif",
+            "player2": "Herman"
+          },
+          "team2": {
+            "player1": "Björn",
+            "player2": "Matilda"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 0,
+            "team2": 10
+          },
+          "timestamp": "2026-10-09T09:46:30.512Z"
+        },
+        {
+          "id": "1791539902736",
+          "team1": {
+            "player1": "Sabina",
+            "player2": "Ludvig"
+          },
+          "team2": {
+            "player1": "Daniel",
+            "player2": "Matilda"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 8
+          },
+          "timestamp": "2026-10-09T09:58:22.736Z"
+        },
+        {
+          "id": "1791540779969",
+          "team1": {
+            "player1": "Leif",
+            "player2": "Ludvig"
+          },
+          "team2": {
+            "player1": "Matilda",
+            "player2": "Herman"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 7,
+            "team2": 10
+          },
+          "timestamp": "2026-10-09T10:12:59.969Z"
+        },
+        {
+          "id": "1791798837699",
+          "team1": {
+            "player1": "Ludvig",
+            "player2": "Frallan"
+          },
+          "team2": {
+            "player1": "Moritz",
+            "player2": "Herman"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 7
+          },
+          "timestamp": "2026-10-12T09:53:57.699Z"
+        },
+        {
+          "id": "1791799479238",
+          "team1": {
+            "player1": "Sabina",
+            "player2": "Ludvig"
+          },
+          "team2": {
+            "player1": "Moritz",
+            "player2": "Matilda"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 5
+          },
+          "timestamp": "2026-10-12T10:04:39.238Z"
+        },
+        {
+          "id": "1791800379960",
+          "team1": {
+            "player1": "Moritz",
+            "player2": "Leif"
+          },
+          "team2": {
+            "player1": "Daniel",
+            "player2": "Ludvig"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 9,
+            "team2": 10
+          },
+          "timestamp": "2026-10-12T10:19:39.960Z"
+        },
+        {
+          "id": "1791885373339",
+          "team1": {
+            "player1": "Ludvig",
+            "player2": "Herman"
+          },
+          "team2": {
+            "player1": "Björn",
+            "player2": "Moritz"
+          },
+          "winner": "team1",
+          "score": {
+            "team1": 10,
+            "team2": 9
+          },
+          "timestamp": "2026-10-13T09:56:13.339Z"
+        },
+        {
+          "id": "1791886107916",
+          "team1": {
+            "player1": "Moritz",
+            "player2": "Sabina"
+          },
+          "team2": {
+            "player1": "Ludvig",
+            "player2": "Frallan"
+          },
+          "winner": "team2",
+          "score": {
+            "team1": 2,
+            "team2": 10
+          },
+          "timestamp": "2026-10-13T10:08:27.916Z"
+        }
+      ]
     }
   ],
   "activeSeasonId": "s2",

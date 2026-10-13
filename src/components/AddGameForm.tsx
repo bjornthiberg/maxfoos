@@ -83,14 +83,16 @@ export default function AddGameForm({
   };
 
   return (
-    <div className="add-game-form">
-      <h2>Lägg till nytt matchresultat</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="score-entry-layout">
-          <div className="form-section">
-            <h3 style={{ color: "#1d4ed8" }}>Lag Blå</h3>
-            <div className="form-group">
-              <label>Back:</label>
+    <form className="cabinet glow-yellow" onSubmit={handleSubmit}>
+      <div className="crt">
+        <div className="screen-head">
+          <h2 className="screen-title">Lägg till nytt matchresultat</h2>
+        </div>
+        <div className="pitch">
+          <div className="pitch-side">
+            <h3>Lag Blå</h3>
+            <label className="field">
+              Back
               <select
                 value={team1Player1}
                 onChange={(e) => setTeam1Player1(e.target.value)}
@@ -102,9 +104,9 @@ export default function AddGameForm({
                   </option>
                 ))}
               </select>
-            </div>
-            <div className="form-group">
-              <label>Forward:</label>
+            </label>
+            <label className="field">
+              Forward
               <select
                 value={team1Player2}
                 onChange={(e) => setTeam1Player2(e.target.value)}
@@ -116,39 +118,38 @@ export default function AddGameForm({
                   </option>
                 ))}
               </select>
-            </div>
+            </label>
           </div>
 
-          <div className="score-inputs">
-            <div className="form-group">
-              <label>Blå</label>
+          <div className="pitch-field">
+            <label className="field">
+              Blå
               <input
                 type="number"
                 min="0"
                 value={score1}
                 onChange={(e) => setScore1(e.target.value)}
                 placeholder="0"
-                className="score-blue"
+                className="pitch-score pitch-score-blue"
               />
-            </div>
-            <span className="score-separator">–</span>
-            <div className="form-group">
-              <label>Röd</label>
+            </label>
+            <label className="field">
+              Röd
               <input
                 type="number"
                 min="0"
                 value={score2}
                 onChange={(e) => setScore2(e.target.value)}
                 placeholder="0"
-                className="score-red"
+                className="pitch-score pitch-score-red"
               />
-            </div>
+            </label>
           </div>
 
-          <div className="form-section">
-            <h3 style={{ color: "#b91c1c" }}>Lag Röd</h3>
-            <div className="form-group">
-              <label>Back:</label>
+          <div className="pitch-side pitch-side-red">
+            <h3>Lag Röd</h3>
+            <label className="field">
+              Back
               <select
                 value={team2Player1}
                 onChange={(e) => setTeam2Player1(e.target.value)}
@@ -160,9 +161,9 @@ export default function AddGameForm({
                   </option>
                 ))}
               </select>
-            </div>
-            <div className="form-group">
-              <label>Forward:</label>
+            </label>
+            <label className="field">
+              Forward
               <select
                 value={team2Player2}
                 onChange={(e) => setTeam2Player2(e.target.value)}
@@ -174,31 +175,23 @@ export default function AddGameForm({
                   </option>
                 ))}
               </select>
-            </div>
+            </label>
           </div>
         </div>
 
-        {error && <div className="error-message">{error}</div>}
-        {success && <div className="success-message">{success}</div>}
+        {error && <div className="message message-error">{error}</div>}
+        {success && <div className="message message-ok">{success}</div>}
+      </div>
 
+      <div className="cabinet-deck">
         <button
           type="submit"
           disabled={isSubmitting}
-          className="submit-btn"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            justifyContent: "center",
-          }}
+          className="arcade-btn arcade-btn-wide"
         >
           {isSubmitting ? (
             <>
-              <Loader2
-                size={18}
-                style={{ animation: "spin 1s linear infinite" }}
-              />
-              <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
+              <Loader2 size={18} className="spin" />
               Lägger till...
             </>
           ) : (
@@ -208,7 +201,7 @@ export default function AddGameForm({
             </>
           )}
         </button>
-      </form>
-    </div>
+      </div>
+    </form>
   );
 }
