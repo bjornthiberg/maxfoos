@@ -410,10 +410,13 @@
     text-align: left;
 }
 
+/* rank column hugs its number so the name sits right next to it;
+   the remaining columns share the rest of the width */
 .score-table th:first-child,
 .score-table td:first-child {
+    width: 1%;
     padding-left: 0;
-    width: 4.5em;
+    padding-right: 1.2rem;
 }
 
 .score-table th:last-child,
