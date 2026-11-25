@@ -42,12 +42,18 @@ export default function PlayerTable({
     .map((p) => ({
       ...p,
       winRate: p.gamesPlayed > 0 ? p.points / p.gamesPlayed : 0,
+      goalDiffPerGame:
+        p.gamesPlayed > 0 ? p.goalDifference / p.gamesPlayed : 0,
     }))
+    // Win %, then goal difference, then goal difference per game: +20 over
+    // 10 games beats +20 over 15, and −20 over 15 beats −20 over 10
     .sort((a, b) => {
       if (b.winRate !== a.winRate) return b.winRate - a.winRate;
       if (b.goalDifference !== a.goalDifference)
         return b.goalDifference - a.goalDifference;
-      return b.points - a.points;
+      if (b.goalDiffPerGame !== a.goalDiffPerGame)
+        return b.goalDiffPerGame - a.goalDiffPerGame;
+      return a.name.localeCompare(b.name, "sv");
     });
 
   return (
