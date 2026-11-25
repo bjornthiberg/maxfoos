@@ -68,6 +68,7 @@ export default function EloTable({
               name={player.name}
               columns={6}
               games={games}
+              elo={elo}
               open={open === player.name}
               onToggle={() => toggle(player.name)}
               cells={

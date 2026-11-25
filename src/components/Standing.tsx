@@ -5,6 +5,9 @@ import type { ReactNode } from "react";
 import { ChevronDown } from "lucide-react";
 import type { Game } from "../services/api";
 import { positionStats } from "../lib/positions";
+import { ratingHistory } from "../lib/elo";
+import type { EloResult } from "../lib/elo";
+import EloChart from "./EloChart";
 
 export function Rank({ position }: { position: number }) {
   return <>{position}</>;
@@ -34,6 +37,7 @@ export function PlayerRow({
   cells,
   columns,
   games,
+  elo,
   open,
   onToggle,
 }: {
@@ -42,6 +46,7 @@ export function PlayerRow({
   cells: ReactNode;
   columns: number;
   games: Game[];
+  elo: EloResult;
   open: boolean;
   onToggle: () => void;
 }) {
@@ -76,6 +81,7 @@ export function PlayerRow({
           <td />
           <td colSpan={columns - 1}>
             <PositionBreakdown name={name} games={games} />
+            <EloChart name={name} points={ratingHistory(elo, name)} />
           </td>
         </tr>
       )}

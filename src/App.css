@@ -550,6 +550,136 @@
     box-shadow: 0 0 6px #3ddc84a0;
 }
 
+/* ----- ELO over the season, under the back/forward stats ----- */
+
+/* sized by its cell, never the other way round: the SVG is drawn at the
+   measured width, so it must not hold the table open */
+.elo-chart {
+    position: relative;
+    z-index: 1; /* in front of the CRT scanlines, which striped the line */
+    contain: inline-size;
+    margin-top: 0.9rem;
+    touch-action: pan-y;
+    text-shadow: none;
+    border-radius: 4px;
+}
+
+.elo-chart:focus-visible {
+    outline: 2px solid var(--yellow);
+    outline-offset: 4px;
+}
+
+.elo-chart svg {
+    display: block;
+    overflow: visible;
+}
+
+.elo-chart svg * {
+    shape-rendering: crispEdges;
+}
+
+/* dotted pixel rules, like the rods elsewhere */
+.elo-chart-grid,
+.elo-chart-base {
+    stroke: #2c2470;
+    stroke-width: 1;
+    stroke-dasharray: 2 4;
+}
+
+/* the starting rating everyone shares */
+.elo-chart-base {
+    stroke: #4a3da8;
+    stroke-dasharray: 4 4;
+}
+
+/* phosphor cyan, the standings screen's accent */
+.elo-chart-line {
+    fill: none;
+    stroke: #2de2e6;
+    stroke-width: 2;
+    stroke-linejoin: miter;
+    filter: drop-shadow(0 0 3px #2de2e6a0);
+}
+
+.elo-chart-dither {
+    fill: #2de2e6;
+}
+
+.elo-chart-fill {
+    opacity: 0.18;
+}
+
+.elo-chart-dot {
+    fill: #2de2e6;
+    stroke: var(--carpet);
+    stroke-width: 2;
+}
+
+.elo-chart-cross {
+    stroke: #8f7fd0;
+    stroke-width: 1;
+    stroke-dasharray: 2 2;
+}
+
+.elo-chart-xtick {
+    stroke: #3a2f8c;
+    stroke-width: 1;
+}
+
+.elo-chart-tick,
+.elo-chart-axis,
+.elo-chart-end {
+    font-family: var(--font-pixel);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.03em;
+}
+
+.elo-chart-tick {
+    font-size: 16px;
+    fill: #6a609f;
+}
+
+.elo-chart-axis {
+    font-size: 15px;
+    fill: #5b5196;
+}
+
+.elo-chart-end {
+    font-size: 21px;
+    fill: #2de2e6;
+}
+
+.elo-chart-tip {
+    position: absolute;
+    z-index: 2;
+    display: grid;
+    gap: 0.1rem;
+    padding: 0.45rem 0.65rem 0.5rem;
+    font-family: var(--font-pixel);
+    font-size: 1rem;
+    line-height: 1.05;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    color: #8f7fd0;
+    background: #0d0a26;
+    border: 2px solid var(--line);
+    border-radius: 0;
+    box-shadow: 3px 3px 0 #04030c;
+    pointer-events: none;
+}
+
+.elo-chart-tip strong {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #fff;
+}
+
+.elo-chart-empty {
+    margin-top: 0.8rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
 /* ---------- Controls ---------- */
 
 .arcade-btn {

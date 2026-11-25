@@ -118,7 +118,11 @@ export default function Home() {
             </span>
           </div>
           {standingsTab === "tabell" ? (
-            <PlayerTable players={players} recentGames={recentGames} />
+            <PlayerTable
+              players={players}
+              recentGames={recentGames}
+              elo={elo}
+            />
           ) : (
             <EloTable
               games={recentGames}

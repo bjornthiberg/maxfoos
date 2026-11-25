@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { FormPips, PlayerRow } from "./Standing";
 import type { Player, Game } from "../services/api";
+import type { EloResult } from "../lib/elo";
 
 interface PlayerTableProps {
   players: Player[];
   recentGames?: Game[];
+  elo: EloResult;
 }
 
 function getForm(playerName: string, games: Game[]): ("W" | "L")[] {
@@ -31,6 +33,7 @@ function getForm(playerName: string, games: Game[]): ("W" | "L")[] {
 export default function PlayerTable({
   players,
   recentGames = [],
+  elo,
 }: PlayerTableProps) {
   // whose back/forward breakdown is open (one at a time)
   const [open, setOpen] = useState<string | null>(null);
@@ -69,6 +72,7 @@ export default function PlayerTable({
               name={player.name}
               columns={7}
               games={recentGames}
+              elo={elo}
               open={open === player.name}
               onToggle={() => toggle(player.name)}
               cells={

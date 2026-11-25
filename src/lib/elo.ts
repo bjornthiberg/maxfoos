@@ -42,6 +42,7 @@ export interface EloTeamChange {
 
 /** Everything needed to explain the rating change from one game. */
 export interface EloGame {
+  timestamp: string;
   team1: EloTeamChange;
   team2: EloTeamChange;
 }
@@ -124,7 +125,7 @@ export function computeElo(games: Game[], guests: Iterable<string>): EloResult {
       played.set(p.name, (played.get(p.name) ?? 0) + 1);
     }
 
-    breakdown.set(game.id, { team1, team2 });
+    breakdown.set(game.id, { timestamp: game.timestamp, team1, team2 });
   }
 
   const ratings = [...rating.entries()]
@@ -132,4 +133,30 @@ export function computeElo(games: Game[], guests: Iterable<string>): EloResult {
     .sort((a, b) => b.rating - a.rating);
 
   return { ratings, games: breakdown };
+}
+
+/** A player's rating after each of their games, starting from START_RATING. */
+export interface RatingPoint {
+  rating: number; // exact
+  delta: number; // shown (rounded) change from the previous point
+  timestamp?: string; // absent for the starting point
+  won?: boolean;
+}
+
+export function ratingHistory(elo: EloResult, name: string): RatingPoint[] {
+  const points: RatingPoint[] = [{ rating: START_RATING, delta: 0 }];
+  // `games` was filled in chronological order
+  for (const game of elo.games.values()) {
+    for (const team of [game.team1, game.team2]) {
+      const p = team.players.find((x) => x.name === name);
+      if (!p || p.guest) continue;
+      points.push({
+        rating: p.after,
+        delta: shownDelta(p),
+        timestamp: game.timestamp,
+        won: team.score === 1,
+      });
+    }
+  }
+  return points;
 }
