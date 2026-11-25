@@ -429,23 +429,102 @@
     color: #d9ccff;
 }
 
-.score-table tbody tr:nth-child(1) {
+.score-table tbody tr.rank-1 {
     color: var(--yellow);
     text-shadow: 0 0 10px #ffd23f90;
 }
 
-.score-table tbody tr:nth-child(2) {
+.score-table tbody tr.rank-2 {
     color: #ff7cc3;
     text-shadow: 0 0 10px #ff3ea590;
 }
 
-.score-table tbody tr:nth-child(3) {
+.score-table tbody tr.rank-3 {
     color: #2de2e6;
     text-shadow: 0 0 10px #2de2e690;
 }
 
 .score-name {
     text-transform: uppercase;
+}
+
+/* ---------- Player rows open a back/forward breakdown ---------- */
+
+.player-row {
+    cursor: pointer;
+}
+
+.row-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0;
+    text-transform: inherit;
+    letter-spacing: inherit;
+    background: none;
+    border: 0;
+}
+
+.row-caret {
+    flex: none;
+    opacity: 0.35;
+    transition:
+        transform 0.15s,
+        opacity 0.15s;
+}
+
+.player-row:hover .row-caret {
+    opacity: 0.8;
+}
+
+.player-row.is-open .row-caret {
+    opacity: 0.8;
+    transform: rotate(180deg);
+}
+
+.score-table .position-row > td {
+    padding-top: 0.1rem;
+    padding-bottom: 1rem;
+    white-space: normal;
+}
+
+/* a smaller copy of the standings table, hung off the player's row */
+.positions {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88em;
+    text-shadow: none;
+    border-left: 2px solid var(--line);
+}
+
+/* five equal stat columns; the label column takes what's left */
+.score-table .positions th,
+.score-table .positions td {
+    width: 15%;
+    padding: 0.25rem 0 0.25rem 0.7rem;
+    text-align: right;
+}
+
+.score-table .positions th:first-child {
+    width: auto;
+    padding-left: 0.9rem;
+    text-align: left;
+}
+
+.score-table .positions thead th {
+    padding-bottom: 0.3rem;
+    font-size: 0.75em;
+}
+
+.score-table .positions tbody th {
+    font-size: 0.85em;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #8f7fd0;
+}
+
+.positions tbody td {
+    color: #d9ccff;
 }
 
 .score-neg {

@@ -1,4 +1,5 @@
-import { Rank, FormPips } from "./Standing";
+import { useState } from "react";
+import { FormPips, PlayerRow } from "./Standing";
 import type { Game, Player } from "../services/api";
 import type { EloResult } from "../lib/elo";
 
@@ -32,6 +33,9 @@ export default function EloTable({
   players: Player[];
   elo: EloResult;
 }) {
+  // whose back/forward breakdown is open (one at a time)
+  const [open, setOpen] = useState<string | null>(null);
+  const toggle = (name: string) => setOpen((o) => (o === name ? null : name));
   const players = elo.ratings.map((p) => ({
     ...p,
     elo: Math.round(p.rating),
@@ -58,21 +62,28 @@ export default function EloTable({
         </thead>
         <tbody>
           {players.map((player, index) => (
-            <tr key={player.name}>
-              <td>
-                <Rank position={index + 1} />
-              </td>
-              <td className="score-name">{player.name}</td>
-              <td className="score-main">{player.elo}</td>
-              <td className={player.goalDifference >= 0 ? "" : "score-neg"}>
-                {player.goalDifference >= 0 ? "+" : ""}
-                {player.goalDifference}
-              </td>
-              <td>{player.gamesPlayed}</td>
-              <td>
-                <FormPips form={getForm(player.name, games)} />
-              </td>
-            </tr>
+            <PlayerRow
+              key={player.name}
+              rank={index + 1}
+              name={player.name}
+              columns={6}
+              games={games}
+              open={open === player.name}
+              onToggle={() => toggle(player.name)}
+              cells={
+                <>
+                  <td className="score-main">{player.elo}</td>
+                  <td className={player.goalDifference >= 0 ? "" : "score-neg"}>
+                    {player.goalDifference >= 0 ? "+" : ""}
+                    {player.goalDifference}
+                  </td>
+                  <td>{player.gamesPlayed}</td>
+                  <td>
+                    <FormPips form={getForm(player.name, games)} />
+                  </td>
+                </>
+              }
+            />
           ))}
         </tbody>
       </table>

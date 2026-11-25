@@ -1,4 +1,5 @@
-import { Rank, FormPips } from "./Standing";
+import { useState } from "react";
+import { FormPips, PlayerRow } from "./Standing";
 import type { Player, Game } from "../services/api";
 
 interface PlayerTableProps {
@@ -31,6 +32,9 @@ export default function PlayerTable({
   players,
   recentGames = [],
 }: PlayerTableProps) {
+  // whose back/forward breakdown is open (one at a time)
+  const [open, setOpen] = useState<string | null>(null);
+  const toggle = (name: string) => setOpen((o) => (o === name ? null : name));
   const sortedPlayers = [...players]
     .map((p) => ({
       ...p,
@@ -59,24 +63,31 @@ export default function PlayerTable({
         </thead>
         <tbody>
           {sortedPlayers.map((player, index) => (
-            <tr key={player.name}>
-              <td>
-                <Rank position={index + 1} />
-              </td>
-              <td className="score-name">{player.name}</td>
-              <td className="score-main">
-                {(player.winRate * 100).toFixed(1)}%
-              </td>
-              <td>{player.points}</td>
-              <td>{player.gamesPlayed}</td>
-              <td className={player.goalDifference >= 0 ? "" : "score-neg"}>
-                {player.goalDifference >= 0 ? "+" : ""}
-                {player.goalDifference}
-              </td>
-              <td>
-                <FormPips form={getForm(player.name, recentGames)} />
-              </td>
-            </tr>
+            <PlayerRow
+              key={player.name}
+              rank={index + 1}
+              name={player.name}
+              columns={7}
+              games={recentGames}
+              open={open === player.name}
+              onToggle={() => toggle(player.name)}
+              cells={
+                <>
+                  <td className="score-main">
+                    {(player.winRate * 100).toFixed(1)}%
+                  </td>
+                  <td>{player.points}</td>
+                  <td>{player.gamesPlayed}</td>
+                  <td className={player.goalDifference >= 0 ? "" : "score-neg"}>
+                    {player.goalDifference >= 0 ? "+" : ""}
+                    {player.goalDifference}
+                  </td>
+                  <td>
+                    <FormPips form={getForm(player.name, recentGames)} />
+                  </td>
+                </>
+              }
+            />
           ))}
         </tbody>
       </table>
