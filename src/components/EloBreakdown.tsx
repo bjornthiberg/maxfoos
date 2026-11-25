@@ -20,22 +20,24 @@ function Side({ team, side }: { team: EloTeamChange; side: "blue" | "red" }) {
           {signed(team.delta, 1)}
         </b>
       </div>
-      <ul className="elo-players">
-        {team.players.map((p) => (
-          <li key={p.name} className={p.guest ? "is-guest" : ""}>
-            <span className="elo-player-name">{p.name}</span>
-            <span className="elo-player-change">
+      <table className="elo-players">
+        <tbody>
+          {team.players.map((p) => (
+            <tr key={p.name} className={p.guest ? "is-guest" : ""}>
+              <th scope="row">{p.name}</th>
               {p.guest ? (
-                <>gäst · {Math.round(p.before)}</>
+                <td colSpan={3}>gäst {Math.round(p.before)}</td>
               ) : (
                 <>
-                  {Math.round(p.before)} → {Math.round(p.after)}
+                  <td>{Math.round(p.before)}</td>
+                  <td className="elo-arrow">→</td>
+                  <td>{Math.round(p.after)}</td>
                 </>
               )}
-            </span>
-          </li>
-        ))}
-      </ul>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

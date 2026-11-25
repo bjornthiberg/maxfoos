@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Trash2 } from "lucide-react";
-import type { Game } from "../services/api";
+import type { Game, Team } from "../services/api";
 import { shownDelta } from "../lib/elo";
 import type { EloGame, EloTeamChange, EloPlayerChange } from "../lib/elo";
 import EloBreakdown from "./EloBreakdown";
 
 const INITIAL_LIMIT = 5;
+/** Games are first to 10; the rod grows if a score ever goes beyond. */
+const BEADS = 10;
 
 interface GameListProps {
   games: Game[];
@@ -17,15 +19,50 @@ interface GameListProps {
   elo?: Map<string, EloGame>;
 }
 
-function formatDate(timestamp: string): string {
-  const date = new Date(timestamp);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  const hours = String(date.getHours()).padStart(2, "0");
-  const minutes = String(date.getMinutes()).padStart(2, "0");
-  return `${year}-${month}-${day} ${hours}:${minutes}`;
+const pad = (n: number) => String(n).padStart(2, "0");
+
+/** ["13 okt", "10:08"], with the year only when it isn't this year */
+function formatWhen(timestamp: string): [string, string] {
+  const d = new Date(timestamp);
+  const sameYear = d.getFullYear() === new Date().getFullYear();
+  const date = d
+    .toLocaleDateString("sv-SE", {
+      day: "numeric",
+      month: "short",
+      ...(sameYear ? {} : { year: "numeric" }),
+    })
+    .replace(".", "");
+  return [date, `${pad(d.getHours())}:${pad(d.getMinutes())}`];
 }
+
+/** Bead colours on the real counter: 5 in the team's colour, 3 gray, 2 white */
+const beadTone = (i: number) => (i < 5 ? "team" : i < 8 ? "gray" : "white");
+
+/** The table's bead counter: one bead per goal, lit from the team's own end. */
+function Rod({
+  goals,
+  of,
+  side,
+  won,
+}: {
+  goals: number;
+  of: number;
+  side: Side;
+  won: boolean;
+}) {
+  return (
+    <span
+      className={`rod rod-${side} ${won ? "is-won" : "is-lost"}`}
+      aria-hidden
+    >
+      {Array.from({ length: of }, (_, i) => (
+        <i key={i} className={i < goals ? `is-lit tone-${beadTone(i)}` : ""} />
+      ))}
+    </span>
+  );
+}
+
+type Side = "blue" | "red";
 
 function EloDelta({ change }: { change?: EloPlayerChange }) {
   // Guests have no rating to move
@@ -33,7 +70,7 @@ function EloDelta({ change }: { change?: EloPlayerChange }) {
   const d = shownDelta(change);
   return (
     <span
-      className="result-elo"
+      className="lineup-elo"
       title={`ELO ${Math.round(change.before)} → ${Math.round(change.after)}`}
     >
       {d > 0 ? "+" : d < 0 ? "−" : "±"}
@@ -42,30 +79,41 @@ function EloDelta({ change }: { change?: EloPlayerChange }) {
   );
 }
 
-function TeamPlayers({
+function Lineup({
   team,
+  side,
+  won,
   elo,
 }: {
-  team: { player1: string; player2: string };
+  team: Team;
+  side: Side;
+  won: boolean;
   elo?: EloTeamChange;
 }) {
+  const players = [
+    { name: team.player1, role: "Back", short: "B", change: elo?.players[0] },
+    {
+      name: team.player2,
+      role: "Forward",
+      short: "F",
+      change: elo?.players[1],
+    },
+  ];
   return (
-    <>
-      <div className="result-player">
-        <span className="result-role" data-short="B">
-          Back
-        </span>
-        <span className="result-name">{team.player1}</span>
-        <EloDelta change={elo?.players[0]} />
-      </div>
-      <div className="result-player">
-        <span className="result-role" data-short="F">
-          Forward
-        </span>
-        <span className="result-name">{team.player2}</span>
-        <EloDelta change={elo?.players[1]} />
-      </div>
-    </>
+    <div
+      className={`lineup lineup-${side} ${won ? "is-won" : "is-lost"}`}
+      aria-label={`Lag ${side === "blue" ? "Blå" : "Röd"}${won ? ", vinnare" : ""}`}
+    >
+      {players.map((p) => (
+        <div key={p.role} className="lineup-player">
+          <span className="lineup-role" title={p.role}>
+            {p.short}
+          </span>
+          <span className="lineup-name">{p.name}</span>
+          <EloDelta change={p.change} />
+        </div>
+      ))}
+    </div>
   );
 }
 
@@ -92,75 +140,99 @@ export default function GameList({
         {games.length === 0 ? (
           <p className="screen-prompt">Inga matcher spelade än.</p>
         ) : (
-          <div className="results">
+          <ol className="matches">
             {visibleGames.map((game) => {
-              const team1Won = game.winner === "team1";
+              const blueWon = game.winner === "team1";
+              const { team1: blueGoals, team2: redGoals } = game.score;
+              const beads = Math.max(BEADS, blueGoals, redGoals);
               const gameElo = elo?.get(game.id);
               const isOpen = !!gameElo && openGame === game.id;
               const toggle = () => setOpenGame(isOpen ? null : game.id);
               return (
-                <div
+                <li
                   key={game.id}
-                  className={`result ${gameElo ? "result-expandable" : ""} ${isOpen ? "is-open" : ""}`}
-                  {...(gameElo && {
-                    role: "button",
-                    tabIndex: 0,
-                    "aria-expanded": isOpen,
-                    title: isOpen ? undefined : "Visa ELO-uträkning",
-                    onClick: toggle,
-                    onKeyDown: (e: React.KeyboardEvent) => {
-                      if (e.target !== e.currentTarget) return;
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        toggle();
-                      }
-                    },
-                  })}
+                  className={`match ${gameElo ? "is-expandable" : ""} ${isOpen ? "is-open" : ""}`}
                 >
                   <div
-                    className={`result-team result-team-blue ${team1Won ? "is-winner" : "is-loser"}`}
+                    className="match-line"
+                    {...(gameElo && {
+                      role: "button",
+                      tabIndex: 0,
+                      "aria-expanded": isOpen,
+                      title: isOpen ? undefined : "Visa ELO-uträkning",
+                      onClick: toggle,
+                      onKeyDown: (e: React.KeyboardEvent) => {
+                        if (e.target !== e.currentTarget) return;
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          toggle();
+                        }
+                      },
+                    })}
                   >
-                    <TeamPlayers team={game.team1} elo={gameElo?.team1} />
-                  </div>
-
-                  <div className="result-mid">
-                    <div className="result-score">
-                      <span className={team1Won ? "is-winner" : "is-loser"}>
-                        {game.score.team1}
-                      </span>
-                      <span className="result-score-sep">–</span>
-                      <span className={!team1Won ? "is-winner" : "is-loser"}>
-                        {game.score.team2}
-                      </span>
-                    </div>
-                    <div className="result-date">
-                      {formatDate(game.timestamp)}
-                    </div>
-                    {showDelete && (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onDelete?.(game.id);
-                        }}
-                        className="result-delete"
+                    <Lineup
+                      team={game.team1}
+                      side="blue"
+                      won={blueWon}
+                      elo={gameElo?.team1}
+                    />
+                    <Rod
+                      goals={blueGoals}
+                      of={beads}
+                      side="blue"
+                      won={blueWon}
+                    />
+                    <div className="match-score">
+                      <span
+                        className={`match-goals match-goals-blue ${blueWon ? "is-won" : ""}`}
                       >
-                        <Trash2 size={13} />
-                        Ta bort
-                      </button>
-                    )}
-                  </div>
-
-                  <div
-                    className={`result-team result-team-red ${!team1Won ? "is-winner" : "is-loser"}`}
-                  >
-                    <TeamPlayers team={game.team2} elo={gameElo?.team2} />
+                        {blueGoals}
+                      </span>
+                      <span className="match-score-sep">:</span>
+                      <span
+                        className={`match-goals match-goals-red ${blueWon ? "" : "is-won"}`}
+                      >
+                        {redGoals}
+                      </span>
+                    </div>
+                    <Rod
+                      goals={redGoals}
+                      of={beads}
+                      side="red"
+                      won={!blueWon}
+                    />
+                    <Lineup
+                      team={game.team2}
+                      side="red"
+                      won={!blueWon}
+                      elo={gameElo?.team2}
+                    />
+                    <div className="match-meta">
+                      <time dateTime={game.timestamp}>
+                        {formatWhen(game.timestamp).map((part) => (
+                          <span key={part}>{part}</span>
+                        ))}
+                      </time>
+                      {showDelete && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onDelete?.(game.id);
+                          }}
+                          className="match-delete"
+                        >
+                          <Trash2 size={13} />
+                          Ta bort
+                        </button>
+                      )}
+                    </div>
                   </div>
 
                   {isOpen && gameElo && <EloBreakdown game={gameElo} />}
-                </div>
+                </li>
               );
             })}
-          </div>
+          </ol>
         )}
       </div>
       {hasMore && (

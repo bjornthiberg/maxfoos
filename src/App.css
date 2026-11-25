@@ -694,133 +694,246 @@
     }
 }
 
-/* ---------- Results: one scoreboard line per game ---------- */
+/* ---------- Results: the table's bead counters, one line per game ---------- */
 
-.results {
+.matches {
+    position: relative;
+    z-index: 1;
     display: grid;
-    gap: 0.5rem;
+    gap: 0.2rem;
+    list-style: none;
 }
 
-.result {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-    align-items: stretch;
-    background: #ffffff0a;
+.match {
     border-radius: 10px;
-    overflow: hidden;
 }
 
-/* the winning side lights up in its colour; the loser keeps only a stripe */
-.result-team {
+.match.is-open {
+    background: #ffffff08;
+}
+
+.match-line {
     display: grid;
-    align-content: center;
-    gap: 0.1rem;
-    padding: 0.55rem 1.1rem;
-    border-left: 6px solid var(--blue);
+    grid-template-columns: minmax(0, 1fr) auto auto auto minmax(0, 1fr);
+    grid-template-areas:
+        "lb rb score rr lr"
+        "lb rb meta rr lr";
+    align-items: center;
+    column-gap: 0.85rem;
+    padding: 0.55rem 0.8rem;
+    border-radius: 10px;
 }
 
-.result-team-red {
-    border-left: 0;
-    border-right: 6px solid var(--red);
+.match.is-expandable .match-line {
+    cursor: pointer;
 }
 
-.result-team-blue.is-winner {
-    background: var(--blue);
+.match.is-expandable .match-line:hover {
+    background: #ffffff0a;
 }
 
-.result-team-red.is-winner {
-    background: var(--red);
+.match-line:focus-visible {
+    outline: 2px solid var(--yellow);
+    outline-offset: 2px;
 }
 
-/* names sit next to the score, like a results board */
-.result-player {
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: baseline;
-    gap: 0.6rem;
+/* ----- line-ups: Lag Blå on the left, Lag Röd on the right ----- */
+
+.lineup {
+    display: grid;
+    gap: 0.15rem;
     min-width: 0;
 }
 
-.result-team-red .result-player {
-    flex-direction: row;
+.lineup-blue {
+    grid-area: lb;
 }
 
-.result-name {
+.lineup-red {
+    grid-area: lr;
+}
+
+.lineup-player {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    min-width: 0;
+}
+
+/* blue reads toward the score from the left, red from the right */
+.lineup-blue .lineup-player {
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+}
+
+.lineup-name {
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: #fff;
+    white-space: nowrap;
+    font-family: var(--font-pixel);
+    font-size: 1.45rem;
+    line-height: 1.05;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #8f84c4;
 }
 
-.result-team.is-loser .result-name {
-    font-weight: 500;
-    color: var(--muted);
+/* like the standings: the winners' names light up in their phosphor */
+.lineup-blue.is-won .lineup-name {
+    color: var(--blue-lit);
+    text-shadow: 0 0 10px #1f55ffb0;
 }
 
-.result-role {
+.lineup-red.is-won .lineup-name {
+    color: var(--red-lit);
+    text-shadow: 0 0 10px #f2152fb0;
+}
+
+.lineup-role,
+.lineup-elo {
     flex: none;
     font-size: 0.72rem;
     font-weight: 600;
-    color: #7f74bd;
-}
-
-.result-team.is-winner .result-role {
-    color: #ffffffb8;
-}
-
-.result-mid {
-    display: grid;
-    justify-items: center;
-    align-content: center;
-    width: 8.5rem;
-    padding: 0.45rem 0.5rem;
-}
-
-.result-score {
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 0.4rem;
-    font-family: var(--font-pixel);
-    font-size: 2.3rem;
-    line-height: 0.95;
     font-variant-numeric: tabular-nums;
-}
-
-.result-score .is-loser {
     color: #6a609f;
 }
 
-.result-score .is-winner:first-child {
+.lineup.is-won .lineup-elo {
+    color: #b3a9e6;
+}
+
+/* ----- the rods: one bead per goal, lit from the team's own end ----- */
+
+.rod {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding-inline: 4px;
+}
+
+.rod-blue {
+    grid-area: rb;
+}
+
+.rod-red {
+    grid-area: rr;
+    flex-direction: row-reverse;
+}
+
+/* the steel rod the beads slide on */
+.rod::before {
+    content: "";
+    position: absolute;
+    inset: 50% 0 auto;
+    height: 2px;
+    margin-top: -1px;
+    background: #221b58;
+}
+
+/* simplified cubes: a lit top face and a shaded bottom edge */
+.rod i {
+    position: relative;
+    width: 13px;
+    height: 14px;
+    border-radius: 2px;
+    background: #231b56;
+}
+
+/* lit beads as on the real counter: base, highlight on top, shadow below */
+.rod i.is-lit {
+    --base: var(--blue);
+    --hi: #5a82ff;
+    --lo: #1238b0;
+    background: var(--base);
+    box-shadow:
+        inset 0 4px 0 var(--hi),
+        inset 0 -3px 0 var(--lo);
+}
+
+/* the losing side's beads sit back */
+.rod.is-lost i.is-lit {
+    opacity: 0.4;
+}
+
+.rod-red i.is-lit {
+    --base: var(--red);
+    --hi: #ff5a6c;
+    --lo: #a80c1f;
+}
+
+.rod i.tone-gray {
+    --base: #76777a;
+    --hi: #8c8d90;
+    --lo: #55565a;
+}
+
+.rod i.tone-white {
+    --base: #e9e9e6;
+    --hi: #f7f7f5;
+    --lo: #c4c4c0;
+}
+
+/* ----- the score between the rods ----- */
+
+.match-score {
+    grid-area: score;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.3rem;
+    font-family: var(--font-pixel);
+    font-size: 2.5rem;
+    line-height: 0.9;
+    font-variant-numeric: tabular-nums;
+}
+
+.match-goals {
+    min-width: 1.1em;
+    color: #5b5196;
+}
+
+.match-goals-blue {
+    text-align: right;
+}
+
+.match-goals-blue.is-won {
     color: var(--blue-lit);
     text-shadow: 0 0 14px var(--blue);
 }
 
-.result-score .is-winner:last-child {
+.match-goals-red.is-won {
     color: var(--red-lit);
     text-shadow: 0 0 14px var(--red);
 }
 
-.result-score-sep {
-    font-size: 1.4rem;
+.match-score-sep {
+    font-size: 0.6em;
+    color: #5b5196;
+}
+
+.match-meta {
+    grid-area: meta;
+    display: grid;
+    justify-items: center;
+    gap: 0.3rem;
+}
+
+.match-meta time {
+    display: flex;
+    gap: 0.35em;
+    font-family: var(--font-pixel);
+    font-size: 1rem;
+    white-space: nowrap;
+    line-height: 1;
+    letter-spacing: 0.04em;
     color: #6a609f;
 }
 
-.result-date {
-    font-family: var(--font-pixel);
-    font-size: 1rem;
-    line-height: 1.1;
-    letter-spacing: 0.03em;
-    white-space: nowrap;
-    color: #7f74bd;
-}
-
-.result-delete {
+.match-delete {
     display: inline-flex;
     align-items: center;
     gap: 0.3rem;
-    margin-top: 0.35rem;
     padding: 0.15rem 0.6rem;
     font-size: 0.8rem;
     font-weight: 700;
@@ -830,47 +943,20 @@
     border-radius: 6px;
 }
 
-.result-delete:hover {
+.match-delete:hover {
     color: #fff;
     background: var(--red);
     border-color: var(--red);
 }
 
-/* ---------- ELO per game: delta by each name, breakdown on click ---------- */
-
-/* styled like the Back/Forward label, so it reads as a quiet annotation */
-.result-elo {
-    flex: none;
-    font-size: 0.78rem;
-    font-weight: 600;
-    font-variant-numeric: tabular-nums;
-    color: #7f74bd;
-}
-
-.result-team.is-winner .result-elo {
-    color: #ffffffb8;
-}
-
-.result-expandable {
-    cursor: pointer;
-}
-
-.result-expandable:hover,
-.result-expandable.is-open {
-    background: #ffffff14;
-}
-
-.result-expandable:focus-visible {
-    outline: 2px solid var(--yellow);
-    outline-offset: 2px;
-}
+/* ---------- ELO per game: breakdown on click ---------- */
 
 .elo-breakdown {
-    grid-column: 1 / -1;
     display: grid;
-    gap: 0.45rem;
-    padding: 0.7rem 1.1rem 0.8rem;
-    border-top: 1px dashed var(--line);
+    gap: 0.5rem;
+    margin: 0 0.8rem;
+    padding: 0.75rem 0 0.9rem;
+    border-top: 2px dotted #2c2470;
     cursor: default;
 }
 
@@ -898,37 +984,41 @@
     color: #7f74bd;
 }
 
-/* split bar: blue's share of the win chance, red fills the rest */
+/* blue's share of the win chance, red fills the rest */
 .elo-bar {
-    height: 8px;
+    display: flex;
+    height: 6px;
     border-radius: 999px;
     background: var(--red);
     overflow: hidden;
 }
 
 .elo-bar span {
-    display: block;
-    height: 100%;
     background: var(--blue);
-    box-shadow: 2px 0 0 var(--carpet);
 }
 
+/* one half per team; both read left to right: name, then before → after */
 .elo-sides {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
     margin-top: 0.15rem;
 }
 
 .elo-side {
     display: grid;
     align-content: start;
-    gap: 0.2rem;
+    justify-items: start;
+    gap: 0.25rem;
     min-width: 0;
 }
 
 .elo-side-red {
-    text-align: right;
+    padding-left: 1.5rem;
+    border-left: 2px dotted #2c2470;
+}
+
+.elo-side-blue {
+    padding-right: 1.5rem;
 }
 
 .elo-team-rating,
@@ -962,29 +1052,32 @@
 }
 
 .elo-players {
-    display: grid;
-    gap: 0.1rem;
-    list-style: none;
+    margin-top: 0.2rem;
+    border-collapse: collapse;
 }
 
-.elo-players li {
-    display: flex;
-    justify-content: space-between;
-    gap: 0.6rem;
+.elo-players th,
+.elo-players td {
+    padding: 0.1rem 0;
+    font-weight: 400;
+    text-align: right;
     color: var(--ink);
 }
 
-.elo-player-name {
-    overflow: hidden;
-    text-overflow: ellipsis;
+.elo-players th {
+    padding-right: 1.1rem;
+    text-align: left;
     text-transform: uppercase;
+    color: #b3a9e6;
 }
 
-.elo-player-change {
-    flex: none;
+.elo-players .elo-arrow {
+    padding-inline: 0.4rem;
+    color: #6a609f;
 }
 
-.elo-players .is-guest {
+.elo-players .is-guest th,
+.elo-players .is-guest td {
     color: #6a609f;
 }
 
@@ -1666,49 +1759,84 @@
         gap: 3px;
     }
 
-    .result-team {
-        padding: 0.5rem 0.55rem;
-        border-left-width: 5px;
+    /* rods and score on top, line-ups below */
+    .match-line {
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+        grid-template-areas:
+            "rb score rr"
+            "lb meta lr";
+        column-gap: 0.35rem;
+        row-gap: 0.45rem;
+        padding: 0.55rem 0.15rem;
     }
 
-    .result-team-red {
-        border-right-width: 5px;
+    .rod-blue {
+        justify-self: end;
     }
 
-    .result-player {
-        gap: 0.4rem;
+    .rod-red {
+        justify-self: start;
     }
 
-    /* room for one letter: B / F */
-    .result-role {
-        font-size: 0;
+    .rod {
+        gap: 2px;
+        padding-inline: 3px;
     }
 
-    .result-role::before {
-        content: attr(data-short);
-        font-size: 0.7rem;
+    .rod i {
+        width: 8px;
+        height: 9px;
+        border-radius: 1px;
     }
 
-    .result-name {
-        font-size: 1rem;
+    .rod i.is-lit {
+        box-shadow:
+            inset 0 3px 0 var(--hi),
+            inset 0 -2px 0 var(--lo);
     }
 
-    .result-mid {
-        width: 6.6rem;
-        padding-inline: 0.2rem;
+    .match-score {
+        font-size: 1.8rem;
     }
 
-    .result-score {
-        font-size: 1.9rem;
+
+
+    .match-meta {
+        align-self: start;
     }
 
-    .result-date {
-        font-size: 0.82rem;
-        letter-spacing: 0;
+    .lineup-name {
+        font-size: 1.05rem;
     }
 
-    .result-elo {
-        font-size: 0.72rem;
+    .lineup-player {
+        gap: 0.35rem;
+    }
+
+    .lineup-role,
+    .lineup-elo {
+        font-size: 0.68rem;
+    }
+
+    .match-meta time {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.1rem;
+    }
+
+    .elo-sides {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 0.7rem;
+    }
+
+    .elo-side-blue {
+        padding-right: 0;
+    }
+
+    .elo-side-red {
+        padding: 0.7rem 0 0;
+        border-left: 0;
+        border-top: 2px dotted #2c2470;
     }
 
     .duo-select {
@@ -1730,11 +1858,7 @@
     }
 
     .elo-breakdown {
-        padding: 0.6rem 0.6rem 0.7rem;
-    }
-
-    .elo-sides {
-        gap: 0.8rem;
+        margin-inline: 0.4rem;
     }
 
     .elo-team-rating,
