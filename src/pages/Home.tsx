@@ -7,6 +7,7 @@ import PlayerTable from "../components/PlayerTable";
 import EloTable from "../components/EloTable";
 import GameList from "../components/GameList";
 import HeadToHead from "../components/HeadToHead";
+import Duos from "../components/Duos";
 import { computeElo } from "../lib/elo";
 
 export default function Home() {
@@ -170,6 +171,7 @@ export default function Home() {
       {/* "Föreslå match" (components/QuartetGameFinder) is hidden; re-add
           <QuartetGameFinder allPlayers={allPlayerNames} games={recentGames} />
           here to bring it back */}
+      <Duos allPlayers={allPlayerNames} games={recentGames} />
       <HeadToHead allPlayers={allPlayerNames} games={recentGames} />
     </div>
   );

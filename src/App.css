@@ -1126,6 +1126,272 @@
     font-weight: 700;
 }
 
+/* ---------- Duos: a 2-player character select ---------- */
+
+.duo-select {
+    --p1: #ff3ea5;
+    --p2: #2de2e6;
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 5), minmax(0, 1fr));
+    gap: 0.5rem;
+}
+
+.duo-tile {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    gap: 0.15rem;
+    min-height: 4.2rem;
+    padding: 0.7rem 0.4rem 0.6rem;
+    font-family: var(--font-pixel);
+    line-height: 1;
+    background: #ffffff08;
+    border: 2px solid var(--line);
+    border-radius: 4px;
+    transition:
+        border-color 0.1s,
+        background 0.1s;
+}
+
+.duo-tile:hover {
+    border-color: #8f7fd0;
+    background: #ffffff10;
+}
+
+.duo-tile-name {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1.6rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #d9ccff;
+}
+
+/* partner win % once 1P is picked */
+.duo-tile-hint {
+    font-size: 1.2rem;
+    color: var(--yellow);
+}
+
+.duo-tile-hint small {
+    font-size: 0.8em;
+    color: #7f74bd;
+}
+
+.duo-tile.is-unplayed {
+    opacity: 0.45;
+}
+
+.duo-tile.is-unplayed .duo-tile-hint {
+    color: var(--muted);
+}
+
+/* the selection cursor: a lit frame with its slot tag on the corner */
+.duo-tile.is-1p,
+.duo-tile.is-2p {
+    --slot: var(--p1);
+    border-color: var(--slot);
+    background: color-mix(in srgb, var(--slot) 14%, transparent);
+    box-shadow:
+        0 0 14px color-mix(in srgb, var(--slot) 55%, transparent),
+        inset 0 0 10px color-mix(in srgb, var(--slot) 35%, transparent);
+}
+
+.duo-tile.is-2p {
+    --slot: var(--p2);
+}
+
+.duo-tile.is-1p .duo-tile-name,
+.duo-tile.is-2p .duo-tile-name {
+    color: #fff;
+    text-shadow: 0 0 10px var(--slot);
+}
+
+.duo-tile-slot {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    padding: 0.1rem 0.35rem 0.05rem;
+    font-size: 0.85rem;
+    color: var(--carpet);
+    background: var(--slot);
+    border-radius: 4px 0 4px 0;
+}
+
+/* ----- the pair's scorecard ----- */
+
+.duo-card {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    justify-items: center;
+    gap: 0.9rem;
+    padding-top: 0.4rem;
+    border-top: 2px dashed var(--line);
+}
+
+.duo-names {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.2rem 0.7rem;
+    padding-top: 0.8rem;
+    font-family: var(--font-pixel);
+    font-size: clamp(1.6rem, 5vw, 2.1rem);
+    line-height: 1;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.duo-name-1p {
+    color: #ff7cc3;
+    text-shadow: 0 0 12px #ff3ea590;
+}
+
+.duo-name-2p {
+    color: #2de2e6;
+    text-shadow: 0 0 12px #2de2e690;
+}
+
+.duo-amp {
+    font-size: 0.7em;
+    color: #6a609f;
+}
+
+/* the big number: their record as a pair */
+.duo-record {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    font-family: var(--font-pixel);
+    font-size: clamp(4rem, 14vw, 5.5rem);
+    line-height: 0.85;
+    font-variant-numeric: tabular-nums;
+    animation: duo-insert-coin 0.6s steps(1) both;
+}
+
+.duo-record-w {
+    color: var(--yellow);
+    text-shadow: 0 0 22px #ffd23fa0;
+}
+
+.duo-record-sep {
+    font-size: 0.5em;
+    color: #6a609f;
+}
+
+.duo-record-l {
+    color: #6a609f;
+}
+
+@keyframes duo-insert-coin {
+    0%,
+    40% {
+        opacity: 0;
+    }
+    20%,
+    60% {
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .duo-record {
+        animation: none;
+    }
+}
+
+.duo-figures {
+    display: flex;
+    gap: 2.2rem;
+    font-family: var(--font-pixel);
+    line-height: 1;
+}
+
+.duo-figures div {
+    display: grid;
+    justify-items: center;
+    gap: 0.25rem;
+}
+
+.duo-figures dt {
+    order: 2;
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    color: #8f7fd0;
+}
+
+.duo-figures dd {
+    font-size: 1.8rem;
+    font-variant-numeric: tabular-nums;
+    color: #d9ccff;
+}
+
+/* every game together, oldest first: a strip of lit and dark cells */
+.duo-tape {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    max-width: 30rem;
+    list-style: none;
+}
+
+.duo-tape li {
+    width: 0.6rem;
+    height: 0.9rem;
+    border: 2px solid #5b5196;
+    border-radius: 2px;
+}
+
+.duo-tape .is-w {
+    background: var(--green);
+    border-color: var(--green);
+    box-shadow: 0 0 6px #3ddc8480;
+}
+
+.duo-lineups {
+    width: min(100%, 26rem);
+    margin-top: 0.3rem;
+    border-collapse: collapse;
+    font-family: var(--font-pixel);
+    font-size: 1.25rem;
+    line-height: 1.1;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.duo-lineups th {
+    padding: 0 0.5rem 0.35rem;
+    font-size: 0.75em;
+    font-weight: 400;
+    text-align: right;
+    text-transform: uppercase;
+    color: #8f7fd0;
+}
+
+.duo-lineups td {
+    padding: 0.2rem 0.5rem;
+    text-align: right;
+    color: #d9ccff;
+}
+
+.duo-lineups th:nth-child(-n + 2),
+.duo-lineups td:nth-child(-n + 2) {
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.duo-lineups .is-unplayed td {
+    color: #6a609f;
+}
+
 /* ---------- Head-to-head ---------- */
 
 .versus-pick {
@@ -1443,6 +1709,24 @@
 
     .result-elo {
         font-size: 0.72rem;
+    }
+
+    .duo-select {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.4rem;
+    }
+
+    .duo-tile {
+        min-height: 3.4rem;
+        padding: 0.6rem 0.2rem 0.45rem;
+    }
+
+    .duo-tile-name {
+        font-size: 1.1rem;
+    }
+
+    .duo-tile-hint {
+        font-size: 0.95rem;
     }
 
     .elo-breakdown {
