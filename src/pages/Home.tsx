@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { RefreshCw, Archive } from "lucide-react";
 import { api } from "../services/api";
 import type { Player, Game, Season } from "../services/api";
@@ -8,6 +8,7 @@ import EloTable from "../components/EloTable";
 import GameList from "../components/GameList";
 import QuartetGameFinder from "../components/QuartetGameFinder";
 import HeadToHead from "../components/HeadToHead";
+import { computeElo } from "../lib/elo";
 
 export default function Home() {
   const [players, setPlayers] = useState<Player[]>([]);
@@ -66,6 +67,12 @@ export default function Home() {
     loadData();
   }, []);
 
+  // Replayed only when the season's games change, not on every render
+  const elo = useMemo(
+    () => computeElo(recentGames, guestNames),
+    [recentGames, guestNames],
+  );
+
   const isArchive = selectedSeasonId !== activeSeasonId && !!activeSeasonId;
 
   const seasonName = seasons.find((s) => s.id === selectedSeasonId)?.name;
@@ -116,7 +123,7 @@ export default function Home() {
             <EloTable
               games={recentGames}
               players={players}
-              excludedPlayers={guestNames}
+              elo={elo}
             />
           )}
         </div>
@@ -155,7 +162,12 @@ export default function Home() {
         </div>
       </section>
 
-      <GameList games={recentGames} title="Senast spelade" collapsible />
+      <GameList
+        games={recentGames}
+        title="Senast spelade"
+        collapsible
+        elo={elo.games}
+      />
       <QuartetGameFinder allPlayers={allPlayerNames} games={recentGames} />
       <HeadToHead allPlayers={allPlayerNames} games={recentGames} />
     </div>

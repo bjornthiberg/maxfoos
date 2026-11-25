@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Trash2 } from "lucide-react";
 import type { Game } from "../services/api";
+import { shownDelta } from "../lib/elo";
+import type { EloGame, EloTeamChange, EloPlayerChange } from "../lib/elo";
+import EloBreakdown from "./EloBreakdown";
 
 const INITIAL_LIMIT = 5;
 
@@ -10,6 +13,8 @@ interface GameListProps {
   collapsible?: boolean;
   onDelete?: (id: string) => void;
   showDelete?: boolean;
+  /** Per-game ELO breakdown; when given, each game shows rating changes */
+  elo?: Map<string, EloGame>;
 }
 
 function formatDate(timestamp: string): string {
@@ -22,7 +27,28 @@ function formatDate(timestamp: string): string {
   return `${year}-${month}-${day} ${hours}:${minutes}`;
 }
 
-function TeamPlayers({ team }: { team: { player1: string; player2: string } }) {
+function EloDelta({ change }: { change?: EloPlayerChange }) {
+  // Guests have no rating to move
+  if (!change || change.guest) return null;
+  const d = shownDelta(change);
+  return (
+    <span
+      className="result-elo"
+      title={`ELO ${Math.round(change.before)} → ${Math.round(change.after)}`}
+    >
+      {d > 0 ? "+" : d < 0 ? "−" : "±"}
+      {Math.abs(d)}
+    </span>
+  );
+}
+
+function TeamPlayers({
+  team,
+  elo,
+}: {
+  team: { player1: string; player2: string };
+  elo?: EloTeamChange;
+}) {
   return (
     <>
       <div className="result-player">
@@ -30,12 +56,14 @@ function TeamPlayers({ team }: { team: { player1: string; player2: string } }) {
           Back
         </span>
         <span className="result-name">{team.player1}</span>
+        <EloDelta change={elo?.players[0]} />
       </div>
       <div className="result-player">
         <span className="result-role" data-short="F">
           Forward
         </span>
         <span className="result-name">{team.player2}</span>
+        <EloDelta change={elo?.players[1]} />
       </div>
     </>
   );
@@ -47,8 +75,10 @@ export default function GameList({
   collapsible = false,
   onDelete,
   showDelete = false,
+  elo,
 }: GameListProps) {
   const [expanded, setExpanded] = useState(false);
+  const [openGame, setOpenGame] = useState<string | null>(null);
   const visibleGames =
     collapsible && !expanded ? games.slice(0, INITIAL_LIMIT) : games;
   const hasMore = collapsible && games.length > INITIAL_LIMIT;
@@ -65,12 +95,32 @@ export default function GameList({
           <div className="results">
             {visibleGames.map((game) => {
               const team1Won = game.winner === "team1";
+              const gameElo = elo?.get(game.id);
+              const isOpen = !!gameElo && openGame === game.id;
+              const toggle = () => setOpenGame(isOpen ? null : game.id);
               return (
-                <div key={game.id} className="result">
+                <div
+                  key={game.id}
+                  className={`result ${gameElo ? "result-expandable" : ""} ${isOpen ? "is-open" : ""}`}
+                  {...(gameElo && {
+                    role: "button",
+                    tabIndex: 0,
+                    "aria-expanded": isOpen,
+                    title: isOpen ? undefined : "Visa ELO-uträkning",
+                    onClick: toggle,
+                    onKeyDown: (e: React.KeyboardEvent) => {
+                      if (e.target !== e.currentTarget) return;
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        toggle();
+                      }
+                    },
+                  })}
+                >
                   <div
                     className={`result-team result-team-blue ${team1Won ? "is-winner" : "is-loser"}`}
                   >
-                    <TeamPlayers team={game.team1} />
+                    <TeamPlayers team={game.team1} elo={gameElo?.team1} />
                   </div>
 
                   <div className="result-mid">
@@ -88,7 +138,10 @@ export default function GameList({
                     </div>
                     {showDelete && (
                       <button
-                        onClick={() => onDelete && onDelete(game.id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onDelete?.(game.id);
+                        }}
                         className="result-delete"
                       >
                         <Trash2 size={13} />
@@ -100,8 +153,10 @@ export default function GameList({
                   <div
                     className={`result-team result-team-red ${!team1Won ? "is-winner" : "is-loser"}`}
                   >
-                    <TeamPlayers team={game.team2} />
+                    <TeamPlayers team={game.team2} elo={gameElo?.team2} />
                   </div>
+
+                  {isOpen && gameElo && <EloBreakdown game={gameElo} />}
                 </div>
               );
             })}

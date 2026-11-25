@@ -757,6 +757,158 @@
     border-color: var(--red);
 }
 
+/* ---------- ELO per game: delta by each name, breakdown on click ---------- */
+
+/* styled like the Back/Forward label, so it reads as a quiet annotation */
+.result-elo {
+    flex: none;
+    font-size: 0.78rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: #7f74bd;
+}
+
+.result-team.is-winner .result-elo {
+    color: #ffffffb8;
+}
+
+.result-expandable {
+    cursor: pointer;
+}
+
+.result-expandable:hover,
+.result-expandable.is-open {
+    background: #ffffff14;
+}
+
+.result-expandable:focus-visible {
+    outline: 2px solid var(--yellow);
+    outline-offset: 2px;
+}
+
+.elo-breakdown {
+    grid-column: 1 / -1;
+    display: grid;
+    gap: 0.45rem;
+    padding: 0.7rem 1.1rem 0.8rem;
+    border-top: 1px dashed var(--line);
+    cursor: default;
+}
+
+.elo-odds {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    font-family: var(--font-pixel);
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.elo-odds-blue {
+    color: var(--blue-lit);
+}
+
+.elo-odds-red {
+    color: var(--red-lit);
+}
+
+.elo-odds-label {
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #7f74bd;
+}
+
+/* split bar: blue's share of the win chance, red fills the rest */
+.elo-bar {
+    height: 8px;
+    border-radius: 999px;
+    background: var(--red);
+    overflow: hidden;
+}
+
+.elo-bar span {
+    display: block;
+    height: 100%;
+    background: var(--blue);
+    box-shadow: 2px 0 0 var(--carpet);
+}
+
+.elo-sides {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 0.15rem;
+}
+
+.elo-side {
+    display: grid;
+    align-content: start;
+    gap: 0.2rem;
+    min-width: 0;
+}
+
+.elo-side-red {
+    text-align: right;
+}
+
+.elo-team-rating,
+.elo-formula,
+.elo-players {
+    font-family: var(--font-pixel);
+    font-size: 1.1rem;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.elo-team-rating {
+    color: var(--muted);
+}
+
+.elo-formula {
+    color: #7f74bd;
+}
+
+.elo-formula b {
+    font-weight: 400;
+}
+
+.elo-up {
+    color: var(--green);
+}
+
+.elo-down {
+    color: var(--red-lit);
+}
+
+.elo-players {
+    display: grid;
+    gap: 0.1rem;
+    list-style: none;
+}
+
+.elo-players li {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.6rem;
+    color: var(--ink);
+}
+
+.elo-player-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+}
+
+.elo-player-change {
+    flex: none;
+}
+
+.elo-players .is-guest {
+    color: #6a609f;
+}
+
 /* ---------- Föreslå match ---------- */
 
 .roster {
@@ -1208,6 +1360,24 @@
     .result-date {
         font-size: 0.82rem;
         letter-spacing: 0;
+    }
+
+    .result-elo {
+        font-size: 0.72rem;
+    }
+
+    .elo-breakdown {
+        padding: 0.6rem 0.6rem 0.7rem;
+    }
+
+    .elo-sides {
+        gap: 0.8rem;
+    }
+
+    .elo-team-rating,
+    .elo-formula,
+    .elo-players {
+        font-size: 0.92rem;
     }
 
     .pitch {
