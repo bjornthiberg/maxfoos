@@ -59,38 +59,28 @@ export default function Duos({ allPlayers, games }: DuosProps) {
       <div className="crt">
         <div className="screen-head">
           <h2 className="screen-title">Duos</h2>
-          {!p2 && (
-            <span className="screen-note">
-              {p1 ? "Välj medspelare" : "Välj två spelare"}
-            </span>
-          )}
         </div>
 
         <div
           className="duo-select"
           role="group"
           aria-label="Välj två spelare"
-          style={{ "--cols": gridColumns(active.length) } as React.CSSProperties}
+          style={
+            { "--cols": gridColumns(active.length) } as React.CSSProperties
+          }
         >
           {active.map((name) => {
             const slot = name === p1 ? "1P" : name === p2 ? "2P" : null;
-            const withP1 = p1 && !slot ? findDuo(duos, p1, name) : undefined;
             return (
               <button
                 key={name}
                 type="button"
-                className={`duo-tile ${slot ? `is-${slot.toLowerCase()}` : ""} ${p1 && !slot && !withP1 ? "is-unplayed" : ""}`}
+                className={`duo-tile ${slot ? `is-${slot.toLowerCase()}` : ""}`}
                 aria-pressed={!!slot}
                 onClick={() => pick(name)}
               >
                 {slot && <span className="duo-tile-slot">{slot}</span>}
                 <span className="duo-tile-name">{name}</span>
-                {p1 && !slot && (
-                  <span className="duo-tile-hint">
-                    {withP1 ? pct(withP1) : "–"}
-                    {withP1 && <small> {withP1.games} M</small>}
-                  </span>
-                )}
               </button>
             );
           })}
@@ -123,7 +113,10 @@ function DuoCard({ duo, p1, p2 }: { duo: Duo; p1: string; p2: string }) {
         <span className="duo-name-2p">{p2}</span>
       </div>
 
-      <div className="duo-record" aria-label={`${duo.wins} vinster, ${duo.losses} förluster`}>
+      <div
+        className="duo-record"
+        aria-label={`${duo.wins} vinster, ${duo.losses} förluster`}
+      >
         <span className="duo-record-w">{duo.wins}</span>
         <span className="duo-record-sep">–</span>
         <span className="duo-record-l">{duo.losses}</span>

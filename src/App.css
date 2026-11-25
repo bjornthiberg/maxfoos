@@ -1265,24 +1265,6 @@
 }
 
 /* partner win % once 1P is picked */
-.duo-tile-hint {
-    font-size: 1.2rem;
-    color: var(--yellow);
-}
-
-.duo-tile-hint small {
-    font-size: 0.8em;
-    color: #7f74bd;
-}
-
-.duo-tile.is-unplayed {
-    opacity: 0.45;
-}
-
-.duo-tile.is-unplayed .duo-tile-hint {
-    color: var(--muted);
-}
-
 /* the selection cursor: a lit frame with its slot tag on the corner */
 .duo-tile.is-1p,
 .duo-tile.is-2p {
@@ -1365,7 +1347,7 @@
     font-size: clamp(4rem, 14vw, 5.5rem);
     line-height: 0.85;
     font-variant-numeric: tabular-nums;
-    animation: duo-insert-coin 0.6s steps(1) both;
+    animation: duo-insert-coin 0.3s steps(3) both;
 }
 
 .duo-record-w {
@@ -1382,14 +1364,10 @@
     color: #6a609f;
 }
 
+/* a short stepped fade-in, like a CRT digit warming up */
 @keyframes duo-insert-coin {
-    0%,
-    40% {
+    from {
         opacity: 0;
-    }
-    20%,
-    60% {
-        opacity: 1;
     }
 }
 
@@ -1851,10 +1829,6 @@
 
     .duo-tile-name {
         font-size: 1.1rem;
-    }
-
-    .duo-tile-hint {
-        font-size: 0.95rem;
     }
 
     .elo-breakdown {
