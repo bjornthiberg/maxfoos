@@ -6,7 +6,6 @@ import Marquee from "../components/Marquee";
 import PlayerTable from "../components/PlayerTable";
 import EloTable from "../components/EloTable";
 import GameList from "../components/GameList";
-import QuartetGameFinder from "../components/QuartetGameFinder";
 import HeadToHead from "../components/HeadToHead";
 import { computeElo } from "../lib/elo";
 
@@ -168,7 +167,9 @@ export default function Home() {
         collapsible
         elo={elo.games}
       />
-      <QuartetGameFinder allPlayers={allPlayerNames} games={recentGames} />
+      {/* "Föreslå match" (components/QuartetGameFinder) is hidden; re-add
+          <QuartetGameFinder allPlayers={allPlayerNames} games={recentGames} />
+          here to bring it back */}
       <HeadToHead allPlayers={allPlayerNames} games={recentGames} />
     </div>
   );
